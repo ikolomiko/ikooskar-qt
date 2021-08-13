@@ -22,3 +22,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    assets/Icon-Transparent.ico \
+    assets/Icon-Transparent.png \
+    assets/Icon-WithBackground.ico \
+    assets/Icon-WithBackground.png
