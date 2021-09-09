@@ -26,5 +26,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     assets/Icon-Transparent.ico \
     assets/Icon-Transparent.png \
+    assets/Icon-WithBackground-Rounded.png \
     assets/Icon-WithBackground.ico \
     assets/Icon-WithBackground.png
+
+RESOURCES += \
+    resources.qrc
