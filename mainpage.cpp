@@ -1,5 +1,6 @@
 #include "mainpage.h"
 #include "ui_mainpage.h"
+#include "DAL/database.h"
 
 MainPage::MainPage(QWidget *parent)
     : QMainWindow(parent)
@@ -15,7 +16,13 @@ MainPage::~MainPage()
 
 void MainPage::on_btn_database_clicked()
 {
-    this->setWindowTitle("Öğrenci işlemleri açılıyor");
+    //this->setWindowTitle("Öğrenci işlemleri açılıyor");
+    QString s = "a";
+    ikoOSKAR::DAL::Database db(&s);
+
+    this->setWindowTitle(s);
+    //this->setWindowTitle( db->DatabaseExists() );
+
 }
 
 
