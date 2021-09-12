@@ -10,16 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     DAL/database.cpp \
-    main.cpp \
-    mainpage.cpp
+    UI/MainPage/mainpage.cpp \
+    main.cpp
 
 HEADERS += \
     DAL/database.h \
     Shared/ogrenci.h \
-    mainpage.h
+    UI/MainPage/mainpage.h
 
 FORMS += \
-    mainpage.ui
+    UI/MainPage/mainpage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

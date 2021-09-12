@@ -1,10 +1,15 @@
 #include "mainpage.h"
 #include "ui_mainpage.h"
 #include "DAL/database.h"
+#include <QList>
+#include <QDebug>
+using namespace ikoOSKAR::DAL;
+namespace ikoOSKAR {
+namespace UI {
 
-MainPage::MainPage(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainPage)
+MainPage::MainPage(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainPage)
 {
     ui->setupUi(this);
 }
@@ -17,10 +22,14 @@ MainPage::~MainPage()
 void MainPage::on_btn_database_clicked()
 {
     //this->setWindowTitle("Öğrenci işlemleri açılıyor");
-    QString s = "a";
-    ikoOSKAR::DAL::Database db(&s);
+    Database* db = new Database();
+    QList<Ogrenci> ogrenciler = *db->GetAllStudents();
 
-    this->setWindowTitle(s);
+    foreach (Ogrenci o, ogrenciler){
+        qDebug() << o.Ad;
+    }
+
+    //this->setWindowTitle(s);
     //this->setWindowTitle( db->DatabaseExists() );
 
 }
@@ -43,3 +52,5 @@ void MainPage::on_btn_help_clicked()
     setWindowTitle("Yardııııımmmmm");
 }
 
+} // namespace UI
+} // namespace ikoOSKAR

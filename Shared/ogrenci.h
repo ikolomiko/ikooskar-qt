@@ -8,11 +8,12 @@ namespace Shared {
 class Ogrenci
 {
 public:
+    int Id;
     int OkulNo;
     QString Ad;
     QString Soyad;
     int Sinif;
-    QChar Sube;
+    QString Sube;
 };
 
 } // namespace Shared

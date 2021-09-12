@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainPage</class>
- <widget class="QMainWindow" name="MainPage">
+ <class>ikoOSKAR::UI::MainPage</class>
+ <widget class="QMainWindow" name="ikoOSKAR::UI::MainPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +32,7 @@
    <string>ikoOSKAR Ana Sayfa</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../../resources.qrc">
     <normaloff>:/assets/Icons-WhiteBG.ico</normaloff>:/assets/Icons-WhiteBG.ico</iconset>
   </property>
   <property name="autoFillBackground">
@@ -278,7 +278,7 @@ Sınav Düzenleri</string>
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

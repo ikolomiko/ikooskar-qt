@@ -11,14 +11,13 @@ namespace DAL {
 class Database
 {
 public:
-    Database(QString *result);
-    QList<Ogrenci> GetAllStudents();
-    void Add(Ogrenci);
-    void Update(Ogrenci);
-    void Delete(Ogrenci);
-    bool DatabaseExists();
-    void CreateDatabase();
-    void EndOfTheYear();
+    Database();
+    QList<Ogrenci>* GetAllStudents();
+    bool Add(Ogrenci const *o);
+    bool Update(Ogrenci*);
+    bool Delete(Ogrenci*);
+    bool CreateDatabase();
+    bool EndOfTheYear();
     QString GetDatabasePath(bool withFileName = false);
     ~Database();
 
