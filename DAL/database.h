@@ -16,15 +16,14 @@ public:
     bool Add(Ogrenci const *o);
     bool Update(Ogrenci*);
     bool Delete(Ogrenci*);
-    bool CreateDatabase();
     bool EndOfTheYear();
     QString GetDatabasePath(bool withFileName = false);
     ~Database();
 
 private:
+    bool CreateDatabase();
     QString databaseFilePath;
     QString databasePath;
-    QSqlDatabase database;
 };
 
 } // namespace DAL

@@ -23,15 +23,29 @@ void MainPage::on_btn_database_clicked()
 {
     //this->setWindowTitle("Öğrenci işlemleri açılıyor");
     Database* db = new Database();
+    /*db->Add(new Ogrenci{
+                .OkulNo = 123,
+                .Ad = "yeni deneme",
+                .Soyad = "yeni soyad",
+                .Sinif = 11,
+                .Sube = "a"
+    });*/
+
+    //db->EndOfTheYear();
+
+    db->Delete(new Ogrenci{
+                   .Id = 12
+               });
     QList<Ogrenci> ogrenciler = *db->GetAllStudents();
 
     foreach (Ogrenci o, ogrenciler){
-        qDebug() << o.Ad;
+        qDebug() << o.Id << o.Ad
+                 << o.Sinif;
     }
 
     //this->setWindowTitle(s);
     //this->setWindowTitle( db->DatabaseExists() );
-
+    delete(db);
 }
 
 

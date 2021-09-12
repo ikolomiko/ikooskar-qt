@@ -1,6 +1,6 @@
 #include "database.h"
 #include <QFile>
-#include <QDir>
+#include <QString>
 #include <QStandardPaths>
 #include <QtSql>
 #include <QDebug>
@@ -10,9 +10,9 @@ namespace ikoOSKAR { namespace DAL {
         this->databasePath = GetDatabasePath(false);
         this->databaseFilePath = GetDatabasePath(true);
 
-        this->database = QSqlDatabase::addDatabase("QSQLITE");
-        this->database.setDatabaseName(databaseFilePath);
-        this->database.open();
+        QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
+        database.setDatabaseName(databaseFilePath);
+        database.open();
         this->CreateDatabase();
     }
 
@@ -111,21 +111,35 @@ namespace ikoOSKAR { namespace DAL {
     }
 
     bool Database::EndOfTheYear() {
-        QSqlQuery q;
         QString cmds[] = {
             "DELETE FROM ogrenciler WHERE sinif=12",
-            "UPDATE ogrenciler SET sinif=12 WHERE sinif=11"
-            "UPDATE ogrenciler SET sinif=11 WHERE sinif=10"
+            "UPDATE ogrenciler SET sinif=12 WHERE sinif=11",
+            "UPDATE ogrenciler SET sinif=11 WHERE sinif=10",
             "UPDATE ogrenciler SET sinif=10 WHERE sinif=9"
         };
+        QString errorNumbers = "";
+        QString errors = "";
 
-        // TODO
+        for (int i = 0; i < 4; i++){
+            QSqlQuery q;
+            q.prepare(cmds[i]);
+            if (!q.exec()) {
+                errors.append(q.lastError().text());
+                errorNumbers.append(QString::number(i));
+            }
+        }
 
-        //q.prepare();
+        if (errors.length() == 0) return true;
+
+        qDebug() << "Error doing end of the year operations at operation number(s)" << errorNumbers
+                 << errors;
+        return false;
     }
 
     Database::~Database(){
-        this->database.close();
+        QSqlDatabase::database(QSqlDatabase::defaultConnection).close();
+        QSqlDatabase::removeDatabase(QSqlDatabase::defaultConnection);
+        qDebug() << "this instance of db has destroyed";
     }
 
 }  // namespace DAL
