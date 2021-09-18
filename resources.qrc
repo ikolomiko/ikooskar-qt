@@ -7,5 +7,7 @@
         <file>assets/Icon-WhiteBGx128.png</file>
         <file>assets/Icon-WhiteBGx256.png</file>
         <file>assets/Icons-WhiteBG.ico</file>
+        <file>assets/Icon-Circular-WhiteBG.png</file>
+        <file>assets/Icons-Circular-WhiteBG.ico</file>
     </qresource>
 </RCC>

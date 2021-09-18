@@ -27,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    README.md \
     assets/Icon-Transparent.ico \
     assets/Icon-Transparent.png \
     assets/Icon-WithBackground-Rounded.png \
