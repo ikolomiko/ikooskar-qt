@@ -23,12 +23,12 @@ void MainPage::on_btn_database_clicked()
 {
     //this->setWindowTitle("Öğrenci işlemleri açılıyor");
     Database* db = new Database();
-    db->Add(new Ogrenci{
-                .OkulNo = 123,
-                .Ad = "yeni deneme",
-                .Soyad = "yeni soyad",
-                .Sinif = 11,
-                .Sube = "a"
+    db->Add(new Student{
+                .number = 123,
+                .firstName = "yeni deneme",
+                .lastName = "yeni soyad",
+                .grade = 11,
+                .section = "a"
     });
 
     //db->EndOfTheYear();
@@ -37,7 +37,7 @@ void MainPage::on_btn_database_clicked()
     /*db->Delete(new Ogrenci{
                    .Id = 12
                });*/
-    QList<Ogrenci> ogrenciler = *db->GetAllStudents();
+    QList<Student> ogrenciler = *db->GetAllStudents();
 
     /*
     Ogrenci *o2 = nullptr;
@@ -51,9 +51,9 @@ void MainPage::on_btn_database_clicked()
     db->Update(o2);
     */
 
-    foreach (Ogrenci o, ogrenciler){
-        qDebug() << o.Id << o.Ad
-                 << o.Sinif;
+    foreach (Student o, ogrenciler){
+        qDebug() << o.id << o.firstName
+                 << o.grade;
     }
 
     //this->setWindowTitle(s);

@@ -1,7 +1,7 @@
 #ifndef IKOOSKAR_DAL_DATABASE_H
 #define IKOOSKAR_DAL_DATABASE_H
 #include <QList>
-#include "Shared/ogrenci.h"
+#include "Shared/student.h"
 #include <QtSql>
 
 namespace ikoOSKAR {
@@ -12,10 +12,10 @@ class Database
 {
 public:
     Database();
-    QList<Ogrenci>* GetAllStudents();
-    bool Add(Ogrenci const *o);
-    bool Update(Ogrenci*);
-    bool Delete(Ogrenci*);
+    QList<Student>* GetAllStudents();
+    bool Add(Student const *o);
+    bool Update(Student*);
+    bool Delete(Student*);
     bool EndOfTheYear();
     QString GetDatabasePath(bool withFileName = false);
     ~Database();

@@ -15,7 +15,7 @@ SOURCES += \
 
 HEADERS += \
     DAL/database.h \
-    Shared/ogrenci.h \
+    Shared/student.h \
     UI/MainPage/mainpage.h
 
 FORMS += \

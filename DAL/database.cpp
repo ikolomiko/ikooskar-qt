@@ -16,15 +16,15 @@ namespace ikoOSKAR { namespace DAL {
         this->CreateDatabase();
     }
 
-    bool Database::Add(Ogrenci const *o){
+    bool Database::Add(Student const *o){
         QSqlQuery q;
-        q.prepare("INSERT INTO ogrenciler (okulno, ad, soyad, sinif, sube) "
-                  "VALUES (:okulno, :ad, :soyad, :sinif, :sube)");
-        q.bindValue(":okulno", o->OkulNo);
-        q.bindValue(":ad", o->Ad);
-        q.bindValue(":soyad", o->Soyad);
-        q.bindValue(":sinif", o->Sinif);
-        q.bindValue(":sube", o->Sube);
+        q.prepare("INSERT INTO students (number, firstname, lastname, grade, section) "
+                  "VALUES (:number, :firstname, :lastname, :grade, :section)");
+        q.bindValue(":number", o->number);
+        q.bindValue(":firstname", o->firstName);
+        q.bindValue(":lastname", o->lastName);
+        q.bindValue(":grade", o->grade);
+        q.bindValue(":section", o->section);
 
         if(q.exec())
             return true;
@@ -35,10 +35,10 @@ namespace ikoOSKAR { namespace DAL {
 
     }
 
-    bool Database::Delete(Ogrenci *o){
+    bool Database::Delete(Student *o){
         QSqlQuery q;
-        q.prepare("DELETE FROM ogrenciler WHERE id = (:id)");
-        q.bindValue(":id", o->Id);
+        q.prepare("DELETE FROM students WHERE id = (:id)");
+        q.bindValue(":id", o->id);
 
         if(q.exec())
             return true;
@@ -48,32 +48,32 @@ namespace ikoOSKAR { namespace DAL {
         return false;
     }
 
-    QList<Ogrenci> *Database::GetAllStudents(){
-        QList<Ogrenci>* ogrenciler = new QList<Ogrenci>();
-        QSqlQuery q("SELECT * FROM ogrenciler");
+    QList<Student> *Database::GetAllStudents(){
+        QList<Student>* students = new QList<Student>();
+        QSqlQuery q("SELECT * FROM students");
         while (q.next()) {
-            Ogrenci *o = new Ogrenci();
-            o->Id = q.value(0).toInt();
-            o->Ad = q.value(1).toString();
-            o->Soyad = q.value(2).toString();
-            o->OkulNo = q.value(3).toInt();
-            o->Sinif = q.value(4).toInt();
-            o->Sube = q.value(5).toString();
+            Student *o = new Student();
+            o->id = q.value(0).toInt();
+            o->firstName = q.value(1).toString();
+            o->lastName = q.value(2).toString();
+            o->number = q.value(3).toInt();
+            o->grade = q.value(4).toInt();
+            o->section = q.value(5).toString();
 
-            ogrenciler->append(*o);
+            students->append(*o);
         }
-        return ogrenciler;
+        return students;
     }
 
-    bool Database::Update(Ogrenci *o){
+    bool Database::Update(Student *o){
         QSqlQuery q;
-        q.prepare("UPDATE ogrenciler SET okulno=(:okulno), ad=(:ad), soyad=(:soyad), sinif=(:sinif), sube=(:sube) WHERE id=(:id)");
-        q.bindValue(":id", o->Id);
-        q.bindValue(":okulno", o->OkulNo);
-        q.bindValue(":ad", o->Ad);
-        q.bindValue(":soyad", o->Soyad);
-        q.bindValue(":sinif", o->Sinif);
-        q.bindValue(":sube", o->Sube);
+        q.prepare("UPDATE students SET number=(:number), firstname=(:firstname), lastname=(:lastname), grade=(:grade), section=(:section) WHERE id=(:id)");
+        q.bindValue(":id", o->id);
+        q.bindValue(":number", o->number);
+        q.bindValue(":firstname", o->firstName);
+        q.bindValue(":lastname", o->lastName);
+        q.bindValue(":grade", o->grade);
+        q.bindValue(":section", o->section);
 
         if(q.exec())
             return true;
@@ -85,13 +85,13 @@ namespace ikoOSKAR { namespace DAL {
 
     bool Database::CreateDatabase(){
         QSqlQuery q;
-        q.prepare("CREATE TABLE IF NOT EXISTS ogrenciler ("
+        q.prepare("CREATE TABLE IF NOT EXISTS students ("
                   "id integer PRIMARY KEY AUTOINCREMENT,"
-                  "ad text,"
-                  "soyad text,"
-                  "okulno integer NOT NULL,"
-                  "sinif integer,"
-                  "sube text )");
+                  "firstname text,"
+                  "lastname text,"
+                  "number integer NOT NULL,"
+                  "grade integer,"
+                  "section text )");
         if (q.exec())
             return true;
 
@@ -106,16 +106,16 @@ namespace ikoOSKAR { namespace DAL {
 
         QChar seperator = dirName[0] == '/' ? '/' : '\\';
         dirName.append(seperator);
-        dirName.append("ogrenciler.db");
+        dirName.append("students.db");
         return dirName;
     }
 
     bool Database::EndOfTheYear() {
         QString cmds[] = {
-            "DELETE FROM ogrenciler WHERE sinif=12",
-            "UPDATE ogrenciler SET sinif=12 WHERE sinif=11",
-            "UPDATE ogrenciler SET sinif=11 WHERE sinif=10",
-            "UPDATE ogrenciler SET sinif=10 WHERE sinif=9"
+            "DELETE FROM students WHERE grade=12",
+            "UPDATE students SET grade=12 WHERE grade=11",
+            "UPDATE students SET grade=11 WHERE grade=10",
+            "UPDATE students SET grade=10 WHERE grade=9"
         };
         QString errorNumbers = "";
         QString errors = "";
