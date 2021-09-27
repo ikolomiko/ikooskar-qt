@@ -45,23 +45,26 @@ information across all the other layers
 &nbsp;
 
 ## Contents of Layers
-You can see which class belongs to which layer in the tables below
+You can see which class belongs to which layer in the tables below. Classes with 
+direct relationship are represented at the same row. The Shared Layer is shown
+separately because its classes are used commonly among other classes and do NOT
+have a direct relationship with only one (or two) class(es).
 
 
-DAL				|	BLL				|	UI
-----------------+-------------------+----------------------
-Database 		| DatabaseHelper 	| DatabaseUi
-MultiImport		| MultiImportHelper	| MultiImportUi
-- 				| StudentEditor		| StudentEditorUi
-- 				| SchemeGenerator	| SchemeGeneratorUi
-ExcelWriter		| SchemeExporter	| -
-HistoryReader 	| HistoryHelper 	| HistoryUi
-- 				| AboutHelper 		| AboutUi
-- 				| - 				| MainPage
-LocalAuth 		| LocalAuthHelper 	| -
-CloudAuth 		| CloudAuthHelper 	| -
-- 				| Authenticator 	| AuthenticatorPage
-- 				| - 				| SplashPage
+| DAL			|	BLL				|	UI
+----------------|-------------------|-----------------------
+| Database 		| DatabaseHelper 	| DatabaseUi
+| MultiImport	| MultiImportHelper	| MultiImportUi
+| -				| StudentEditor		| StudentEditorUi
+| -				| SchemeGenerator	| SchemeGeneratorUi
+| ExcelWriter	| SchemeExporter	| -
+| HistoryReader	| HistoryHelper 	| HistoryUi
+| -				| AboutHelper 		| AboutUi
+| - 			| - 				| MainPage
+| LocalAuth		| LocalAuthHelper 	| -
+| CloudAuth		| CloudAuthHelper 	| -
+| - 			| Authenticator 	| AuthenticatorPage
+| -				| - 				| SplashPage
 
 
 |	Shared 		|
