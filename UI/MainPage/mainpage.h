@@ -18,8 +18,20 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     ~MainPage();
 
+private slots:
+    void on_btnHome_clicked();
+
+    void on_btnDatabase_clicked();
+
+    void on_btnNewScheme_clicked();
+
+    void on_btnHistory_clicked();
+
+    void on_btnHelp_clicked();
+
 private:
     Ui::MainPage *ui;
+    void changePage(int);
 };
 
 

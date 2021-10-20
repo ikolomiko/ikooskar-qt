@@ -9,5 +9,10 @@
         <file>assets/Icons-WhiteBG.ico</file>
         <file>assets/Icon-Circular-WhiteBG.png</file>
         <file>assets/Icons-Circular-WhiteBG.ico</file>
+        <file>assets/new-scheme.png</file>
+        <file>assets/history.png</file>
+        <file>assets/students.png</file>
+        <file>assets/help.png</file>
+        <file>assets/home.png</file>
     </qresource>
 </RCC>
