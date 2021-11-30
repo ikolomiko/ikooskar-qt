@@ -1,9 +1,8 @@
 #include "mainpage.h"
 #include "ui_mainpage.h"
-#include "DAL/database.h"
-#include <QList>
+#include "../DatabaseUi/databaseui.h"
 #include <QDebug>
-using namespace ikoOSKAR::DAL;
+
 namespace ikoOSKAR {
 namespace UI {
 
@@ -12,6 +11,11 @@ MainPage::MainPage(QWidget *parent) :
     ui(new Ui::MainPage)
 {
     ui->setupUi(this);
+    changePage(0, new QWidget());
+}
+
+QWidget* myfunc(){
+    return new DatabaseUi();
 }
 
 MainPage::~MainPage()
@@ -19,64 +23,58 @@ MainPage::~MainPage()
     delete ui;
 }
 
-void MainPage::on_btn_database_clicked()
+void MainPage::changePage(int index, QWidget* subpage){
+    const QString moduleNames[5] = {"Ana Sayfa",
+                                    "Öğrenci İşlemleri",
+                                    "Yeni Sınav Düzeni",
+                                    "Önceki Sınav Düzenleri",
+                                    "İletişim ve Uygulama Bilgileri"};
+    const QString moduleDescriptions[5] = {"Ana sayfadasınız",
+                                           "Toplam öğrenci sayısı: x",
+                                           "Kalan deneme hakkınız: x | Sınava katılacak öğrenci sayısı",
+                                           "Toplam yapılan sınav sayısı: x",
+                                           "Lisans bilgisi: demo"};
+    QPushButton* buttons[5] = {ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp};
+
+    ui->lblModuleName->setText(moduleNames[index]);
+    ui->lblDescription->setText(moduleDescriptions[index]);
+
+    ui->btnCurrentPage->setIcon(buttons[index]->icon());
+
+    if (ui->mainContainer->itemAt(0) != nullptr)
+        ui->mainContainer->itemAt(0)->widget()->deleteLater();
+
+    ui->mainContainer->addWidget(subpage,0,0,1,1);
+    if(subpage != nullptr) subpage->show();
+    qDebug() << ui->centralwidget->width();
+}
+
+void MainPage::on_btnHome_clicked()
 {
-    //this->setWindowTitle("Öğrenci işlemleri açılıyor");
-    Database* db = new Database();
-    db->Add(new Student{
-                .number = 123,
-                .firstName = "yeni deneme",
-                .lastName = "yeni soyad",
-                .grade = 11,
-                .section = "a"
-    });
+    changePage(0, new QWidget());
+}
 
-    //db->EndOfTheYear();
-
-
-    /*db->Delete(new Ogrenci{
-                   .Id = 12
-               });*/
-    QList<Student> ogrenciler = *db->GetAllStudents();
-
-    /*
-    Ogrenci *o2 = nullptr;
-    for (int i = 0; i < ogrenciler.length(); i++){
-        if (ogrenciler[i].Ad == "ad1"){
-            o2 = &ogrenciler[i];
-            break;
-        }
-    }
-    o2->Ad = "ad5";
-    db->Update(o2);
-    */
-
-    foreach (Student o, ogrenciler){
-        qDebug() << o.id << o.firstName
-                 << o.grade;
-    }
-
-    //this->setWindowTitle(s);
-    //this->setWindowTitle( db->DatabaseExists() );
-    delete(db);
+void MainPage::on_btnDatabase_clicked()
+{
+    changePage(1, new DatabaseUi());
 }
 
 
-void MainPage::on_btn_newscheme_clicked()
+void MainPage::on_btnNewScheme_clicked()
 {
-    setWindowTitle("Yeni sınav düzeni oluşturuluyor...");
+    changePage(2, new DatabaseUi());
 }
 
 
-void MainPage::on_btn_history_clicked()
+void MainPage::on_btnHistory_clicked()
 {
-    setWindowTitle("Önceki sınav düzenleri görüntüleniyor");
+    changePage(3, new QWidget());
 }
 
 
-void MainPage::on_btn_help_clicked()
+void MainPage::on_btnHelp_clicked()
 {
-    setWindowTitle("Yardııııımmmmm");
+    changePage(4, new QWidget());
 }
 
 } // namespace UI
