@@ -10,9 +10,15 @@
     <height>609</height>
    </rect>
   </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="font">
    <font>
-    <family>Sans</family>
+    <family>Liberation Sans</family>
    </font>
   </property>
   <property name="windowTitle">

@@ -31,7 +31,7 @@ private slots:
 
 private:
     Ui::MainPage *ui;
-    void changePage(int);
+    void changePage(int, QWidget*);
 };
 
 

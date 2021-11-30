@@ -1,27 +1,21 @@
 #include "mainpage.h"
 #include "ui_mainpage.h"
 #include "../DatabaseUi/databaseui.h"
+#include <QDebug>
 
 namespace ikoOSKAR {
 namespace UI {
-
-int widgetIndex = 0;
-QWidget* widgets[5] = {};
 
 MainPage::MainPage(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainPage)
 {
     ui->setupUi(this);
-    changePage(0);
-    //widgets[0] = ui->wdContainer;
-    //DatabaseUi db;
-    widgets[2] = new QWidget();
-    widgets[1] = new DatabaseUi();
-    widgets[2]->setStyleSheet("background: blue;");
-    QGridLayout *l = new QGridLayout(widgets[2]);
-    l->setMargin(0);
-    l->addWidget(new DatabaseUi(),0,0,1,1);
+    changePage(0, new QWidget());
+}
+
+QWidget* myfunc(){
+    return new DatabaseUi();
 }
 
 MainPage::~MainPage()
@@ -29,7 +23,7 @@ MainPage::~MainPage()
     delete ui;
 }
 
-void MainPage::changePage(int index){
+void MainPage::changePage(int index, QWidget* subpage){
     const QString moduleNames[5] = {"Ana Sayfa",
                                     "Öğrenci İşlemleri",
                                     "Yeni Sınav Düzeni",
@@ -42,53 +36,45 @@ void MainPage::changePage(int index){
                                            "Lisans bilgisi: demo"};
     QPushButton* buttons[5] = {ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp};
 
-
     ui->lblModuleName->setText(moduleNames[index]);
     ui->lblDescription->setText(moduleDescriptions[index]);
 
     ui->btnCurrentPage->setIcon(buttons[index]->icon());
 
-    /// TODO also change widget
+    if (ui->mainContainer->itemAt(0) != nullptr)
+        ui->mainContainer->itemAt(0)->widget()->deleteLater();
 
-
-    for (int i = 0; i < 5; i++){
-        if (i == index) continue;
-        ui->mainContainer->removeWidget(widgets[index]);
-        if(widgets[i] != nullptr)
-            widgets[i]->hide();
-    }
-    ui->mainContainer->addWidget(widgets[index],0,0,1,1);
-    if(widgets[index] != nullptr) widgets[index]->show();
+    ui->mainContainer->addWidget(subpage,0,0,1,1);
+    if(subpage != nullptr) subpage->show();
+    qDebug() << ui->centralwidget->width();
 }
 
 void MainPage::on_btnHome_clicked()
 {
-    changePage(0);
-    //ui->wdContainer
+    changePage(0, new QWidget());
 }
 
 void MainPage::on_btnDatabase_clicked()
 {
-    changePage(1);
-
+    changePage(1, new DatabaseUi());
 }
 
 
 void MainPage::on_btnNewScheme_clicked()
 {
-  changePage(2);
+    changePage(2, new DatabaseUi());
 }
 
 
 void MainPage::on_btnHistory_clicked()
 {
-  changePage(3);
+    changePage(3, new QWidget());
 }
 
 
 void MainPage::on_btnHelp_clicked()
 {
-  changePage(4);
+    changePage(4, new QWidget());
 }
 
 } // namespace UI
