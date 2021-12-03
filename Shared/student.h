@@ -9,7 +9,6 @@ class Student
 {
 public:
     int id;
-    int number;
     QString firstName;
     QString lastName;
     int grade;

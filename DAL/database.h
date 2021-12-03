@@ -12,12 +12,14 @@ class Database
 {
 public:
     Database();
-    QList<Student>* GetAllStudents();
-    bool Add(Student const *o);
-    bool Update(Student*);
-    bool Delete(Student*);
+    QHash<int, Student>* GetAllStudents();
+    bool Add(Student *s, QString* errorMessage);
+    bool Update(Student *s, QString* errorMessage);
+    bool Delete(Student *s, QString* errorMessage);
     bool EndOfTheYear();
     QString GetDatabasePath(bool withFileName = false);
+    bool DatabaseFileExists();
+    void CreateDatabasePath();
     ~Database();
 
 private:

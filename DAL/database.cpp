@@ -9,6 +9,7 @@ namespace ikoOSKAR { namespace DAL {
     Database::Database(){
         this->databasePath = GetDatabasePath(false);
         this->databaseFilePath = GetDatabasePath(true);
+        if(!DatabaseFileExists()) CreateDatabasePath();
 
         QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
         database.setDatabaseName(databaseFilePath);
@@ -16,80 +17,75 @@ namespace ikoOSKAR { namespace DAL {
         this->CreateDatabase();
     }
 
-    bool Database::Add(Student const *o){
+    bool Database::Add(Student *s, QString* errorMessage){
         QSqlQuery q;
-        q.prepare("INSERT INTO students (number, firstname, lastname, grade, section) "
-                  "VALUES (:number, :firstname, :lastname, :grade, :section)");
-        q.bindValue(":number", o->number);
-        q.bindValue(":firstname", o->firstName);
-        q.bindValue(":lastname", o->lastName);
-        q.bindValue(":grade", o->grade);
-        q.bindValue(":section", o->section);
+        q.prepare("INSERT INTO students (id, firstname, lastname, grade, section) "
+                  "VALUES (:id, :firstname, :lastname, :grade, :section)");
+        q.bindValue(":id", s->id);
+        q.bindValue(":firstname", s->firstName);
+        q.bindValue(":lastname", s->lastName);
+        q.bindValue(":grade", s->grade);
+        q.bindValue(":section", s->section);
 
         if(q.exec())
             return true;
 
-        qDebug() << "Error adding new student "
-                     << q.lastError();
+        *errorMessage = "DAL.Add() fonksiyonunda bir hata oluştu, öğrenci eklenemedi\n" + q.lastError().text();
         return false;
 
     }
 
-    bool Database::Delete(Student *o){
+    bool Database::Delete(Student *s, QString *errorMessage){
         QSqlQuery q;
         q.prepare("DELETE FROM students WHERE id = (:id)");
-        q.bindValue(":id", o->id);
+        q.bindValue(":id", s->id);
 
         if(q.exec())
             return true;
 
-        qDebug() << "Error deleting student "
-                 << q.lastError();
+        *errorMessage = "DAL.Delete() fonksiyonunda bir hata oluştu, öğrenci silinemedi\n" + q.lastError().text();
         return false;
     }
 
-    QList<Student> *Database::GetAllStudents(){
-        QList<Student>* students = new QList<Student>();
+    QHash<int, Student> *Database::GetAllStudents(){
+        auto* students = new QHash<int, Student>();
         QSqlQuery q("SELECT * FROM students");
         while (q.next()) {
-            Student *o = new Student();
-            o->id = q.value(0).toInt();
-            o->firstName = q.value(1).toString();
-            o->lastName = q.value(2).toString();
-            o->number = q.value(3).toInt();
-            o->grade = q.value(4).toInt();
-            o->section = q.value(5).toString();
+            Student *s = new Student();
+            s->id = q.value(0).toInt();
+            s->firstName = q.value(1).toString();
+            s->lastName = q.value(2).toString();
+            s->grade = q.value(3).toInt();
+            s->section = q.value(4).toString();
 
-            students->append(*o);
+            students->insert(s->id, *s);
         }
         return students;
     }
 
-    bool Database::Update(Student *o){
+    bool Database::Update(Student *s, QString* errorMessage){
         QSqlQuery q;
-        q.prepare("UPDATE students SET number=(:number), firstname=(:firstname), lastname=(:lastname), grade=(:grade), section=(:section) WHERE id=(:id)");
-        q.bindValue(":id", o->id);
-        q.bindValue(":number", o->number);
-        q.bindValue(":firstname", o->firstName);
-        q.bindValue(":lastname", o->lastName);
-        q.bindValue(":grade", o->grade);
-        q.bindValue(":section", o->section);
+        q.prepare("UPDATE students SET firstname=(:firstname), lastname=(:lastname), grade=(:grade), section=(:section) WHERE id=(:id)");
+        q.bindValue(":id", s->id);;
+        q.bindValue(":firstname", s->firstName);
+        q.bindValue(":lastname", s->lastName);
+        q.bindValue(":grade", s->grade);
+        q.bindValue(":section", s->section);
 
         if(q.exec())
             return true;
 
-        qDebug() << "Error updating student "
-                 << q.lastError();
+        *errorMessage = "DAL.Update() fonksiyonunda bir hata oluştu, öğrenci bilgileri güncellenemedi\n" + q.lastError().text();
+
         return false;
     }
 
     bool Database::CreateDatabase(){
         QSqlQuery q;
         q.prepare("CREATE TABLE IF NOT EXISTS students ("
-                  "id integer PRIMARY KEY AUTOINCREMENT,"
+                  "id integer PRIMARY KEY,"
                   "firstname text,"
                   "lastname text,"
-                  "number integer NOT NULL,"
                   "grade integer,"
                   "section text )");
         if (q.exec())
@@ -136,10 +132,19 @@ namespace ikoOSKAR { namespace DAL {
         return false;
     }
 
+    bool Database::DatabaseFileExists(){
+        return QFileInfo::exists(this->databaseFilePath) && QFileInfo(databaseFilePath).isFile();
+    }
+
+    void Database::CreateDatabasePath(){
+        QDir dir(this->databasePath);
+        if (!dir.exists())
+            dir.mkpath(".");
+    }
+
     Database::~Database(){
         QSqlDatabase::database(QSqlDatabase::defaultConnection).close();
         QSqlDatabase::removeDatabase(QSqlDatabase::defaultConnection);
-        qDebug() << "this instance of db has destroyed";
     }
 
 }  // namespace DAL

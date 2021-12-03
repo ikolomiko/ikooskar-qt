@@ -5,18 +5,22 @@
 #include "Shared/student.h"
 #include "DAL/database.h"
 
-using ikoOSKAR::Shared::Student;
-
 namespace ikoOSKAR {
 namespace BLL {
 
 class DatabaseHelper
-{
+{    
+private:
+    QHash<int, Student>* databaseCache;
+    ikoOSKAR::DAL::Database* dal;
+    std::function<void(QString message)> handleError;
+
 public:
-    DatabaseHelper();
+    DatabaseHelper(std::function<void(QString message)> errHandler);
+    void RefreshCache();
     void Add(Student*);
-    void AddRange(QList<Student*>);
     void Update(Student*);
+    void UpdateWithNewId(int oldId, Student*);
     void Delete(Student*);
     bool IdExists(int id);
     QList<int> GetAllIds();
@@ -26,11 +30,6 @@ public:
     Student* GetStudentById(int id);
     bool CheckForPrerequsities(); ///TODO
     ~DatabaseHelper();
-
-private:
-    QList<Student>* databaseCache;
-    ikoOSKAR::DAL::Database* dal;
-
 };
 
 } // namespace BLL

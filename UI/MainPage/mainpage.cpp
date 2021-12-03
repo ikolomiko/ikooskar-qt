@@ -46,7 +46,6 @@ void MainPage::changePage(int index, QWidget* subpage){
 
     ui->mainContainer->addWidget(subpage,0,0,1,1);
     if(subpage != nullptr) subpage->show();
-    qDebug() << ui->centralwidget->width();
 }
 
 void MainPage::on_btnHome_clicked()

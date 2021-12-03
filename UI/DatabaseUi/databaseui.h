@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_DATABASEUI_H
 #define IKOOSKAR_UI_DATABASEUI_H
 
+#include "BLL/databasehelper.h"
 #include <QWidget>
 
 namespace ikoOSKAR {
@@ -18,8 +19,12 @@ public:
     explicit DatabaseUi(QWidget *parent = nullptr);
     ~DatabaseUi();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::DatabaseUi *ui;
+    ikoOSKAR::BLL::DatabaseHelper* bll;
 };
 
 
