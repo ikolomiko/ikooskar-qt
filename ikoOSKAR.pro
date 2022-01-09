@@ -13,7 +13,7 @@ SOURCES += \
     DAL/Database/database.cpp \
     UI/DatabaseUi/databaseui.cpp \
     UI/MainPage/mainpage.cpp \
-    UI/errorui.cpp \
+    UI/ErrorUi/errorui.cpp \
     main.cpp
 
 HEADERS += \
@@ -22,7 +22,7 @@ HEADERS += \
     Shared/student.h \
     UI/DatabaseUi/databaseui.h \
     UI/MainPage/mainpage.h \
-    UI/errorui.h
+    UI/ErrorUi/errorui.h
 
 FORMS += \
     UI/DatabaseUi/databaseui.ui \

@@ -1,15 +1,19 @@
 #include "database.h"
-#include <QFile>
-#include <QString>
-#include <QStandardPaths>
-#include <QtSql>
-#include <QDebug>
 
-namespace ikoOSKAR { namespace DAL {
-    Database::Database(){
+#include <QDebug>
+#include <QFile>
+#include <QStandardPaths>
+#include <QString>
+#include <QtSql>
+
+namespace ikoOSKAR {
+namespace DAL {
+    Database::Database()
+    {
         this->databasePath = GetDatabasePath(false);
         this->databaseFilePath = GetDatabasePath(true);
-        if(!DatabaseFileExists()) CreateDatabasePath();
+        if (!DatabaseFileExists())
+            CreateDatabasePath();
 
         QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
         database.setDatabaseName(databaseFilePath);
@@ -17,7 +21,8 @@ namespace ikoOSKAR { namespace DAL {
         this->CreateDatabase();
     }
 
-    bool Database::Add(Student *s, QString* errorMessage){
+    bool Database::Add(Student* s, QString* errorMessage)
+    {
         QSqlQuery q;
         q.prepare("INSERT INTO students (id, firstname, lastname, grade, section) "
                   "VALUES (:id, :firstname, :lastname, :grade, :section)");
@@ -27,31 +32,32 @@ namespace ikoOSKAR { namespace DAL {
         q.bindValue(":grade", s->grade);
         q.bindValue(":section", s->section);
 
-        if(q.exec())
+        if (q.exec())
             return true;
 
         *errorMessage = "DAL.Add() fonksiyonunda bir hata oluştu, öğrenci eklenemedi\n" + q.lastError().text();
         return false;
-
     }
 
-    bool Database::Delete(Student *s, QString *errorMessage){
+    bool Database::Delete(Student* s, QString* errorMessage)
+    {
         QSqlQuery q;
         q.prepare("DELETE FROM students WHERE id = (:id)");
         q.bindValue(":id", s->id);
 
-        if(q.exec())
+        if (q.exec())
             return true;
 
         *errorMessage = "DAL.Delete() fonksiyonunda bir hata oluştu, öğrenci silinemedi\n" + q.lastError().text();
         return false;
     }
 
-    QHash<int, Student> *Database::GetAllStudents(){
+    QHash<int, Student>* Database::GetAllStudents()
+    {
         auto* students = new QHash<int, Student>();
         QSqlQuery q("SELECT * FROM students");
         while (q.next()) {
-            Student *s = new Student();
+            Student* s = new Student();
             s->id = q.value(0).toInt();
             s->firstName = q.value(1).toString();
             s->lastName = q.value(2).toString();
@@ -63,24 +69,30 @@ namespace ikoOSKAR { namespace DAL {
         return students;
     }
 
-    bool Database::Update(Student *s, QString* errorMessage){
+    bool Database::Update(Student* s, QString* errorMessage)
+    {
         QSqlQuery q;
-        q.prepare("UPDATE students SET firstname=(:firstname), lastname=(:lastname), grade=(:grade), section=(:section) WHERE id=(:id)");
-        q.bindValue(":id", s->id);;
+        q.prepare("UPDATE students SET firstname=(:firstname), lastname=(:lastname), "
+                  "grade=(:grade), section=(:section) WHERE id=(:id)");
+        q.bindValue(":id", s->id);
+        ;
         q.bindValue(":firstname", s->firstName);
         q.bindValue(":lastname", s->lastName);
         q.bindValue(":grade", s->grade);
         q.bindValue(":section", s->section);
 
-        if(q.exec())
+        if (q.exec())
             return true;
 
-        *errorMessage = "DAL.Update() fonksiyonunda bir hata oluştu, öğrenci bilgileri güncellenemedi\n" + q.lastError().text();
+        *errorMessage = "DAL.Update() fonksiyonunda bir hata oluştu, öğrenci bilgileri "
+                        "güncellenemedi\n"
+            + q.lastError().text();
 
         return false;
     }
 
-    bool Database::CreateDatabase(){
+    bool Database::CreateDatabase()
+    {
         QSqlQuery q;
         q.prepare("CREATE TABLE IF NOT EXISTS students ("
                   "id integer PRIMARY KEY,"
@@ -91,14 +103,15 @@ namespace ikoOSKAR { namespace DAL {
         if (q.exec())
             return true;
 
-        qDebug() << "Error creating new database"
-                 << q.lastError();
+        qDebug() << "Error creating new database" << q.lastError();
         return false;
     }
 
-    QString Database::GetDatabasePath(bool withFileName){
+    QString Database::GetDatabasePath(bool withFileName)
+    {
         QString dirName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-        if (!withFileName) return dirName;
+        if (!withFileName)
+            return dirName;
 
         QChar seperator = dirName[0] == '/' ? '/' : '\\';
         dirName.append(seperator);
@@ -106,17 +119,16 @@ namespace ikoOSKAR { namespace DAL {
         return dirName;
     }
 
-    bool Database::EndOfTheYear() {
-        QString cmds[] = {
-            "DELETE FROM students WHERE grade=12",
+    bool Database::EndOfTheYear()
+    {
+        QString cmds[] = { "DELETE FROM students WHERE grade=12",
             "UPDATE students SET grade=12 WHERE grade=11",
             "UPDATE students SET grade=11 WHERE grade=10",
-            "UPDATE students SET grade=10 WHERE grade=9"
-        };
+            "UPDATE students SET grade=10 WHERE grade=9" };
         QString errorNumbers = "";
         QString errors = "";
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             QSqlQuery q;
             q.prepare(cmds[i]);
             if (!q.exec()) {
@@ -125,27 +137,31 @@ namespace ikoOSKAR { namespace DAL {
             }
         }
 
-        if (errors.length() == 0) return true;
+        if (errors.length() == 0)
+            return true;
 
-        qDebug() << "Error doing end of the year operations at operation number(s)" << errorNumbers
-                 << errors;
+        qDebug() << "Error doing end of the year operations at operation number(s)"
+                 << errorNumbers << errors;
         return false;
     }
 
-    bool Database::DatabaseFileExists(){
+    bool Database::DatabaseFileExists()
+    {
         return QFileInfo::exists(this->databaseFilePath) && QFileInfo(databaseFilePath).isFile();
     }
 
-    void Database::CreateDatabasePath(){
+    void Database::CreateDatabasePath()
+    {
         QDir dir(this->databasePath);
         if (!dir.exists())
             dir.mkpath(".");
     }
 
-    Database::~Database(){
+    Database::~Database()
+    {
         QSqlDatabase::database(QSqlDatabase::defaultConnection).close();
         QSqlDatabase::removeDatabase(QSqlDatabase::defaultConnection);
     }
 
-}  // namespace DAL
+} // namespace DAL
 } // namespace ikoOSKAR
