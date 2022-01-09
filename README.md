@@ -17,7 +17,7 @@ classes / sections, or not grouped by any criteria at all
 * Add, edit or remove individual students
 * Update all students' grade informations at the end of each academic year, with
 just one click.
- - This action also assumes that every 12th grade student have graduated and 
+  - This action also assumes that every 12th grade student have graduated and 
 proceeds to delete every 12th grade student from the database 
 * View and reprint older schemes
 * Search and filter older schemes by date or by exam name
