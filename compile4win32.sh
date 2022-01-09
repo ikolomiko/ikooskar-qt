@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+SECONDS=0
 location=$PWD
 cd $HOME/projects/qt/ikoOSKAR
 mkdir -p build
@@ -13,11 +13,11 @@ cp -r ../../Shared .
 cp -r ../../UI .
 cp -r ../../BLL .
 cp ../../* .
-$HOME/git-repos/mxe/usr/bin/i686-w64-mingw32.static-qmake-qt5 && make
+$HOME/git-repos/mxe/usr/bin/i686-w64-mingw32.static-qmake-qt5 && make -j8
 #mv debug ../debug.win
 mv release/ikoOSKAR.exe ../
 cd ..
 cp ikoOSKAR.exe $HOME/vm-shared/
 rm -rf temp
 cd $location
-echo done
+echo "Took $SECONDS seconds"
