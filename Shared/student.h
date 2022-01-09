@@ -5,16 +5,14 @@
 namespace ikoOSKAR {
 namespace Shared {
 
-class Student
-{
-public:
-    int id;
-    int number;
-    QString firstName;
-    QString lastName;
-    int grade;
-    QString section;
-};
+    class Student {
+    public:
+        int id;
+        QString firstName;
+        QString lastName;
+        int grade;
+        QString section;
+    };
 
 } // namespace Shared
 } // namespace ikoOSKAR

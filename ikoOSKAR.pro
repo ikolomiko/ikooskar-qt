@@ -9,18 +9,20 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    BLL/databasehelper.cpp \
-    DAL/database.cpp \
+    BLL/DatabaseHelper/databasehelper.cpp \
+    DAL/Database/database.cpp \
     UI/DatabaseUi/databaseui.cpp \
     UI/MainPage/mainpage.cpp \
+    UI/ErrorUi/errorui.cpp \
     main.cpp
 
 HEADERS += \
-    BLL/databasehelper.h \
-    DAL/database.h \
+    BLL/DatabaseHelper/databasehelper.h \
+    DAL/Database/database.h \
     Shared/student.h \
     UI/DatabaseUi/databaseui.h \
-    UI/MainPage/mainpage.h
+    UI/MainPage/mainpage.h \
+    UI/ErrorUi/errorui.h
 
 FORMS += \
     UI/DatabaseUi/databaseui.ui \
