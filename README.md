@@ -22,8 +22,8 @@ and also more efficient
 * Qt Framework >= 5.13
 * Compiler: GCC (for Linux), MinGW (for Windows)
   - I use [a script](/compile4win32.sh) that uses MXE (with 
-  `i686-w64-mingw32.static-qmake-qt5` package) for cross-compiling to Windows
-  - You won't need this if your host OS is Windows
+  `i686-w64-mingw32.static-qmake-qt5` package) for cross-compiling to Windows. 
+  You won't need this if your host OS is Windows
 
 ## Dependencies for the end user
 * Any program that can handle .xlsx files (e.g. MS Office, LibreOffice, WPS Office)
@@ -65,6 +65,7 @@ have a direct relationship with only one (or two) class(es).
 | CloudAuth		| CloudAuthHelper 	| -
 | - 			| Authenticator 	| AuthenticatorPage
 | -				| - 				| SplashPage
+| -       | -         | ErrorUi
 
 
 |	Shared 		|
