@@ -18,11 +18,6 @@ namespace UI {
 #endif
     }
 
-    QWidget* myfunc()
-    {
-        return new DatabaseUi();
-    }
-
     MainPage::~MainPage()
     {
         delete ui;
