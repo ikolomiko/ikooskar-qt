@@ -13,16 +13,17 @@ namespace DAL {
         Database();
         QHash<int, Student>* GetAllStudents();
         bool Add(Student* s, QString* errorMessage);
-        bool Update(Student* s, QString* errorMessage);
-        bool Delete(Student* s, QString* errorMessage);
-        bool EndOfTheYear();
-        QString GetDatabasePath(bool withFileName = false);
-        bool DatabaseFileExists();
-        void CreateDatabasePath();
+        bool Update(Student* s, int oldId, QString* errorMessage);
+        bool Delete(int id, QString* errorMessage);
+        bool EndOfTheYear(QString* errorMessage);
         ~Database();
 
     private:
+        void CreateDatabasePath();
         bool CreateDatabase();
+        bool DatabaseFileExists();
+        QString GetDatabasePath(bool withFileName = false);
+
         QString databaseFilePath;
         QString databasePath;
     };
