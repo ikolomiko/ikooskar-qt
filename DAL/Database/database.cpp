@@ -1,6 +1,5 @@
 #include "database.h"
 
-#include <QDebug>
 #include <QFile>
 #include <QStandardPaths>
 #include <QString>
@@ -21,6 +20,12 @@ namespace DAL {
         this->CreateDatabase();
     }
 
+    /**
+     * @brief Adds the given student to the database
+     * @param s : The pointer of the student to be added to the database
+     * @param errorMessage : A QString pointer which holds the error message
+     * @return True if the student was added to the database successfully, otherwise false.
+     */
     bool Database::Add(Student* s, QString* errorMessage)
     {
         QSqlQuery q;
@@ -39,11 +44,11 @@ namespace DAL {
         return false;
     }
 
-    bool Database::Delete(Student* s, QString* errorMessage)
+    bool Database::Delete(int id, QString* errorMessage)
     {
         QSqlQuery q;
         q.prepare("DELETE FROM students WHERE id = (:id)");
-        q.bindValue(":id", s->id);
+        q.bindValue(":id", id);
 
         if (q.exec())
             return true;
@@ -69,13 +74,13 @@ namespace DAL {
         return students;
     }
 
-    bool Database::Update(Student* s, QString* errorMessage)
+    bool Database::Update(Student* s, int oldId, QString* errorMessage)
     {
         QSqlQuery q;
         q.prepare("UPDATE students SET firstname=(:firstname), lastname=(:lastname), "
-                  "grade=(:grade), section=(:section) WHERE id=(:id)");
-        q.bindValue(":id", s->id);
-        ;
+                  "grade=(:grade), section=(:section), id=(:newId) WHERE id=(:oldId)");
+        q.bindValue(":oldId", oldId);
+        q.bindValue(":newId", s->id);
         q.bindValue(":firstname", s->firstName);
         q.bindValue(":lastname", s->lastName);
         q.bindValue(":grade", s->grade);
@@ -119,7 +124,7 @@ namespace DAL {
         return dirName;
     }
 
-    bool Database::EndOfTheYear()
+    bool Database::EndOfTheYear(QString* errorMessage)
     {
         QString cmds[] = { "DELETE FROM students WHERE grade=12",
             "UPDATE students SET grade=12 WHERE grade=11",
@@ -140,8 +145,8 @@ namespace DAL {
         if (errors.length() == 0)
             return true;
 
-        qDebug() << "Error doing end of the year operations at operation number(s)"
-                 << errorNumbers << errors;
+        *errorMessage = "Yıl sonu işlemleri yapılırken şu numaralı adım(lar)da hata oluştu: "
+            + errorNumbers + errors;
         return false;
     }
 
