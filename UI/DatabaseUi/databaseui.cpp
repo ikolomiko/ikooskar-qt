@@ -14,7 +14,7 @@ namespace UI {
         ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
         const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
-        bll = new BLL::DatabaseHelper(ErrorUi(*errorTitle));
+        bll = new BLL::DatabaseHelper(new ErrorUi(*errorTitle));
     }
 
     DatabaseUi::~DatabaseUi()
@@ -36,8 +36,7 @@ namespace UI {
                  });
         */
 
-        bll->Delete(new Student {
-            .id = 0 });
+        bll->Delete(0);
 
         /*
         bll->Update(new Student{
