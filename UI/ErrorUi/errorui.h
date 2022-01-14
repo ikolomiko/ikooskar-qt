@@ -5,11 +5,15 @@
 namespace ikoOSKAR {
 namespace UI {
 
-    typedef std::function<void(const QString&)> _curry;
-    // typedef void (*_curry)(QString);
+    /// @brief A class to display error messages with a previously determined title
+    class ErrorUi {
+        /// @brief Contains the common title of the error messages
+        const QString* const m_title;
 
-    void ErrorUi(const QString& title, const QString& message);
-    _curry ErrorUi(const QString& title);
+    public:
+        ErrorUi(const QString& title);
+        void DisplayMessage(const QString& message);
+    };
 
 } // namespace UI
 } // namespace ikoOSKAR
