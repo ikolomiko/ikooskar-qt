@@ -17,15 +17,13 @@
    </size>
   </property>
   <property name="font">
-   <font>
-    <family>Liberation Sans</family>
-   </font>
+   <font/>
   </property>
   <property name="windowTitle">
    <string>ikoOSKAR</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources.qrc">
+   <iconset>
     <normaloff>:/assets/Icon-WhiteBGx128.png</normaloff>:/assets/Icon-WhiteBGx128.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -117,10 +115,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../resources.qrc">
-           <normaloff>:/assets/home.png</normaloff>
-           <disabledoff>:/assets/home.png</disabledoff>
-           <disabledon>:/assets/home.png</disabledon>:/assets/home.png</iconset>
+          <iconset resource="../../../assets/resources.qrc">
+           <normaloff>:/home.png</normaloff>:/home.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -166,7 +162,6 @@
            </property>
            <property name="font">
             <font>
-             <family>DejaVu Sans</family>
              <pointsize>17</pointsize>
             </font>
            </property>
@@ -191,7 +186,6 @@
            </property>
            <property name="font">
             <font>
-             <family>Sans</family>
              <pointsize>12</pointsize>
             </font>
            </property>
@@ -250,8 +244,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../resources.qrc">
-             <normaloff>:/assets/home.png</normaloff>:/assets/home.png</iconset>
+            <iconset resource="../../../assets/resources.qrc">
+             <normaloff>:/home.png</normaloff>:/home.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -294,8 +288,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../resources.qrc">
-             <normaloff>:/assets/students.png</normaloff>:/assets/students.png</iconset>
+            <iconset resource="../../../assets/resources.qrc">
+             <normaloff>:/students.png</normaloff>:/students.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -332,8 +326,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../resources.qrc">
-             <normaloff>:/assets/new-scheme.png</normaloff>:/assets/new-scheme.png</iconset>
+            <iconset resource="../../../assets/resources.qrc">
+             <normaloff>:/new-scheme.png</normaloff>:/new-scheme.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -370,8 +364,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../resources.qrc">
-             <normaloff>:/assets/history.png</normaloff>:/assets/history.png</iconset>
+            <iconset resource="../../../assets/resources.qrc">
+             <normaloff>:/history.png</normaloff>:/history.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -408,8 +402,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../resources.qrc">
-             <normaloff>:/assets/help.png</normaloff>:/assets/help.png</iconset>
+            <iconset resource="../../../assets/resources.qrc">
+             <normaloff>:/help.png</normaloff>:/help.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -467,7 +461,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../resources.qrc"/>
+  <include location="../../../assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
