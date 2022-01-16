@@ -5,7 +5,7 @@
 * [ikoOSKAR-Qt](#ikooskar-qt)
 	- [Dependencies for development](#dependencies-for-development)
 	- [Dependencies for the end user](#dependencies-for-the-end-user)
-* [Documentation Overview](#documentation-verview)
+* [Documentation Overview](#documentation-overview)
 	- [Contents of Layers](#contents-of-layers)
 
 &nbsp;
