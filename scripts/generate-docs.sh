@@ -6,7 +6,10 @@ cd ..
 
 rm -rf ./docs/*
 doxygen Doxyfile
-git subtree push --prefix docs origin gh-pages
+cd docs
+git add .
+git commit -m "$1"
+git push
 
 cd $location
 echo "Took $SECONDS seconds"
