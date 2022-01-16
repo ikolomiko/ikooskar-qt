@@ -23,8 +23,8 @@
    <string>ikoOSKAR</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/assets/Icon-WhiteBGx128.png</normaloff>:/assets/Icon-WhiteBGx128.png</iconset>
+   <iconset resource="../../../assets/resources.qrc">
+    <normaloff>:/Icon-WhiteBGx128.png</normaloff>:/Icon-WhiteBGx128.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
