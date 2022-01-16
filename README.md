@@ -1,7 +1,20 @@
+## A more complete documentation of ikoOSKAR-Qt is now out! Check it out from [here!](https://ikolomiko.github.io/ikooskar-qt/annotated.html)
+
+# Table of Contents
+* [What is ikoOSKAR](#what-is-ikooskar)
+* [ikoOSKAR-Qt](#ikooskar-qt)
+	- [Dependencies for development](#dependencies-for-development)
+	- [Dependencies for the end user](#dependencies-for-the-end-user)
+* [Documentation Overview](#documentation-verview)
+	- [Contents of Layers](#contents-of-layers)
+
+&nbsp;
+
 # What is ikoOSKAR
 ikoOSKAR (iko Ortak Sınav Karma Sistemi) allows you to easily manage
 your school's student placement schemes for exams. This program is especially
-targeted for high schools.
+targeted for high schools. Check out 
+[the official website for ikoOSKAR!](https://ikooskar.web.app) (still WIP)
 
 With ikoOSKAR you can:
 
@@ -22,9 +35,12 @@ proceeds to delete every 12th grade student from the database
 * View and reprint older schemes
 * Search and filter older schemes by date or by exam name
 
+&nbsp;
+
 # ikoOSKAR-Qt
 This project is a reimplementation of ikoOSKAR which was originally written in 
-C# and .Net Framework.
+C# and .Net Framework. Note that this project is still WIP and currently there's
+no installers or pre-compiled binaries available.
 
 I use C++11 and Qt Framework 5.x for this reimplementation, which makes the 
 program cross-platform and also more efficient.
@@ -32,11 +48,14 @@ program cross-platform and also more efficient.
 The code formatter of my choice is `clang-format` with `-style=webkit` styling 
 option.
 
+For the auto-generated documentations, I use `doxygen` with the configurations 
+in [Doxyfile](/Doxyfile)
+
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
 * Qt Framework >= 5.13
 * Compiler: GCC (for Linux), MinGW (for Windows)
-  - I use [a script](/compile4win32.sh) that uses MXE (with 
+  - I use [a script](/compile4win32.sh) that uses [MXE](https://mxe.cc/) (with 
   `i686-w64-mingw32.static-qmake-qt5` package) for cross-compiling to Windows. 
   You won't need this if your host OS is Windows
 * Code formatter (optional): `clang-format`
@@ -46,7 +65,9 @@ option.
 Office)
 * Internet connection for the first activation
 
-# Documentation
+&nbsp;
+
+# Documentation Overview
 This project consists of 4 layers:
 
 1. Data Access Layer (DAL for short): This is the layer which interacts with raw
@@ -58,6 +79,7 @@ layer which handles all UI operations
 4. Shared Layer (aka Entities): This layer contains shared classes and 
 information across all the other layers
 
+For further documentation, check out [the official documentation](https://ikolomiko.github.io/ikooskar-qt/annotated.html)
 
 &nbsp;
 
@@ -71,26 +93,26 @@ You can click on the elements of the tables to navigate to corresponding
 file/folder.
 
 
-|***[DAL](/DAL/)***|***[BLL](/BLL/)***	|	***[UI](/UI/)***
+|DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
-| [Database](/DAL/Database/) | [DatabaseHelper](/BLL/DatabaseHelper/) | [DatabaseUi](UI/DatabaseUi/)
+| [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
 | MultiImport	| MultiImportHelper	| MultiImportUi
 | -				| StudentEditor		| StudentEditorUi
 | -				| SchemeGenerator	| SchemeGeneratorUi
 | ExcelWriter	| SchemeExporter	| -
 | HistoryReader	| HistoryHelper 	| HistoryUi
 | -				| AboutHelper 		| AboutUi
-| - 			| - 				| MainPage
+| - 			| - 				| [MainPage](/src/UI/MainPage)
 | LocalAuth		| LocalAuthHelper 	| -
 | CloudAuth		| CloudAuthHelper 	| -
 | - 			| Authenticator 	| AuthenticatorPage
 | -				| - 				| SplashPage
-| -       		| -         		| [ErrorUi](/UI/ErrorUi)
+| -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
 
 
-|***[Shared](/Shared/)***	|
+|Shared	|
 |:-------------:|
-|[Student](/Shared/student.h)		|
+|[Student](/src/Shared/student.h)		|
 |Desk			|
 |Classroom		|
 |ExamStudent	|
