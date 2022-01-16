@@ -8,7 +8,7 @@ namespace BLL {
     /**
      * @brief Initalizes {@code dal}, {@code databaseCache} and {@code errorUi} properties
      * @param errorUi : A pointer to an instance of ErrorUi with a previously determined title
-     * @see dal databaseCache errorUi
+     * @see dal, databaseCache, errorUi
      */
     DatabaseHelper::DatabaseHelper(UI::ErrorUi* errorUi)
         : dal(new ikoOSKAR::DAL::Database())
@@ -190,7 +190,7 @@ namespace BLL {
      */
     QList<Student*> DatabaseHelper::GetStudentsByClassName(QString& className)
     {
-        int grade = className.length() == 3 ? className.left(1).toInt() : className.left(2).toInt();
+        int grade = className.length() == 3 ? className.leftRef(1).toInt() : className.leftRef(2).toInt();
         QString section = className.right(1);
         return GetStudentsByClassName(grade, section);
     }
@@ -204,7 +204,7 @@ namespace BLL {
     {
         Student* s = nullptr;
         if (databaseCache->contains(id))
-            *s = databaseCache->value(id);
+            s = &(*databaseCache)[id];
         else
             errorUi->DisplayMessage(QString::number(id) + " okul no'suna sahip öğrenci bulunamadı!");
         return s;
