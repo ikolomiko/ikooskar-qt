@@ -6,7 +6,7 @@ cd ..
 
 rm -rf ./docs/*
 doxygen Doxyfile
-#git subtree push --prefix ./docs/ origin gh-pages
+git subtree push --prefix docs origin gh-pages
 
 cd $location
 echo "Took $SECONDS seconds"
