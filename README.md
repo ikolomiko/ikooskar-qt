@@ -48,14 +48,15 @@ program cross-platform and also more efficient.
 The code formatter of my choice is `clang-format` with `-style=webkit` styling 
 option.
 
-For the auto-generated documentations, I use `doxygen` with the configurations 
-in [Doxyfile](/Doxyfile)
+For the auto-generated and auto-deployed documentations, I use `doxygen` with the 
+configurations in [this file](/Doxyfile), using 
+[this script](/scripts/generate-docs.sh).
 
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
 * Qt Framework >= 5.13
 * Compiler: GCC (for Linux), MinGW (for Windows)
-  - I use [a script](/compile4win32.sh) that uses [MXE](https://mxe.cc/) (with 
+  - I use [a script](/scripts/compile4win32.sh) that uses [MXE](https://mxe.cc/) (with 
   `i686-w64-mingw32.static-qmake-qt5` package) for cross-compiling to Windows. 
   You won't need this if your host OS is Windows
 * Code formatter (optional): `clang-format`
@@ -79,7 +80,7 @@ layer which handles all UI operations
 4. Shared Layer (aka Entities): This layer contains shared classes and 
 information across all the other layers
 
-For further documentation, check out [the official documentation](https://ikolomiko.github.io/ikooskar-qt/annotated.html)
+For further information, check out [the official documentation](https://ikolomiko.github.io/ikooskar-qt/annotated.html)
 
 &nbsp;
 
@@ -89,8 +90,8 @@ direct relationship are represented at the same row. The Shared Layer is shown
 separately because its classes are used commonly among other classes and do NOT
 have a direct relationship with only one (or two) class(es).
 
-You can click on the elements of the tables to navigate to corresponding 
-file/folder.
+You can click on the elements of the tables to navigate to 
+the corresponding file/folder.
 
 
 |DAL			|BLL				|UI
