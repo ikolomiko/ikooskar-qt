@@ -59,7 +59,7 @@ namespace DAL {
 
     QHash<int, Student>* Database::GetAllStudents()
     {
-        auto* students = new QHash<int, Student>();
+        auto students = new QHash<int, Student>();
         QSqlQuery q("SELECT * FROM students");
         while (q.next()) {
             Student* s = new Student();
@@ -138,7 +138,7 @@ namespace DAL {
             q.prepare(cmds[i]);
             if (!q.exec()) {
                 errors.append(q.lastError().text());
-                errorNumbers.append(QString::number(i));
+                errorNumbers.append(QString::number(i) + ",");
             }
         }
 

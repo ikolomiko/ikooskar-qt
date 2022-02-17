@@ -1,4 +1,5 @@
 #include "databasehelper.h"
+#include <QLocale>
 #include <QMessageBox>
 #include <algorithm>
 
@@ -152,7 +153,7 @@ namespace BLL {
     {
         auto uniqueClassnames = new QSet<QString>();
 
-        foreach (auto s, *databaseCache)
+        for (auto s : *databaseCache)
             uniqueClassnames->insert(QString().number(s.grade) + "-" + s.section);
 
         // Sorts the elements in 'sortedClassnames' by their lengths first,
@@ -175,7 +176,7 @@ namespace BLL {
     QList<Student*> DatabaseHelper::GetStudentsByClassName(int grade, QString& section)
     {
         QList<Student*> result;
-        foreach (auto s, *databaseCache) {
+        for (auto s : *databaseCache) {
             if (s.grade == grade && s.section == section) {
                 result.append(&s);
             }
@@ -210,10 +211,52 @@ namespace BLL {
         return s;
     }
 
-    /// TODO
-    bool DatabaseHelper::CheckForPrerequsities()
+    /**
+     * @brief Checks the given parameters if they're suitable for adding/updating. If so, returns a student pointer
+     * containing these parameters. Otherwise, displays an error message about what's wrong and returns nullptr.
+     * This function is supposed to be used when adding/updating an individual student with manually given parameters.
+     * @param id : The id to be checked (the new id if the student is being updated)
+     * @param firstName : The first name to be checked
+     * @param lastName : The last name to be checked
+     * @param grade : The grade to be checked
+     * @param section : The section to be checked
+     * @return A new student pointer if every parameter is suitable. Otherwise, nullptr
+     */
+    Student* DatabaseHelper::CheckForManuallyEnteredValues(int id, QString& firstName, QString& lastName, int grade, QString& section)
     {
-        return false;
+        bool exists = IdExists(id);
+        bool isEverythingOk = true;
+        QLocale turkish(QLocale::Turkish);
+
+        auto displayError = [&](QString message) {
+            errorUi->DisplayMessage(message);
+            isEverythingOk = false;
+        };
+
+        auto formatForFirstName = [&](QString& raw) {
+            QString temp = raw;
+            temp = turkish.toLower(raw.trimmed());
+            temp[0] = turkish.toUpper(temp.at(0)).at(0);
+            return temp;
+        };
+
+        if (firstName.trimmed().isEmpty() || firstName.isNull() || lastName.trimmed().isEmpty() || lastName.isNull())
+            displayError("Lütfen ad ve soyadı boş bırakmayınız");
+        else if (section.trimmed().isEmpty() || section.isNull())
+            displayError("Lütfen bir şube seçiniz");
+        else if (exists)
+            displayError("Bu okul no'ya sahip başka bir öğrenci var");
+
+        if (!isEverythingOk)
+            return nullptr;
+
+        return new Student {
+            .id = id,
+            .firstName = formatForFirstName(firstName),
+            .lastName = turkish.toUpper(lastName.trimmed()),
+            .grade = grade,
+            .section = section.trimmed().toUpper()
+        };
     }
 
     /**

@@ -31,11 +31,9 @@ namespace BLL {
         UI::ErrorUi* errorUi;
 
     public:
-        // DatabaseHelper(std::function<void(const QString& message)> errHandler);
         DatabaseHelper(UI::ErrorUi*);
         void Add(Student*);
-        void Update(Student*, int);
-        void UpdateWithNewId(int oldId, Student*);
+        void Update(Student*, int oldId);
         void Delete(int id);
         bool IdExists(int id);
         QList<int> GetAllIds();
@@ -44,7 +42,7 @@ namespace BLL {
         QList<Student*> GetStudentsByClassName(int grade, QString& section);
         QList<Student*> GetStudentsByClassName(QString& className);
         Student* GetStudentById(int id);
-        bool CheckForPrerequsities();
+        Student* CheckForManuallyEnteredValues(int id, QString& firstName, QString& lastName, int grade, QString& section);
         ~DatabaseHelper();
     };
 
