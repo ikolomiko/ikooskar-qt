@@ -6,12 +6,27 @@
 namespace ikoOSKAR {
 namespace UI {
 
+    enum MainPage::Subpage : int { HOME,
+        DATABASE,
+        NEW_SCHEME,
+        HISTORY,
+        HELP };
+
+    // TODO remove this
+    QWidget* placeholder;
+
     MainPage::MainPage(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::MainPage)
     {
+        placeholder = new QWidget();
         ui->setupUi(this);
-        changePage(0, new QWidget());
+        ui->stackedWidget->addWidget(placeholder);
+        ui->stackedWidget->addWidget(DatabaseUi::getInstance());
+        ui->stackedWidget->addWidget(DatabaseUi::getInstance());
+        ui->stackedWidget->addWidget(placeholder);
+        ui->stackedWidget->addWidget(placeholder);
+        changePage(HOME);
 
 #ifdef QT_DEBUG
         setWindowTitle(this->windowTitle() + " DEBUG");
@@ -23,7 +38,7 @@ namespace UI {
         delete ui;
     }
 
-    void MainPage::changePage(int index, QWidget* subpage)
+    void MainPage::changePage(Subpage index)
     {
         const QString moduleNames[5] = { "Ana Sayfa",
             "Öğrenci İşlemleri",
@@ -36,43 +51,39 @@ namespace UI {
             "Toplam yapılan sınav sayısı: x",
             "Lisans bilgisi: demo" };
         QPushButton* buttons[5] = { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
+        QWidget* pages[5] = { placeholder, DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
 
         ui->lblModuleName->setText(moduleNames[index]);
         ui->lblDescription->setText(moduleDescriptions[index]);
 
         ui->btnCurrentPage->setIcon(buttons[index]->icon());
 
-        if (ui->mainContainer->itemAt(0) != nullptr)
-            ui->mainContainer->itemAt(0)->widget()->deleteLater();
-
-        ui->mainContainer->addWidget(subpage, 0, 0, 1, 1);
-        if (subpage != nullptr)
-            subpage->show();
+        ui->stackedWidget->setCurrentWidget(pages[index]);
     }
 
     void MainPage::on_btnHome_clicked()
     {
-        changePage(0, new QWidget());
+        changePage(HOME);
     }
 
     void MainPage::on_btnDatabase_clicked()
     {
-        changePage(1, new DatabaseUi());
+        changePage(DATABASE);
     }
 
     void MainPage::on_btnNewScheme_clicked()
     {
-        changePage(2, new DatabaseUi());
+        changePage(NEW_SCHEME);
     }
 
     void MainPage::on_btnHistory_clicked()
     {
-        changePage(3, new QWidget());
+        changePage(HISTORY);
     }
 
     void MainPage::on_btnHelp_clicked()
     {
-        changePage(4, new QWidget());
+        changePage(HELP);
     }
 
 } // namespace UI

@@ -42,7 +42,7 @@ This project is a reimplementation of ikoOSKAR which was originally written in
 C# and .Net Framework. Note that this project is still WIP and currently there's
 no installers or pre-compiled binaries available.
 
-I use C++11 and Qt Framework 5.x for this reimplementation, which makes the 
+I use C++17 and Qt Framework 5.x for this reimplementation, which makes the 
 program cross-platform and also more efficient.
 
 The code formatter of my choice is `clang-format` with `-style=webkit` styling 

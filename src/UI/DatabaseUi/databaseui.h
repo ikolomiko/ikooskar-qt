@@ -15,17 +15,18 @@ namespace UI {
         Q_OBJECT
 
     public:
-        explicit DatabaseUi(QWidget* parent = nullptr);
+        static DatabaseUi* getInstance();
         ~DatabaseUi();
 
     private slots:
-        void on_pushButton_clicked();
+        void on_btnAdd_clicked();
 
     private:
         Ui::DatabaseUi* ui;
         ikoOSKAR::BLL::DatabaseHelper* bll;
+        inline static DatabaseUi* instance;
+        explicit DatabaseUi(QWidget* parent = nullptr);
     };
-
 } // namespace UI
 } // namespace ikoOSKAR
 #endif // IKOOSKAR_UI_DATABASEUI_H

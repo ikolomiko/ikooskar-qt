@@ -5,7 +5,6 @@
 
 namespace ikoOSKAR {
 namespace UI {
-
     DatabaseUi::DatabaseUi(QWidget* parent)
         : QWidget(parent)
         , ui(new Ui::DatabaseUi)
@@ -15,6 +14,7 @@ namespace UI {
 
         const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
         bll = new BLL::DatabaseHelper(new ErrorUi(*errorTitle));
+        qDebug() << "Hereee";
     }
 
     DatabaseUi::~DatabaseUi()
@@ -23,7 +23,15 @@ namespace UI {
         delete bll;
     }
 
-    void DatabaseUi::on_pushButton_clicked()
+    DatabaseUi* DatabaseUi::getInstance()
+    {
+        if (instance == nullptr) {
+            instance = new DatabaseUi();
+        }
+        return instance;
+    }
+
+    void DatabaseUi::on_btnAdd_clicked()
     {
         // Debug code here
         /*

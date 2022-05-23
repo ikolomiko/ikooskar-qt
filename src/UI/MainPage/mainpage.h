@@ -29,8 +29,9 @@ namespace UI {
         void on_btnHelp_clicked();
 
     private:
+        enum Subpage : int;
         Ui::MainPage* ui;
-        void changePage(int, QWidget*);
+        void changePage(Subpage);
     };
 
 } // namespace UI
