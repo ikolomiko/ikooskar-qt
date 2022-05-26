@@ -1,18 +1,17 @@
 <RCC>
     <qresource prefix="/">
         <file>banner.png</file>
-        <file>Icon-Circular.png</file>
-        <file>Icon-WhiteBG.png</file>
         <file>Icon-WhiteBGx64.png</file>
         <file>Icon-WhiteBGx128.png</file>
-        <file>Icon-WhiteBGx256.png</file>
-        <file>Icons-WhiteBG.ico</file>
-        <file>Icon-Circular-WhiteBG.png</file>
-        <file>Icons-Circular-WhiteBG.ico</file>
         <file>new-scheme.png</file>
         <file>history.png</file>
         <file>students.png</file>
         <file>help.png</file>
         <file>home.png</file>
+        <file>Icon-Transparent.png</file>
+        <file>remove.png</file>
+        <file>more.png</file>
+        <file>edit.png</file>
+        <file>add.png</file>
     </qresource>
 </RCC>
