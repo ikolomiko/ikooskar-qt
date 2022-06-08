@@ -6,7 +6,6 @@
 
 namespace ikoOSKAR {
 namespace UI {
-
     namespace Ui {
         class DatabaseUi;
     }

@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -202,15 +207,36 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>60</height>
+          <height>40</height>
          </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Öğrenci Ekle</string>
         </property>
         <property name="icon">
-         <iconset theme="list-add">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../../assets/resources.qrc">
+          <normaloff>:/add.png</normaloff>:/add.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -219,12 +245,36 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>60</height>
+          <height>40</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 6px;</string>
+        </property>
         <property name="text">
-         <string>Öğrenci Bilgilerini
-Düzenle</string>
+         <string>Öğrenci Bilgilerini Düzenle</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../assets/resources.qrc">
+          <normaloff>:/edit.png</normaloff>:/edit.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -233,11 +283,36 @@ Düzenle</string>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>60</height>
+          <height>40</height>
          </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Öğrenci Sil</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../assets/resources.qrc">
+          <normaloff>:/remove.png</normaloff>:/remove.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -248,7 +323,7 @@ Düzenle</string>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>737</width>
+          <width>68</width>
           <height>20</height>
          </size>
         </property>
@@ -259,11 +334,36 @@ Düzenle</string>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>60</height>
+          <height>40</height>
          </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Diğer Komutlar</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../assets/resources.qrc">
+          <normaloff>:/more.png</normaloff>:/more.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -272,6 +372,8 @@ Düzenle</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

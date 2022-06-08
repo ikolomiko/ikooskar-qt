@@ -14,7 +14,6 @@ namespace UI {
 
         const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
         bll = new BLL::DatabaseHelper(new ErrorUi(*errorTitle));
-        qDebug() << "Hereee";
     }
 
     DatabaseUi::~DatabaseUi()
