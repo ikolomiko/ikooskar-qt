@@ -109,6 +109,7 @@ the corresponding file/folder.
 | - 			| Authenticator 	| AuthenticatorPage
 | -				| - 				| SplashPage
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
+| -	            | -                 | [WelcomeUi](/src/UI/WelcomeUi)
 
 
 |Shared	|

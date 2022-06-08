@@ -16,6 +16,7 @@ SOURCES += \
     UI/DatabaseUi/databaseui.cpp \
     UI/MainPage/mainpage.cpp \
     UI/ErrorUi/errorui.cpp \
+    UI/WelcomeUi/welcomeui.cpp \
     main.cpp
 
 HEADERS += \
@@ -24,11 +25,13 @@ HEADERS += \
     Shared/student.h \
     UI/DatabaseUi/databaseui.h \
     UI/MainPage/mainpage.h \
-    UI/ErrorUi/errorui.h
+    UI/ErrorUi/errorui.h \
+    UI/WelcomeUi/welcomeui.h
 
 FORMS += \
     UI/DatabaseUi/databaseui.ui \
-    UI/MainPage/mainpage.ui
+    UI/MainPage/mainpage.ui \
+    UI/WelcomeUi/welcomeui.ui
 
 RESOURCES += \
     ../assets/resources.qrc

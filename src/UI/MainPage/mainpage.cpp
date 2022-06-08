@@ -1,16 +1,16 @@
 #include "mainpage.h"
-#include "../DatabaseUi/databaseui.h"
 #include "ui_mainpage.h"
 #include <QDebug>
 
 namespace ikoOSKAR {
 namespace UI {
-
-    enum MainPage::Subpage : int { HOME,
+    enum MainPage::Subpage : int {
+        HOME,
         DATABASE,
         NEW_SCHEME,
         HISTORY,
-        HELP };
+        HELP
+    };
 
     // TODO remove this
     QWidget* placeholder;
@@ -21,15 +21,29 @@ namespace UI {
     {
         placeholder = new QWidget();
         ui->setupUi(this);
-        ui->stackedWidget->addWidget(placeholder);
+        ui->stackedWidget->addWidget(WelcomeUi::getInstance());
         ui->stackedWidget->addWidget(DatabaseUi::getInstance());
-        ui->stackedWidget->addWidget(DatabaseUi::getInstance());
         ui->stackedWidget->addWidget(placeholder);
         ui->stackedWidget->addWidget(placeholder);
+        ui->stackedWidget->addWidget(placeholder);
+
+        moduleNames = new QString[] { "Ana Sayfa",
+            "Öğrenci İşlemleri",
+            "Yeni Sınav Düzeni",
+            "Önceki Sınav Düzenleri",
+            "İletişim ve Uygulama Bilgileri" };
+        moduleDescriptions = new QString[] { "Ana sayfadasınız",
+            "Toplam öğrenci sayısı: x",
+            "Kalan deneme hakkınız: x | Sınava katılacak öğrenci sayısı",
+            "Toplam yapılan sınav sayısı: x",
+            "Lisans bilgisi: demo" };
+        buttons = new QPushButton* [] { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
+        pages = new QWidget* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
+
         changePage(HOME);
 
 #ifdef QT_DEBUG
-        setWindowTitle(this->windowTitle() + " DEBUG");
+        setWindowTitle(windowTitle() + " DEBUG");
 #endif
     }
 
@@ -40,24 +54,9 @@ namespace UI {
 
     void MainPage::changePage(Subpage index)
     {
-        const QString moduleNames[5] = { "Ana Sayfa",
-            "Öğrenci İşlemleri",
-            "Yeni Sınav Düzeni",
-            "Önceki Sınav Düzenleri",
-            "İletişim ve Uygulama Bilgileri" };
-        const QString moduleDescriptions[5] = { "Ana sayfadasınız",
-            "Toplam öğrenci sayısı: x",
-            "Kalan deneme hakkınız: x | Sınava katılacak öğrenci sayısı",
-            "Toplam yapılan sınav sayısı: x",
-            "Lisans bilgisi: demo" };
-        QPushButton* buttons[5] = { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
-        QWidget* pages[5] = { placeholder, DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
-
         ui->lblModuleName->setText(moduleNames[index]);
         ui->lblDescription->setText(moduleDescriptions[index]);
-
         ui->btnCurrentPage->setIcon(buttons[index]->icon());
-
         ui->stackedWidget->setCurrentWidget(pages[index]);
     }
 

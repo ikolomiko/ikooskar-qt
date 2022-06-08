@@ -1,6 +1,8 @@
 #ifndef IKOOSKAR_UI_MAINPAGE_H
 #define IKOOSKAR_UI_MAINPAGE_H
 
+#include "../DatabaseUi/databaseui.h"
+#include "../WelcomeUi/welcomeui.h"
 #include <QMainWindow>
 
 namespace ikoOSKAR {
@@ -30,6 +32,10 @@ namespace UI {
 
     private:
         enum Subpage : int;
+        QString* moduleNames;
+        QString* moduleDescriptions;
+        QPushButton** buttons;
+        QWidget** pages;
         Ui::MainPage* ui;
         void changePage(Subpage);
     };
