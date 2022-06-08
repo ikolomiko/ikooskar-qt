@@ -35,3 +35,5 @@ FORMS += \
 
 RESOURCES += \
     ../assets/resources.qrc
+
+QMAKE_CXXFLAGS += -Wall -Wextra -Werror
