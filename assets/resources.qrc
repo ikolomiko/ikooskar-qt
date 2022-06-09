@@ -13,5 +13,6 @@
         <file>more.png</file>
         <file>edit.png</file>
         <file>add.png</file>
+        <file>styles.qss</file>
     </qresource>
 </RCC>

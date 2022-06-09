@@ -16,11 +16,6 @@
     <height>0</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Segoe UI</family>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>ikoOSKAR</string>
   </property>
@@ -183,7 +178,6 @@
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>17</pointsize>
             </font>
            </property>
@@ -220,7 +214,6 @@
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>11</pointsize>
             </font>
            </property>

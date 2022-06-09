@@ -1,0 +1,8 @@
+* {
+    font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif";
+}
+
+QFrame#frame > QPushButton {
+    padding: 6px;
+    font-size: 11pt;
+}

@@ -16,14 +16,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="font">
-   <font>
-    <family>Segoe UI</family>
-   </font>
-  </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
@@ -216,17 +208,8 @@
           <height>40</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">padding: 6px;</string>
-        </property>
         <property name="text">
-         <string>Öğrenci Ekle</string>
+         <string>Öğrenci Ekle  </string>
         </property>
         <property name="icon">
          <iconset resource="../../../assets/resources.qrc">
@@ -253,15 +236,6 @@
           <width>16777215</width>
           <height>40</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Öğrenci Bilgilerini Düzenle</string>
@@ -291,15 +265,6 @@
           <width>16777215</width>
           <height>40</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Öğrenci Sil</string>
@@ -342,15 +307,6 @@
           <width>16777215</width>
           <height>40</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">padding: 6px;</string>
         </property>
         <property name="text">
          <string>Diğer Komutlar</string>
