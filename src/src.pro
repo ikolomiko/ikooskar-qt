@@ -13,6 +13,7 @@ TARGET = ikoOSKAR
 SOURCES += \
     BLL/DatabaseHelper/databasehelper.cpp \
     DAL/Database/database.cpp \
+    UI/Common/module.cpp \
     UI/DatabaseUi/databaseui.cpp \
     UI/MainPage/mainpage.cpp \
     UI/ErrorUi/errorui.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     BLL/DatabaseHelper/databasehelper.h \
     DAL/Database/database.h \
     Shared/student.h \
+    UI/Common/module.h \
     UI/DatabaseUi/databaseui.h \
     UI/MainPage/mainpage.h \
     UI/ErrorUi/errorui.h \
