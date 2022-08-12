@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_WELCOMEUI_H
 #define IKOOSKAR_UI_WELCOMEUI_H
 
+#include "../Common/module.h"
 #include <QWidget>
 
 namespace ikoOSKAR {
@@ -9,11 +10,13 @@ namespace UI {
         class WelcomeUi;
     }
 
-    class WelcomeUi : public QWidget {
+    class WelcomeUi : public Common::Module {
         Q_OBJECT
 
     public:
         static WelcomeUi* getInstance();
+        const QString* getName();
+        const QString* getDescription();
         ~WelcomeUi();
 
     private:

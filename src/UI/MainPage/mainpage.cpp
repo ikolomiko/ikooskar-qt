@@ -12,20 +12,15 @@ namespace UI {
         HELP
     };
 
-    // TODO remove this
-    QWidget* placeholder;
+    /// TODO remove this
+    Common::Module* placeholder;
 
     MainPage::MainPage(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::MainPage)
     {
-        placeholder = new QWidget();
+        placeholder = WelcomeUi::getInstance();
         ui->setupUi(this);
-        ui->stackedWidget->addWidget(WelcomeUi::getInstance());
-        ui->stackedWidget->addWidget(DatabaseUi::getInstance());
-        ui->stackedWidget->addWidget(placeholder);
-        ui->stackedWidget->addWidget(placeholder);
-        ui->stackedWidget->addWidget(placeholder);
 
         moduleNames = new QString[] { "Ana Sayfa",
             "Öğrenci İşlemleri",
@@ -33,12 +28,17 @@ namespace UI {
             "Önceki Sınav Düzenleri",
             "İletişim ve Uygulama Bilgileri" };
         moduleDescriptions = new QString[] { "Ana sayfadasınız",
-            "Toplam öğrenci sayısı: x",
+            "Toplam öğrenci sayısı: ",
             "Kalan deneme hakkınız: x | Sınava katılacak öğrenci sayısı",
             "Toplam yapılan sınav sayısı: x",
             "Lisans bilgisi: demo" };
         buttons = new QPushButton* [] { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
-        pages = new QWidget* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
+        modules = new Common::Module* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
+
+        for (int i = 0; i < 5; i++) {
+            modules[i]->setDescriptionLabel(ui->lblDescription);
+            ui->stackedWidget->addWidget(modules[i]);
+        }
 
         changePage(HOME);
 
@@ -49,15 +49,22 @@ namespace UI {
 
     MainPage::~MainPage()
     {
+        delete placeholder;
+        delete[] moduleNames;
+        delete[] moduleDescriptions;
+        delete[] buttons;
+        delete[] modules;
         delete ui;
     }
 
     void MainPage::changePage(Subpage index)
     {
-        ui->lblModuleName->setText(moduleNames[index]);
-        ui->lblDescription->setText(moduleDescriptions[index]);
+        Common::Module* module = modules[index];
+
+        ui->lblModuleName->setText(*module->getName());
+        ui->lblDescription->setText(*module->getDescription());
         ui->btnCurrentPage->setIcon(buttons[index]->icon());
-        ui->stackedWidget->setCurrentWidget(pages[index]);
+        ui->stackedWidget->setCurrentWidget(modules[index]);
     }
 
     void MainPage::on_btnHome_clicked()

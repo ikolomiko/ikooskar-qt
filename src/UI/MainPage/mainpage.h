@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_MAINPAGE_H
 #define IKOOSKAR_UI_MAINPAGE_H
 
+#include "../Common/module.h"
 #include "../DatabaseUi/databaseui.h"
 #include "../WelcomeUi/welcomeui.h"
 #include <QMainWindow>
@@ -35,7 +36,7 @@ namespace UI {
         QString* moduleNames;
         QString* moduleDescriptions;
         QPushButton** buttons;
-        QWidget** pages;
+        Common::Module** modules;
         Ui::MainPage* ui;
         void changePage(Subpage);
     };

@@ -5,10 +5,11 @@
 namespace ikoOSKAR {
 namespace UI {
     WelcomeUi::WelcomeUi(QWidget* parent)
-        : QWidget(parent)
+        : Common::Module(parent)
         , ui(new Ui::WelcomeUi)
     {
         ui->setupUi(this);
+        name = new QString("Ana Sayfa");
     }
 
     WelcomeUi::~WelcomeUi()
@@ -22,6 +23,11 @@ namespace UI {
             instance = new WelcomeUi();
         }
         return instance;
+    }
+
+    const QString* WelcomeUi::getDescription()
+    {
+        return new QString("Ana sayfadasınız");
     }
 } // namespace UI
 } // namespace ikoOSKAR

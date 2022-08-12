@@ -1,4 +1,5 @@
 #include "databasehelper.h"
+#include "qapplication.h"
 #include <QLocale>
 #include <QMessageBox>
 #include <algorithm>
@@ -12,10 +13,17 @@ namespace BLL {
      * @see dal, databaseCache, errorUi
      */
     DatabaseHelper::DatabaseHelper(UI::ErrorUi* errorUi)
-        : dal(new ikoOSKAR::DAL::Database())
-        , databaseCache(dal->GetAllStudents())
-        , errorUi(errorUi)
+        : errorUi(errorUi)
     {
+        QString errorMessage;
+        dal = new ikoOSKAR::DAL::Database(errorMessage);
+
+        if (!errorMessage.isEmpty()) {
+            errorUi->DisplayMessage(errorMessage);
+            QApplication::quit();
+        }
+
+        databaseCache = dal->GetAllStudents();
     }
 
     /**
@@ -23,18 +31,18 @@ namespace BLL {
      * @param s : The pointer of the student to be added to the database
      * @see ikoOSKAR::DAL::Database::Add()
      */
-    void DatabaseHelper::Add(Student* s)
+    void DatabaseHelper::Add(Student& s)
     {
         QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, öğrenci eklenemedi";
 
-        if (IdExists(s->id)) {
+        if (IdExists(s.id)) {
             // Another student with the same id already exists
-            errorMsg = QString().number(s->id) + " okul no'suna sahip başka bir öğrenci var. "
-                                                 "Bu nedenle yeni öğrenci eklenemedi!";
+            errorMsg = QString().number(s.id) + " okul no'suna sahip başka bir öğrenci var. "
+                                                "Bu nedenle yeni öğrenci eklenemedi!";
             errorUi->DisplayMessage(errorMsg);
-        } else if (dal->Add(s, &errorMsg)) {
+        } else if (dal->Add(s, errorMsg)) {
             // Student id is unique and student added to the database successfully
-            databaseCache->insert(s->id, *s);
+            databaseCache->insert(s.id, &s);
         } else {
             // Student id is unique but an error occurred when trying to add the student to the database
             errorUi->DisplayMessage(errorMsg);
@@ -47,40 +55,40 @@ namespace BLL {
      * @param oldId : The old id of the student {@code s} if its id has changed. Otherwise same as {@code s->id}
      * @see ikoOSKAR::DAL::Database::Update()
      */
-    void DatabaseHelper::Update(Student* s, int oldId)
+    void DatabaseHelper::Update(Student& s, int oldId)
     {
         QString errorMsg = "BLL.Update() fonksiyonunda bir hata oluştu, öğrenci bilgileri güncellenemedi";
 
         // If the id of the student has changed and there's already another student with the id newId
-        if (oldId != s->id && IdExists(s->id)) {
-            errorMsg = QString().number(s->id) + " okul no'suna sahip başka bir öğrenci var. "
-                                                 "Öğrenci bilgileri güncellenemedi!";
+        if (oldId != s.id && IdExists(s.id)) {
+            errorMsg = QString().number(s.id) + " okul no'suna sahip başka bir öğrenci var. "
+                                                "Öğrenci bilgileri güncellenemedi!";
             errorUi->DisplayMessage(errorMsg);
             return;
         }
 
-        if (oldId == s->id && !IdExists(s->id)) {
+        if (oldId == s.id && !IdExists(s.id)) {
             // There's no student with the given id, thus cannot update its properties
-            errorMsg = QString().number(s->id) + " okul no'su sistemde kayıtlı değil. "
-                                                 "Öğrenci bilgileri güncellenemedi!";
+            errorMsg = QString().number(s.id) + " okul no'su sistemde kayıtlı değil. "
+                                                "Öğrenci bilgileri güncellenemedi!";
             errorUi->DisplayMessage(errorMsg);
             return;
         }
 
-        Student* old = &(*databaseCache)[oldId];
-        Student newStudent = {
-            .id = s->id,
-            .firstName = s->firstName.isEmpty() ? old->firstName : s->firstName,
-            .lastName = s->lastName.isEmpty() ? old->firstName : s->lastName,
-            .grade = s->grade == 0 ? old->grade : s->grade,
-            .section = s->section.isEmpty() ? old->section : s->section
+        Student* old = databaseCache->value(oldId);
+        Student* newStudent = new Student {
+            .id = s.id,
+            .firstName = s.firstName.isEmpty() ? old->firstName : s.firstName,
+            .lastName = s.lastName.isEmpty() ? old->firstName : s.lastName,
+            .grade = s.grade == 0 ? old->grade : s.grade,
+            .section = s.section.isEmpty() ? old->section : s.section
         };
 
-        if (dal->Update(&newStudent, oldId, &errorMsg)) {
+        if (dal->Update(*newStudent, oldId, errorMsg)) {
             // The update request is successful
-            if (oldId != s->id)
+            if (oldId != s.id)
                 databaseCache->remove(oldId);
-            (*databaseCache)[s->id] = newStudent;
+            (*databaseCache)[s.id] = newStudent;
         } else {
             // A student with the given id exists but the update request is not successful
             errorUi->DisplayMessage(errorMsg);
@@ -100,7 +108,7 @@ namespace BLL {
             errorMsg = QString().number(id) + " okul no'su sistemde kayıtlı değil. "
                                               "Bu nedenle öğrenci silinemedi!";
             errorUi->DisplayMessage(errorMsg);
-        } else if (dal->Delete(id, &errorMsg)) {
+        } else if (dal->Delete(id, errorMsg)) {
             // A student with the given id exists and its deletion is successful
             databaseCache->remove(id);
         } else {
@@ -136,7 +144,7 @@ namespace BLL {
     {
         QString errorMsg = "BLL.EndOfTheYear() fonksiyonunda bir hata oluştu, yıl sonu işlemleri yapılamadı";
 
-        if (dal->EndOfTheYear(&errorMsg)) {
+        if (dal->EndOfTheYear(errorMsg)) {
             databaseCache = dal->GetAllStudents();
         } else {
             errorUi->DisplayMessage(errorMsg);
@@ -149,17 +157,17 @@ namespace BLL {
      * @details All the class names are in <grade>-<section> notation, eg; "9-A" or "12-D"
      * @return A sorted list of all existing class names in <grade>-<section> notation
      */
-    QList<QString> DatabaseHelper::GetClassNames()
+    QList<QString>* DatabaseHelper::GetClassNames()
     {
         auto uniqueClassnames = new QSet<QString>();
 
-        for (auto s : *databaseCache)
-            uniqueClassnames->insert(QString().number(s.grade) + "-" + s.section);
+        for (auto const& s : *databaseCache)
+            uniqueClassnames->insert(QString().number(s->grade) + "-" + s->section);
 
         // Sorts the elements in 'sortedClassnames' by their lengths first,
         // and if their lengths are equal, uses the regular string comparison
-        auto sortedClassnames = uniqueClassnames->values();
-        std::sort(sortedClassnames.begin(), sortedClassnames.end(),
+        auto* sortedClassnames = new QList(uniqueClassnames->values());
+        std::sort(sortedClassnames->begin(), sortedClassnames->end(),
             [](const QString& first, const QString& second) {
                 return first.size() != second.size() ? first.size() < second.size() : first < second;
             });
@@ -173,12 +181,12 @@ namespace BLL {
      * @param section : The section to be searched for
      * @return A list of pointers to the students that belong to the specified grade and section
      */
-    QList<Student*> DatabaseHelper::GetStudentsByClassName(int grade, QString& section)
+    QList<Student*>* DatabaseHelper::GetStudentsByClassName(int grade, const QString& section)
     {
-        QList<Student*> result;
+        QList<Student*>* result = new QList<Student*>();
         for (auto s : *databaseCache) {
-            if (s.grade == grade && s.section == section) {
-                result.append(&s);
+            if (s->grade == grade && s->section == section) {
+                result->append(s);
             }
         }
         return result;
@@ -189,7 +197,7 @@ namespace BLL {
      * @param className : The class name to be searched for, in <grade>-<section> notation. (Eg: "9-A" or "11-D")
      * @return A list of pointers to the students that belong to the specified class name
      */
-    QList<Student*> DatabaseHelper::GetStudentsByClassName(QString& className)
+    QList<Student*>* DatabaseHelper::GetStudentsByClassName(const QString& className)
     {
         int grade = className.length() == 3 ? className.leftRef(1).toInt() : className.leftRef(2).toInt();
         QString section = className.right(1);
@@ -205,7 +213,7 @@ namespace BLL {
     {
         Student* s = nullptr;
         if (databaseCache->contains(id))
-            s = &(*databaseCache)[id];
+            s = databaseCache->value(id);
         else
             errorUi->DisplayMessage(QString::number(id) + " okul no'suna sahip öğrenci bulunamadı!");
         return s;
@@ -222,7 +230,7 @@ namespace BLL {
      * @param section : The section to be checked
      * @return A new student pointer if every parameter is suitable. Otherwise, nullptr
      */
-    Student* DatabaseHelper::CheckForManuallyEnteredValues(int id, QString& firstName, QString& lastName, int grade, QString& section)
+    Student* DatabaseHelper::CheckForManuallyEnteredValues(int id, const QString& firstName, const QString& lastName, int grade, const QString& section)
     {
         bool exists = IdExists(id);
         bool isEverythingOk = true;
@@ -233,7 +241,7 @@ namespace BLL {
             isEverythingOk = false;
         };
 
-        auto formatForFirstName = [&](QString& raw) {
+        auto formatForFirstName = [&](const QString& raw) {
             QString temp = raw;
             temp = turkish.toLower(raw.trimmed());
             temp[0] = turkish.toUpper(temp.at(0)).at(0);
@@ -257,6 +265,11 @@ namespace BLL {
             .grade = grade,
             .section = section.trimmed().toUpper()
         };
+    }
+
+    int DatabaseHelper::GetNumberOfStudents()
+    {
+        return databaseCache->count();
     }
 
     /**

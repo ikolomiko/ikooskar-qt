@@ -22,7 +22,7 @@ namespace BLL {
          * @brief Holds a cache of the database in the {@code QHash<int, Student>} format, where int is equal to {@code Student.Id}
          * @see ikoOSKAR::Shared::Student
          */
-        QHash<int, Student>* databaseCache;
+        QHash<int, Student*>* databaseCache;
 
         /**
          * @brief Holds a pointer to a common ErrorUi instance with a previously determined title
@@ -32,17 +32,18 @@ namespace BLL {
 
     public:
         DatabaseHelper(UI::ErrorUi*);
-        void Add(Student*);
-        void Update(Student*, int oldId);
+        void Add(Student&);
+        void Update(Student&, int oldId);
         void Delete(int id);
         bool IdExists(int id);
         QList<int> GetAllIds();
         void EndOfTheYear();
-        QList<QString> GetClassNames();
-        QList<Student*> GetStudentsByClassName(int grade, QString& section);
-        QList<Student*> GetStudentsByClassName(QString& className);
+        QList<QString>* GetClassNames();
+        QList<Student*>* GetStudentsByClassName(int grade, const QString& section);
+        QList<Student*>* GetStudentsByClassName(const QString& className);
         Student* GetStudentById(int id);
-        Student* CheckForManuallyEnteredValues(int id, QString& firstName, QString& lastName, int grade, QString& section);
+        Student* CheckForManuallyEnteredValues(int id, const QString& firstName, const QString& lastName, int grade, const QString& section);
+        int GetNumberOfStudents();
         ~DatabaseHelper();
     };
 
