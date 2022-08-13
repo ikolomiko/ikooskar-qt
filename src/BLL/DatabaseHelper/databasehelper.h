@@ -44,6 +44,8 @@ namespace BLL {
         Student* GetStudentById(int id);
         Student* CheckForManuallyEnteredValues(int id, const QString& firstName, const QString& lastName, int grade, const QString& section);
         int GetNumberOfStudents();
+        void DeleteEntireClass(const QString& className);
+        QPair<int, QString> ParseClassName(const QString& className);
         ~DatabaseHelper();
     };
 

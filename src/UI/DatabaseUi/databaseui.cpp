@@ -101,8 +101,16 @@ namespace UI {
 
     void DatabaseUi::actionRemoveClass_clicked()
     {
-        // TODO remove class
-        qDebug() << "Removed this class";
+        QString currentClass = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        QString text = currentClass + " sınıfındaki bütün öğrenciler veri tabanından silinecektir. "
+                                      "Tamam düğmesine tıkladığınız an işlem gerçekleştirilecek ve geri dönüşü olmayacaktır.\n"
+                                      "Emin misiniz?";
+        auto result = QMessageBox::warning(this, "Bu Sınıftaki Bütün Öğrencileri Sil", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
+        if (result == QMessageBox::Ok) {
+            bll->DeleteEntireClass(currentClass);
+            createTabWidget();
+            lblDescription->setText(*getDescription());
+        }
     }
 
     void DatabaseUi::createButtonMenus()

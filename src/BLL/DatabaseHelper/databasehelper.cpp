@@ -184,7 +184,7 @@ namespace BLL {
     QList<Student*>* DatabaseHelper::GetStudentsByClassName(int grade, const QString& section)
     {
         QList<Student*>* result = new QList<Student*>();
-        for (auto s : *databaseCache) {
+        for (const auto& s : *databaseCache) {
             if (s->grade == grade && s->section == section) {
                 result->append(s);
             }
@@ -199,8 +199,9 @@ namespace BLL {
      */
     QList<Student*>* DatabaseHelper::GetStudentsByClassName(const QString& className)
     {
-        int grade = className.length() == 3 ? className.leftRef(1).toInt() : className.leftRef(2).toInt();
-        QString section = className.right(1);
+        auto pair = ParseClassName(className);
+        int grade = pair.first;
+        QString section = pair.second;
         return GetStudentsByClassName(grade, section);
     }
 
@@ -270,6 +271,27 @@ namespace BLL {
     int DatabaseHelper::GetNumberOfStudents()
     {
         return databaseCache->count();
+    }
+
+    void DatabaseHelper::DeleteEntireClass(const QString& className)
+    {
+        auto pair = ParseClassName(className);
+        int grade = pair.first;
+        QString section = pair.second;
+        QList<int> idsToDelete;
+        for (const auto& s : *databaseCache)
+            if (s->grade == grade && s->section == section)
+                idsToDelete.append(s->id);
+
+        for (const auto& id : idsToDelete)
+            Delete(id);
+    }
+
+    QPair<int, QString> DatabaseHelper::ParseClassName(const QString& className)
+    {
+        int grade = className.length() == 3 ? className.leftRef(1).toInt() : className.leftRef(2).toInt();
+        QString section = className.right(1);
+        return QPair<int, QString>(grade, section);
     }
 
     /**
