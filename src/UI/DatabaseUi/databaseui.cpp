@@ -1,9 +1,11 @@
 #include "databaseui.h"
+#include "qheaderview.h"
 #include "ui_databaseui.h"
 
 #include "UI/ErrorUi/errorui.h"
 #include <QLabel>
 #include <QMenu>
+#include <QTableWidget>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -13,27 +15,16 @@ namespace UI {
     {
         name = new QString("Öğrenci İşlemleri");
         ui->setupUi(this);
-        ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->tableWidget->resizeColumnsToContents();
 
         const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
         auto error = new ErrorUi(*errorTitle);
         bll = new BLL::DatabaseHelper(error);
 
-        QMenu* menuAdd = new QMenu();
-        QAction* addSingle = new QAction("Öğrenci Bilgilerini Elle Gir");
-        addSingle->setIconVisibleInMenu(false);
-        connect(addSingle, &QAction::triggered, this, &DatabaseUi::actionAddSingle_clicked);
-
-        QAction* addMulti = new QAction("Öğrenci Bilgilerini Excel Dosyasından Çek");
-        addSingle->setIconVisibleInMenu(false);
-        connect(addMulti, &QAction::triggered, this, &DatabaseUi::actionAddMulti_clicked);
-
-        menuAdd->addAction(addSingle);
-        menuAdd->addAction(addMulti);
-        ui->btnAdd->setMenu(menuAdd);
-
-        ReloadTableData();
+        createButtonMenus();
+        createTabWidget();
+        connect(ui->tabWidget, &QTabWidget::currentChanged, this, [&]() {
+            lblDescription->setText(*getDescription());
+        });
     }
 
     DatabaseUi::~DatabaseUi()
@@ -45,7 +36,13 @@ namespace UI {
     const QString* DatabaseUi::getDescription()
     {
         int nStudents = bll->GetNumberOfStudents();
-        return new QString("Toplam öğrenci sayısı: " + QString::number(nStudents));
+        QString desc("Okul mevcudu: " + QString::number(nStudents));
+        if (nStudents == 0)
+            return new QString(desc);
+
+        QString currentClass = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        int classPopulation = bll->GetStudentsByClassName(currentClass)->count();
+        return new QString(desc + "  ♦  " + currentClass + " sınıf mevcudu: " + QString::number(classPopulation));
     }
 
     DatabaseUi* DatabaseUi::getInstance()
@@ -56,52 +53,23 @@ namespace UI {
         return instance;
     }
 
-    void DatabaseUi::on_btnAdd_clicked()
-    {
-        // Debug code here
-        /*
-        bll->Add(new Student{
-                    .id = 1235324234,
-                    .firstName = "iko",
-                    .lastName = "ğ",
-                    .grade = 12,
-                    .section = "D"
-                 });
-        */
-
-        /*
-        bll->Update(new Student{
-                        .id =  1235324237,
-                        .firstName = "UwU",
-                        .lastName = "OwO",
-                    });
-        */
-        /*
-        bll->Delete(new Student{.id = 1235324235});
-        */
-
-        /*
-        QString st = "";
-        foreach(int i, bll->GetAllIds()){
-            st += QString().number(i) + " ";
-        }
-        ErrorUi(bll->IdExists(1235324235) ? "true" : "false", st);
-        */
-    }
-
     void DatabaseUi::on_btnDelete_clicked()
     {
-        auto selectedItem = ui->tableWidget->selectionModel()->selectedIndexes().at(0);
-        int selectedId = ui->tableWidget->selectedItems().at(0)->text().toInt();
+        auto* tableWidget = (QTableWidget*)ui->tabWidget->currentWidget();
+        if (tableWidget == nullptr) {
+            QMessageBox::information(this, "Öğrenci Veri Tabanı Boş", "Hata: Öğrenci veri tabanı boş. Silinecek öğrenci bulunamadı!");
+            return;
+        }
+        int selectedId = tableWidget->selectedItems().at(0)->text().toInt();
         auto& s = *bll->GetStudentById(selectedId);
         QString text = QString("Adı %1,\nSoyadı %2,\nSınıfı %3,\nŞubesi %4 olan\n%5 numaralı "
                                "öğrenciyi silmek istediğinizden emin misiniz?\n\n BU İŞLEM GERİ ALINAMAZ!")
                            .arg(s.firstName, s.lastName, QString::number(s.grade), s.section, QString::number(s.id));
 
-        auto result = QMessageBox::question(this, "UYARI", text);
-        if (result == QMessageBox::Yes) {
+        auto result = QMessageBox::warning(this, "Silme Onayı", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
+        if (result == QMessageBox::Ok) {
             bll->Delete(selectedId);
-            ui->tableWidget->removeRow(selectedItem.row());
+            createTabWidget();
             lblDescription->setText(*getDescription());
         }
     }
@@ -118,24 +86,111 @@ namespace UI {
         qDebug() << "Add new students";
     }
 
-    void DatabaseUi::ReloadTableData()
+    void DatabaseUi::actionEoty_clicked()
     {
-        auto* students = bll->GetStudentsByClassName("12-D");
-        ui->tableWidget->clearContents();
-        ui->tableWidget->setRowCount(students->count());
+        QString text = "Yıl sonu işlemleri kapsamında bütün öğrenciler bir sonraki sınıfa aktarılacak, "
+                       "12. sınıflar ise veri tabanından SİLİNECEKTİR.\nTamam düğmesine tıkladığınız an "
+                       "işlem gerçekleştirilecek ve geri dönüşü olmayacaktır.\nEmin misiniz?";
+        auto result = QMessageBox::warning(this, "Yıl Sonu İşlemleri", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
+        if (result == QMessageBox::Ok) {
+            bll->EndOfTheYear();
+            createTabWidget();
+            lblDescription->setText(*getDescription());
+        }
+    }
 
-        for (int i = 0; i < ui->tableWidget->rowCount(); i++) {
+    void DatabaseUi::actionRemoveClass_clicked()
+    {
+        // TODO remove class
+        qDebug() << "Removed this class";
+    }
+
+    void DatabaseUi::createButtonMenus()
+    {
+        QIcon icon(":/option-bullet.png");
+
+        QMenu* menuAdd = new QMenu();
+        QAction* addSingle = new QAction("Öğrenci Bilgilerini Elle Gir");
+        addSingle->setIcon(icon);
+        connect(addSingle, &QAction::triggered, this, &DatabaseUi::actionAddSingle_clicked);
+
+        QAction* addMulti = new QAction("Öğrenci Bilgilerini Excel Dosyasından Çek");
+        addMulti->setIcon(icon);
+        connect(addMulti, &QAction::triggered, this, &DatabaseUi::actionAddMulti_clicked);
+
+        menuAdd->addAction(addSingle);
+        menuAdd->addAction(addMulti);
+        ui->btnAdd->setMenu(menuAdd);
+
+        QMenu* menuMore = new QMenu();
+        QAction* eotyAction = new QAction("Yıl sonu işlemlerini yap");
+        eotyAction->setIcon(icon);
+        connect(eotyAction, &QAction::triggered, this, &DatabaseUi::actionEoty_clicked);
+
+        QAction* removeClassAction = new QAction("Bu sınıftaki bütün öğrencileri sil");
+        removeClassAction->setIcon(icon);
+        connect(removeClassAction, &QAction::triggered, this, &DatabaseUi::actionRemoveClass_clicked);
+
+        menuMore->addAction(eotyAction);
+        menuMore->addAction(removeClassAction);
+        ui->btnMore->setMenu(menuMore);
+    }
+
+    QTableWidget* DatabaseUi::createClassTable(const QString& className)
+    {
+        auto* students = bll->GetStudentsByClassName(className);
+
+        auto* table = new QTableWidget();
+        table->setAlternatingRowColors(false);
+        table->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
+        table->setHorizontalScrollMode(QTableWidget::ScrollPerPixel);
+        table->setSelectionMode(QAbstractItemView::SingleSelection);
+        table->setSelectionBehavior(QAbstractItemView::SelectRows);
+        table->setShowGrid(true);
+        table->setGridStyle(Qt::SolidLine);
+        table->setCornerButtonEnabled(false);
+        table->setRowCount(students->count());
+        table->setColumnCount(3);
+        table->horizontalHeader()->setStretchLastSection(true);
+        table->verticalHeader()->setVisible(false);
+        table->horizontalHeader()->setMinimumSectionSize(150);
+        table->setHorizontalHeaderLabels(QStringList() << "Okul No "
+                                                       << "Adı"
+                                                       << "Soyadı");
+
+        for (int i = 0; i < table->rowCount(); i++) {
             Student* student = students->at(i);
-            ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(student->id), 1));
-            ui->tableWidget->setItem(i, 1, new QTableWidgetItem(student->firstName, 0));
-            ui->tableWidget->setItem(i, 2, new QTableWidgetItem(student->lastName, 0));
+            table->setItem(i, 0, new QTableWidgetItem(QString::number(student->id), 1));
+            table->setItem(i, 1, new QTableWidgetItem(student->firstName, 0));
+            table->setItem(i, 2, new QTableWidgetItem(student->lastName, 0));
         }
 
-        ui->tableWidget->setSortingEnabled(true);
-        ui->tableWidget->sortItems(0, Qt::AscendingOrder);
+        table->setSortingEnabled(true);
+        table->sortItems(0, Qt::AscendingOrder);
+        table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
         if (students->count() > 0) {
-            ui->tableWidget->selectRow(0);
+            table->selectRow(0);
         }
+
+        return table;
+    }
+
+    void DatabaseUi::createTabWidget()
+    {
+        auto* classNames = bll->GetClassNames();
+        auto* tabWidget = ui->tabWidget;
+
+        tabWidget->clear();
+
+        for (int i = 0; i < classNames->count(); i++) {
+            const auto& className = classNames->value(i);
+            auto* tableWidget = createClassTable(className);
+            tabWidget->insertTab(i, tableWidget, className);
+        }
+
+        ui->btnDelete->setDisabled(classNames->empty());
+        ui->btnEdit->setDisabled(classNames->empty());
+        ui->btnMore->setDisabled(classNames->empty());
     }
 
 } // namespace UI

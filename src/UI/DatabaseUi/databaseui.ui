@@ -33,12 +33,15 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame_2">
+    <widget class="QFrame" name="frmContent">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
@@ -57,123 +60,13 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustToContents</enum>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <property name="alternatingRowColors">
-         <bool>false</bool>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
-        </property>
-        <property name="horizontalScrollMode">
-         <enum>QAbstractItemView::ScrollPerPixel</enum>
-        </property>
-        <property name="showGrid">
-         <bool>true</bool>
-        </property>
-        <property name="gridStyle">
-         <enum>Qt::SolidLine</enum>
-        </property>
-        <property name="sortingEnabled">
-         <bool>true</bool>
-        </property>
-        <property name="cornerButtonEnabled">
-         <bool>false</bool>
-        </property>
-        <property name="rowCount">
-         <number>10</number>
-        </property>
-        <property name="columnCount">
-         <number>3</number>
-        </property>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderCascadingSectionResizes">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderMinimumSectionSize">
-         <number>23</number>
-        </attribute>
-        <attribute name="verticalHeaderDefaultSectionSize">
-         <number>30</number>
-        </attribute>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <column>
-         <property name="text">
-          <string>Okul No</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Adı</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Soyadı</string>
-         </property>
-        </column>
-        <column/>
-        <column/>
-        <column/>
-        <item row="0" column="0">
-         <property name="text">
-          <string>111</string>
-         </property>
-        </item>
-        <item row="0" column="1">
-         <property name="text">
-          <string>aaa</string>
-         </property>
-        </item>
-        <item row="0" column="2">
-         <property name="text">
-          <string>bbb</string>
-         </property>
-        </item>
-        <item row="1" column="0">
-         <property name="text">
-          <string>222</string>
-         </property>
-        </item>
-        <item row="1" column="1">
-         <property name="text">
-          <string>bbb</string>
-         </property>
-        </item>
-        <item row="1" column="2">
-         <property name="text">
-          <string>ccc</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QTabWidget" name="tabWidget"/>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="frame">
+    <widget class="QFrame" name="frmButtons">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -314,7 +207,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Diğer Komutlar</string>
+         <string>Diğer Komutlar  </string>
         </property>
         <property name="icon">
          <iconset resource="../../../assets/resources.qrc">

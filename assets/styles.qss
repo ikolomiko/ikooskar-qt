@@ -2,7 +2,21 @@
     font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif";
 }
 
-QFrame#frame > QPushButton {
+QFrame#frmButtons > QPushButton {
     padding: 6px;
     font-size: 11pt;
+}
+
+QTabWidget {
+    font-size: 11pt;
+    font-weight: 500;
+}
+
+QTableWidget {
+    font-size: 10pt;
+}
+
+QMenu {
+    font-size: 11pt;
+    padding: 4px;
 }
