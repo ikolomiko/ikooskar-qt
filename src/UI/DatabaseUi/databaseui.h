@@ -33,7 +33,10 @@ namespace UI {
     private slots:
         void on_btnDelete_clicked();
 
+        void on_btnEdit_clicked();
+
     private:
+        void refresh();
         void createButtonMenus();
         void createTabWidget();
         Ui::DatabaseUi* ui;

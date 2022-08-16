@@ -26,6 +26,15 @@ namespace BLL {
         databaseCache = dal->GetAllStudents();
     }
 
+    /// TODO write doc
+    DatabaseHelper* DatabaseHelper::getInstance(UI::ErrorUi* errorUi)
+    {
+        if (instance == nullptr) {
+            instance = new DatabaseHelper(errorUi);
+        }
+        return instance;
+    }
+
     /**
      * @brief Adds the given student to the database and databaseCache
      * @param s : The pointer of the student to be added to the database
@@ -88,7 +97,7 @@ namespace BLL {
             // The update request is successful
             if (oldId != s.id)
                 databaseCache->remove(oldId);
-            (*databaseCache)[s.id] = newStudent;
+            databaseCache->insert(s.id, newStudent);
         } else {
             // A student with the given id exists but the update request is not successful
             errorUi->DisplayMessage(errorMsg);

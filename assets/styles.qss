@@ -1,5 +1,5 @@
 * {
-    font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif";
+    font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif" !important;
 }
 
 QFrame#frmButtons > QPushButton {
@@ -7,7 +7,7 @@ QFrame#frmButtons > QPushButton {
     font-size: 11pt;
 }
 
-QTabWidget {
+QTabWidget, QTabBar {
     font-size: 11pt;
     font-weight: 500;
 }

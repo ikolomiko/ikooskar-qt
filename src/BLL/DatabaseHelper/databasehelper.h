@@ -30,8 +30,12 @@ namespace BLL {
          */
         UI::ErrorUi* errorUi;
 
-    public:
         DatabaseHelper(UI::ErrorUi*);
+
+        inline static DatabaseHelper* instance;
+
+    public:
+        static DatabaseHelper* getInstance(UI::ErrorUi*);
         void Add(Student&);
         void Update(Student&, int oldId);
         void Delete(int id);

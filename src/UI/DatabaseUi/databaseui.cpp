@@ -1,4 +1,5 @@
 #include "databaseui.h"
+#include "UI/StudentEditorUi/studenteditorui.h"
 #include "qheaderview.h"
 #include "ui_databaseui.h"
 
@@ -18,7 +19,7 @@ namespace UI {
 
         const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
         auto error = new ErrorUi(*errorTitle);
-        bll = new BLL::DatabaseHelper(error);
+        bll = BLL::DatabaseHelper::getInstance(error);
 
         createButtonMenus();
         createTabWidget();
@@ -53,6 +54,33 @@ namespace UI {
         return instance;
     }
 
+    void DatabaseUi::actionAddSingle_clicked()
+    {
+        StudentEditorUi dialog(StudentEditorUi::ADD, this);
+        dialog.exec();
+        refresh();
+    }
+
+    void DatabaseUi::actionAddMulti_clicked()
+    {
+        // TODO open StudentEditorUi in new Student mode
+        qDebug() << "Add new students";
+    }
+
+    void DatabaseUi::on_btnEdit_clicked()
+    {
+        auto* tableWidget = (QTableWidget*)ui->tabWidget->currentWidget();
+        if (tableWidget == nullptr) {
+            QMessageBox::information(this, "Öğrenci Veri Tabanı Boş", "Hata: Öğrenci veri tabanı boş. Düzenlenecek öğrenci bulunamadı!");
+            return;
+        }
+        int selectedId = tableWidget->selectedItems().at(0)->text().toInt();
+        auto* student = bll->GetStudentById(selectedId);
+        StudentEditorUi dialog(StudentEditorUi::EDIT, this, student);
+        dialog.exec();
+        refresh();
+    }
+
     void DatabaseUi::on_btnDelete_clicked()
     {
         auto* tableWidget = (QTableWidget*)ui->tabWidget->currentWidget();
@@ -69,21 +97,8 @@ namespace UI {
         auto result = QMessageBox::warning(this, "Silme Onayı", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
         if (result == QMessageBox::Ok) {
             bll->Delete(selectedId);
-            createTabWidget();
-            lblDescription->setText(*getDescription());
+            refresh();
         }
-    }
-
-    void DatabaseUi::actionAddSingle_clicked()
-    {
-        // TODO open StudentEditorUi in new Student mode
-        qDebug() << "Add new student";
-    }
-
-    void DatabaseUi::actionAddMulti_clicked()
-    {
-        // TODO open StudentEditorUi in new Student mode
-        qDebug() << "Add new students";
     }
 
     void DatabaseUi::actionEoty_clicked()
@@ -94,8 +109,7 @@ namespace UI {
         auto result = QMessageBox::warning(this, "Yıl Sonu İşlemleri", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
         if (result == QMessageBox::Ok) {
             bll->EndOfTheYear();
-            createTabWidget();
-            lblDescription->setText(*getDescription());
+            refresh();
         }
     }
 
@@ -108,8 +122,7 @@ namespace UI {
         auto result = QMessageBox::warning(this, "Bu Sınıftaki Bütün Öğrencileri Sil", text, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
         if (result == QMessageBox::Ok) {
             bll->DeleteEntireClass(currentClass);
-            createTabWidget();
-            lblDescription->setText(*getDescription());
+            refresh();
         }
     }
 
@@ -149,6 +162,7 @@ namespace UI {
         auto* students = bll->GetStudentsByClassName(className);
 
         auto* table = new QTableWidget();
+        table->setEditTriggers(QAbstractItemView::NoEditTriggers);
         table->setAlternatingRowColors(false);
         table->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
         table->setHorizontalScrollMode(QTableWidget::ScrollPerPixel);
@@ -199,6 +213,12 @@ namespace UI {
         ui->btnDelete->setDisabled(classNames->empty());
         ui->btnEdit->setDisabled(classNames->empty());
         ui->btnMore->setDisabled(classNames->empty());
+    }
+
+    void DatabaseUi::refresh()
+    {
+        createTabWidget();
+        lblDescription->setText(*getDescription());
     }
 
 } // namespace UI

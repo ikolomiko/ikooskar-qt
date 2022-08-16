@@ -1,7 +1,5 @@
 QT       += core gui sql
 
-#TRANSLATIONS    +=  gui_tr.ts
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
