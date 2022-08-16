@@ -15,5 +15,6 @@
         <file>add.png</file>
         <file>styles.qss</file>
         <file>option-bullet.png</file>
+        <file>qtbase_tr.qm</file>
     </qresource>
 </RCC>
