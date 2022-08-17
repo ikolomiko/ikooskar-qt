@@ -57,8 +57,9 @@ namespace UI {
     void DatabaseUi::actionAddSingle_clicked()
     {
         StudentEditorUi dialog(StudentEditorUi::ADD, this);
-        dialog.exec();
-        refresh();
+        if (dialog.exec() != QDialog::Rejected) {
+            refresh();
+        }
     }
 
     void DatabaseUi::actionAddMulti_clicked()
@@ -77,8 +78,9 @@ namespace UI {
         int selectedId = tableWidget->selectedItems().at(0)->text().toInt();
         auto* student = bll->GetStudentById(selectedId);
         StudentEditorUi dialog(StudentEditorUi::EDIT, this, student);
-        dialog.exec();
-        refresh();
+        if (dialog.exec() != QDialog::Rejected) {
+            refresh();
+        }
     }
 
     void DatabaseUi::on_btnDelete_clicked()
@@ -217,7 +219,9 @@ namespace UI {
 
     void DatabaseUi::refresh()
     {
+        int index = ui->tabWidget->currentIndex();
         createTabWidget();
+        ui->tabWidget->setCurrentIndex(index);
         lblDescription->setText(*getDescription());
     }
 
