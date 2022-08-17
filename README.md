@@ -7,6 +7,7 @@
 	- [Dependencies for the end user](#dependencies-for-the-end-user)
 * [Documentation Overview](#documentation-overview)
 	- [Contents of Layers](#contents-of-layers)
+* [License](#license)
 
 &nbsp;
 
@@ -42,27 +43,28 @@ This project is a reimplementation of ikoOSKAR which was originally written in
 C# and .Net Framework. Note that this project is still WIP and currently there's
 no installers or pre-compiled binaries available.
 
-I use C++17 and Qt Framework 5.x for this reimplementation, which makes the 
+C++17 and Qt Framework 5.x are being used for this reimplementation, which makes the 
 program cross-platform and also more efficient.
 
-The code formatter of my choice is `clang-format` with `-style=webkit` styling 
+The code formatter of our choice is `clang-format` with `-style=webkit` styling 
 option.
 
-For the auto-generated and auto-deployed documentations, I use `doxygen` with the 
-configurations in [this file](/Doxyfile), using 
+`doxygen` is being used for the auto-generated and auto-deployed documentations, 
+with the configurations in [this file](/Doxyfile), using 
 [this script](/scripts/generate-docs.sh).
 
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
 * Qt Framework >= 5.13
 * Compiler: GCC (for Linux), MinGW (for Windows)
-  - I use [a script](/scripts/compile4win32.sh) that uses [MXE](https://mxe.cc/) (with 
-  `i686-w64-mingw32.static-qmake-qt5` package) for cross-compiling to Windows. 
-  You won't need this if your host OS is Windows
+  - For cross compiling from Linux to Windows, we use
+[this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
+(with `i686-w64-mingw32.static-qmake-qt5` package). 
+  You won't need this if your host OS is Windows.
 * Code formatter (optional): `clang-format`
 
 ## Dependencies for the end user
-* Any program that can handle .xlsx files (e.g. MS Office, LibreOffice, WPS 
+* Any program that can handle .ods files (e.g. MS Office, LibreOffice, WPS 
 Office)
 * Internet connection for the first activation
 
@@ -98,9 +100,9 @@ the corresponding file/folder.
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
 | MultiImport	| MultiImportHelper	| MultiImportUi
-| -				| StudentEditor		| StudentEditorUi
+| -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
 | -				| SchemeGenerator	| SchemeGeneratorUi
-| ExcelWriter	| SchemeExporter	| -
+| ODSWriter		| SchemeExporter	| -
 | HistoryReader	| HistoryHelper 	| HistoryUi
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
@@ -110,6 +112,7 @@ the corresponding file/folder.
 | -				| - 				| SplashPage
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
 | -	            | -                 | [WelcomeUi](/src/UI/WelcomeUi)
+| -				| -					| [Module](/src/UI/Common)
 
 
 |Shared	|
@@ -118,3 +121,8 @@ the corresponding file/folder.
 |Desk			|
 |Classroom		|
 |ExamStudent	|
+
+&nbsp;
+
+# License
+ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
