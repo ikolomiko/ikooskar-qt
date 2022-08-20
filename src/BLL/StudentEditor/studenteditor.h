@@ -14,6 +14,8 @@ namespace BLL {
 
         bool checkId(int id);
         bool checkName(QString& name);
+        QString* formatForFirstName(const QString& raw);
+        QString* formatForLastName(const QString& raw);
 
     public:
         StudentEditor(UI::ErrorUi* errorUi);

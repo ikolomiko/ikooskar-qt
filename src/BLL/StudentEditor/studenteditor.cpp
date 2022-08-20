@@ -1,4 +1,5 @@
 #include "studenteditor.h"
+#include <QLocale>
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -7,6 +8,20 @@ namespace BLL {
         : errorUi(errorUi)
     {
         db = DatabaseHelper::getInstance(errorUi);
+    }
+
+    QString* StudentEditor::formatForFirstName(const QString& raw)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp = turkish.toLower(raw.trimmed());
+        temp[0] = turkish.toUpper(temp.at(0)).at(0);
+        return new QString(temp);
+    }
+
+    QString* StudentEditor::formatForLastName(const QString& raw)
+    {
+        QLocale turkish(QLocale::Turkish);
+        return new QString(turkish.toUpper(raw));
     }
 
     bool StudentEditor::checkId(int id)
@@ -43,8 +58,8 @@ namespace BLL {
         if (checkId(id) && checkName(firstName) && checkName(lastName)) {
             Student* s = new Student {
                 .id = id,
-                .firstName = firstName,
-                .lastName = lastName,
+                .firstName = *formatForFirstName(firstName),
+                .lastName = *formatForLastName(lastName),
                 .grade = grade,
                 .section = section
             };
@@ -62,8 +77,8 @@ namespace BLL {
             int oldId = original.id;
 
             original.id = id;
-            original.firstName = firstName;
-            original.lastName = lastName;
+            original.firstName = *formatForFirstName(firstName);
+            original.lastName = *formatForLastName(lastName);
             original.grade = grade;
             original.section = section;
 

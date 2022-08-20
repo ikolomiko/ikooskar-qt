@@ -46,7 +46,6 @@ namespace BLL {
         QList<Student*>* GetStudentsByClassName(int grade, const QString& section);
         QList<Student*>* GetStudentsByClassName(const QString& className);
         Student* GetStudentById(int id);
-        Student* CheckForManuallyEnteredValues(int id, const QString& firstName, const QString& lastName, int grade, const QString& section);
         int GetNumberOfStudents();
         void DeleteEntireClass(const QString& className);
         QPair<int, QString> ParseClassName(const QString& className);
