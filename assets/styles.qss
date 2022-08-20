@@ -20,3 +20,11 @@ QMenu {
     font-size: 11pt;
     padding: 4px;
 }
+
+QHeaderView::section {
+    font-size: 12pt;
+    color: white;
+    background-color: #505050;
+    font-weight: 300;
+    border: 1px solid #6c6c6c;
+}
