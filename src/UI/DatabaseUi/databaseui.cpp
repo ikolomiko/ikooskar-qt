@@ -183,8 +183,10 @@ namespace UI {
                                                        << "Soyadı");
 
         for (int i = 0; i < table->rowCount(); i++) {
-            Student* student = students->at(i);
-            table->setItem(i, 0, new QTableWidgetItem(QString::number(student->id), 1));
+            auto* student = students->at(i);
+            auto* idItem = new QTableWidgetItem();
+            idItem->setData(Qt::DisplayRole, student->id);
+            table->setItem(i, 0, idItem);
             table->setItem(i, 1, new QTableWidgetItem(student->firstName, 0));
             table->setItem(i, 2, new QTableWidgetItem(student->lastName, 0));
         }
