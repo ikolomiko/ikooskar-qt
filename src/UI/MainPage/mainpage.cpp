@@ -9,31 +9,17 @@ namespace UI {
         DATABASE,
         NEW_SCHEME,
         HISTORY,
-        HELP
+        ABOUT
     };
-
-    /// TODO remove this
-    Common::Module* placeholder;
 
     MainPage::MainPage(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::MainPage)
     {
-        placeholder = WelcomeUi::getInstance();
         ui->setupUi(this);
 
-        moduleNames = new QString[] { "Ana Sayfa",
-            "Öğrenci İşlemleri",
-            "Yeni Sınav Düzeni",
-            "Önceki Sınav Düzenleri",
-            "İletişim ve Uygulama Bilgileri" };
-        moduleDescriptions = new QString[] { "Ana sayfadasınız",
-            "Toplam öğrenci sayısı: ",
-            "Kalan deneme hakkınız: x | Sınava katılacak öğrenci sayısı",
-            "Toplam yapılan sınav sayısı: x",
-            "Lisans bilgisi: demo" };
         buttons = new QPushButton* [] { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
-        modules = new Common::Module* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), DatabaseUi::getInstance(), placeholder, placeholder };
+        modules = new Common::Module* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemeGeneratorUi::getInstance(), HistoryUi::getInstance(), AboutUi::getInstance() };
 
         for (int i = 0; i < 5; i++) {
             modules[i]->setDescriptionLabel(ui->lblDescription);
@@ -49,9 +35,6 @@ namespace UI {
 
     MainPage::~MainPage()
     {
-        delete placeholder;
-        delete[] moduleNames;
-        delete[] moduleDescriptions;
         delete[] buttons;
         delete[] modules;
         delete ui;
@@ -89,7 +72,7 @@ namespace UI {
 
     void MainPage::on_btnHelp_clicked()
     {
-        changePage(HELP);
+        changePage(ABOUT);
     }
 
 } // namespace UI

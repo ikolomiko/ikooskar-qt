@@ -1,8 +1,11 @@
 #ifndef IKOOSKAR_UI_MAINPAGE_H
 #define IKOOSKAR_UI_MAINPAGE_H
 
+#include "../AboutUi/aboutui.h"
 #include "../Common/module.h"
 #include "../DatabaseUi/databaseui.h"
+#include "../HistoryUi/historyui.h"
+#include "../SchemeGeneratorUi/schemegeneratorui.h"
 #include "../WelcomeUi/welcomeui.h"
 #include <QMainWindow>
 
@@ -33,8 +36,6 @@ namespace UI {
 
     private:
         enum Subpage : int;
-        QString* moduleNames;
-        QString* moduleDescriptions;
         QPushButton** buttons;
         Common::Module** modules;
         Ui::MainPage* ui;
