@@ -28,3 +28,11 @@ QHeaderView::section {
     font-weight: 300;
     border: 1px solid #6c6c6c;
 }
+
+QLabel#lblModuleName, QLabel#lblHeader {
+    font-size: 17pt;
+}
+
+QLabel#lblHint {
+    color: rgb(80,80,80);
+}
