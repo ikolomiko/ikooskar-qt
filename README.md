@@ -64,7 +64,7 @@ with the configurations in [this file](/Doxyfile), using
 * Code formatter (optional): `clang-format`
 
 ## Dependencies for the end user
-* Any program that can handle .ods files (e.g. MS Office, LibreOffice, WPS 
+* Any program that can handle .xlsx files (e.g. MS Office, LibreOffice, WPS 
 Office)
 * Internet connection for the first activation
 
