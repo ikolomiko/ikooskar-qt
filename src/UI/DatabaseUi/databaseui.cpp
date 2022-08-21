@@ -1,4 +1,5 @@
 #include "databaseui.h"
+#include "UI/MultiImportUi/multiimportui.h"
 #include "UI/StudentEditorUi/studenteditorui.h"
 #include "qheaderview.h"
 #include "ui_databaseui.h"
@@ -64,8 +65,10 @@ namespace UI {
 
     void DatabaseUi::actionAddMulti_clicked()
     {
-        // TODO open StudentEditorUi in new Student mode
-        qDebug() << "Add new students";
+        MultiImportUi dialog(this);
+        if (dialog.exec() != QDialog::Rejected) {
+            refresh();
+        }
     }
 
     void DatabaseUi::on_btnEdit_clicked()
