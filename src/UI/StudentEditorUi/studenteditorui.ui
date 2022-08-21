@@ -23,12 +23,8 @@
       <font>
        <family>Segoe UI</family>
        <pointsize>16</pointsize>
-       <bold>true</bold>
+       <bold>false</bold>
       </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-size: 16pt;
-font-weight: bold;</string>
      </property>
      <property name="text">
       <string>Öğrenci [Ekle|Bilgilerini Düzenle]</string>
