@@ -11,7 +11,7 @@ cd temp
 cp -r ../../src .
 cp -r ../../assets .
 cp ../../ikoOSKAR.pro .
-$HOME/git-repos/mxe/usr/bin/i686-w64-mingw32.static-qmake-qt5 && make -j8
+/opt/mxe/usr/bin/i686-w64-mingw32.static-qmake-qt5 && make -j8
 mv src/release/ikoOSKAR.exe ../win32/
 cd ..
 cp ./win32/ikoOSKAR.exe $HOME/vm-shared/
