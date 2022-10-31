@@ -55,4 +55,6 @@ FORMS += \
 RESOURCES += \
     ../assets/resources.qrc
 
+win32:RC_ICONS = ../assets/multires.ico
+
 QMAKE_CXXFLAGS += -Wall -Wextra -Werror
