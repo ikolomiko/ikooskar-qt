@@ -2,6 +2,7 @@
 #include "qapplication.h"
 #include <QLocale>
 #include <QMessageBox>
+#include <QStringView>
 #include <algorithm>
 
 namespace ikoOSKAR {
@@ -250,8 +251,9 @@ namespace BLL {
 
     QPair<int, QString> DatabaseHelper::ParseClassName(const QString& className)
     {
-        int grade = className.length() == 3 ? className.leftRef(1).toInt() : className.leftRef(2).toInt();
-        QString section = className.right(1);
+        auto classNameTokens = className.split('-');
+        int grade = classNameTokens.at(0).toInt();
+        QString section = classNameTokens.at(1);
         return QPair<int, QString>(grade, section);
     }
 
