@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>500</width>
     <height>450</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>470</width>
+    <width>500</width>
     <height>450</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>470</width>
+    <width>500</width>
     <height>450</height>
    </size>
   </property>
@@ -74,7 +74,7 @@
       </font>
      </property>
      <property name="text">
-      <string> Excel Dosyasını Aç</string>
+      <string> Excel Dosyasını Seç</string>
      </property>
      <property name="icon">
       <iconset resource="../../../assets/resources.qrc">
