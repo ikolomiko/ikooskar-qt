@@ -43,7 +43,7 @@ This project is a reimplementation of ikoOSKAR which was originally written in
 C# and .Net Framework. Note that this project is still WIP and currently there's
 no installers or pre-compiled binaries available.
 
-C++17 and Qt Framework 5.x are being used for this reimplementation, which makes the 
+C++17 and Qt Framework 6.x are being used for this reimplementation, which makes the
 program cross-platform and also more efficient.
 
 The code formatter of our choice is `clang-format` with `-style=webkit` styling 
@@ -55,18 +55,19 @@ with the configurations in [this file](/Doxyfile), using
 
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
-* Qt Framework >= 5.13
+* Qt Framework >= 6.5
 * Compiler: GCC (for Linux), MinGW (for Windows)
   - For cross compiling from Linux to Windows, we use
 [this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
-(with `i686-w64-mingw32.static-qmake-qt5` package). 
+(with `x86_64-w64-mingw32.static-cmake` package).
   You won't need this if your host OS is Windows.
+* Ninja (optional)
 * Code formatter (optional): `clang-format`
 
 ## Dependencies for the end user
-* Any program that can handle .xlsx files (e.g. MS Office, LibreOffice, WPS 
-Office)
 * Internet connection for the first activation
+* For Windows users: either Microsoft Office or LibreOffice
+* For Linux users: LibreOffice
 
 &nbsp;
 
@@ -99,10 +100,10 @@ the corresponding file/folder.
 |DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
-| MultiImport	| MultiImportHelper	| MultiImportUi
+| MultiImport	| MultiImportHelper	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
 | -				| SchemeGenerator	| SchemeGeneratorUi
-| ODSWriter		| SchemeExporter	| -
+| XlsxWriter	| SchemeExporter	| -
 | HistoryReader	| HistoryHelper 	| HistoryUi
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
