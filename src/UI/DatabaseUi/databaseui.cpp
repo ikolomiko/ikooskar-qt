@@ -24,9 +24,6 @@ namespace UI {
 
         createButtonMenus();
         createTabWidget();
-        connect(ui->tabWidget, &QTabWidget::currentChanged, this, [&]() {
-            lblDescription->setText(*getDescription());
-        });
     }
 
     DatabaseUi::~DatabaseUi()
@@ -209,6 +206,9 @@ namespace UI {
         auto* classNames = bll->GetClassNames();
         auto* tabWidget = ui->tabWidget;
 
+        // Temporarily disable the refresh signal
+        disconnect(tabWidget, &QTabWidget::currentChanged, nullptr, nullptr);
+
         tabWidget->clear();
 
         for (int i = 0; i < classNames->count(); i++) {
@@ -220,6 +220,11 @@ namespace UI {
         ui->btnDelete->setDisabled(classNames->empty());
         ui->btnEdit->setDisabled(classNames->empty());
         ui->btnMore->setDisabled(classNames->empty());
+
+        // Enable the signal back
+        connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
+            lblDescription->setText(*getDescription());
+        });
     }
 
     void DatabaseUi::refresh()
@@ -227,7 +232,6 @@ namespace UI {
         int index = ui->tabWidget->currentIndex();
         createTabWidget();
         ui->tabWidget->setCurrentIndex(index);
-        lblDescription->setText(*getDescription());
     }
 
 } // namespace UI

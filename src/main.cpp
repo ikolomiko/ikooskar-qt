@@ -14,7 +14,6 @@ int main(int argc, char* argv[])
     QFile styles(":/styles.qss");
     styles.open(QFile::ReadOnly);
 
-    QApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
     app.setStyleSheet(QLatin1String(styles.readAll()));
     w.show();
     return app.exec();

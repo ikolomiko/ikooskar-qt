@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 SECONDS=0
-location=$PWD
-cd "$(dirname "$0")"
-cd ..
-mkdir -p build/
+cd "$(dirname "$0")/.."
+rm -rf build
+mkdir build
 cd build
-rm -rf *
-mkdir -p temp win32
-cd temp
-cp -r ../../src .
-cp -r ../../assets .
-cp ../../ikoOSKAR.pro .
-/opt/mxe/usr/bin/x86_64-w64-mingw32.static-qmake-qt5 && make -j8
-mv src/release/ikoOSKAR.exe ../win32/
-cd ..
-cp ./win32/ikoOSKAR.exe $HOME/vm-shared/ikoOSKAR64.exe
-rm -rf temp
-cd $location
+cp -r ../src .
+cp -r ../assets .
+cp ../CMakeLists.txt .
+
+if [ "$1" = "cmake" ]; then
+  # Use the CMake backend if specified
+  x86_64-w64-mingw32.static-cmake .
+  x86_64-w64-mingw32.static-cmake --build . -j8
+else
+  # Use the Ninja backend by default
+  x86_64-w64-mingw32.static-cmake . -G Ninja
+  ninja -j8
+fi
+
+strip -s ikoOSKAR.exe
+cp ikoOSKAR.exe $HOME/vm-shared/ikoOSKAR.exe
 echo "Took $SECONDS seconds"
