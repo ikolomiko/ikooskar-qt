@@ -61,6 +61,7 @@ with the configurations in [this file](/Doxyfile), using
 [this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
 (with `x86_64-w64-mingw32.static-cmake` package).
   You won't need this if your host OS is Windows.
+* CMake
 * Ninja (optional)
 * Code formatter (optional): `clang-format`
 
