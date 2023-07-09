@@ -55,7 +55,7 @@ with the configurations in [this file](/Doxyfile), using
 
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
-* Qt Framework >= 6.5
+* Qt Framework >= 6.2
 * Compiler: GCC (for Linux), MinGW (for Windows)
   - For cross compiling from Linux to Windows, we use
 [this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
