@@ -10,18 +10,32 @@ namespace BLL {
         db = DatabaseHelper::getInstance(errorUi);
     }
 
-    QString* StudentEditor::formatForFirstName(const QString& raw)
+    QString StudentEditor::turkishToUpper(const QString& s)
     {
         QLocale turkish(QLocale::Turkish);
-        QString temp = turkish.toLower(raw.trimmed());
-        temp[0] = turkish.toUpper(temp.at(0)).at(0);
+        QString temp(s.trimmed());
+        temp.replace(u'i', u'İ');
+        return turkish.toUpper(temp);
+    }
+
+    QString StudentEditor::turkishToLower(const QString& s)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp(s.trimmed());
+        temp.replace(u'I', u'ı');
+        return turkish.toLower(temp);
+    }
+
+    QString* StudentEditor::formatForFirstName(const QString& raw)
+    {
+        QString temp = turkishToLower(raw);
+        temp[0] = turkishToUpper(temp.at(0)).at(0);
         return new QString(temp);
     }
 
     QString* StudentEditor::formatForLastName(const QString& raw)
     {
-        QLocale turkish(QLocale::Turkish);
-        return new QString(turkish.toUpper(raw));
+        return new QString(turkishToUpper(raw));
     }
 
     bool StudentEditor::checkId(int id)
