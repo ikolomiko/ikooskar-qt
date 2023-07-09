@@ -8,7 +8,7 @@ cp -r ../src .
 cp -r ../assets .
 cp ../CMakeLists.txt .
 
-if [ $1 = "cmake" ]; then
+if [ "$1" = "cmake" ]; then
   # Use the CMake backend if specified
   x86_64-w64-mingw32.static-cmake .
   x86_64-w64-mingw32.static-cmake --build . -j8
