@@ -16,6 +16,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
 set(PROJECT_SOURCES
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
+    src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
     src/DAL/Database/database.cpp src/DAL/Database/database.h
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/student.h
