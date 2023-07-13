@@ -75,6 +75,7 @@ set(resources_resource_files
     "assets/remove.png"
     "assets/students.png"
     "assets/styles.qss"
+    "assets/xls2csv.vbs"
 )
 
 qt6_add_resources(ikoOSKAR "resources"

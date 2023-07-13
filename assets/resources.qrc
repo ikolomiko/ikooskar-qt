@@ -18,5 +18,6 @@
         <file>qtbase_tr.qm</file>
         <file>info.png</file>
         <file>open-in.png</file>
+        <file>xls2csv.vbs</file>
     </qresource>
 </RCC>
