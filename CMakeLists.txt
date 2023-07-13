@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
     src/DAL/Database/database.cpp src/DAL/Database/database.h
+    src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
