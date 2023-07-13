@@ -20,7 +20,7 @@ namespace BLL {
             return nullptr;
         }
 
-        return parseCsv(*csvFilePath);
+        return parseCsv();
     }
 
     QString* MultiImportHelper::convertToCsv(const QString& xlsFilePath)
@@ -79,7 +79,7 @@ namespace BLL {
         return nLines >= 3 && lines.at(nLines - 1).size() == 3;
     }
 
-    QList<Student*>* MultiImportHelper::parseCsv(const QString& csvFilePath)
+    QList<Student*>* MultiImportHelper::parseCsv()
     {
         const auto& lines = dal->getTrimmedCsvLines();
         const int& nLines = lines->size();

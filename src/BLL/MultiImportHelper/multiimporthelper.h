@@ -17,7 +17,7 @@ namespace BLL {
         UI::ErrorUi* errorUi;
 
         QString* convertToCsv(const QString& xlsFilePath);
-        QList<Student*>* parseCsv(const QString& csvFilePath);
+        QList<Student*>* parseCsv();
         bool matchesHeaderRow(const QStringList& line);
         bool matchesSectionFooter(const QStringList& line);
         bool matchesFileFooter(const QList<QStringList>& lines);
