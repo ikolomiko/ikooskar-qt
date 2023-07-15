@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
+    src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
     src/UI/HistoryUi/historyui.cpp src/UI/HistoryUi/historyui.h src/UI/HistoryUi/historyui.ui
@@ -75,6 +76,7 @@ set(resources_resource_files
     "assets/option-bullet.png"
     "assets/qtbase_tr.qm"
     "assets/remove.png"
+    "assets/spinner.gif"
     "assets/students.png"
     "assets/styles.qss"
     "assets/xls2csv.vbs"

@@ -19,5 +19,6 @@
         <file>info.png</file>
         <file>open-in.png</file>
         <file>xls2csv.vbs</file>
+        <file>spinner.gif</file>
     </qresource>
 </RCC>
