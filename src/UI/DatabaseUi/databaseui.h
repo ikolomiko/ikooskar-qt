@@ -1,8 +1,8 @@
 #ifndef IKOOSKAR_UI_DATABASEUI_H
 #define IKOOSKAR_UI_DATABASEUI_H
 
-#include "../Common/module.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
+#include "UI/Common/module.h"
 #include <QTableWidget>
 #include <QWidget>
 

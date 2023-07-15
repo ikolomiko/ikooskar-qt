@@ -1,4 +1,9 @@
 #include "mainpage.h"
+#include "UI/AboutUi/aboutui.h"
+#include "UI/DatabaseUi/databaseui.h"
+#include "UI/HistoryUi/historyui.h"
+#include "UI/SchemeGeneratorUi/schemegeneratorui.h"
+#include "UI/WelcomeUi/welcomeui.h"
 #include "ui_mainpage.h"
 #include <QDebug>
 

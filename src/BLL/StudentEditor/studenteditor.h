@@ -1,8 +1,9 @@
 #ifndef IKOOSKAR_BLL_STUDENTEDITOR_H
 #define IKOOSKAR_BLL_STUDENTEDITOR_H
-#include "../../BLL/DatabaseHelper/databasehelper.h"
-#include "../../Shared/student.h"
-#include "../../UI/ErrorUi/errorui.h"
+
+#include "BLL/DatabaseHelper/databasehelper.h"
+#include "Shared/student.h"
+#include "UI/ErrorUi/errorui.h"
 
 namespace ikoOSKAR {
 namespace BLL {
