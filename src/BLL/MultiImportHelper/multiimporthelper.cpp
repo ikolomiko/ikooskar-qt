@@ -1,20 +1,26 @@
 #include "multiimporthelper.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
-#include <QHash>
-#include <QProcess>
+#include <QMap>
 
 namespace ikoOSKAR {
 namespace BLL {
 
-    MultiImportHelper::MultiImportHelper(UI::ErrorUi* errorUi)
-        : errorUi(errorUi)
+    MultiImportHelper::MultiImportHelper(UI::ErrorUi* errorUi, const QString& xlsFilePath)
+        : xlsFilePath(xlsFilePath)
+        , errorUi(errorUi)
     {
         dal = new ikoOSKAR::DAL::MultiImport();
     }
 
-    QList<Student*>* MultiImportHelper::parseXls(const QString& xlsFilePath)
+    void MultiImportHelper::run()
     {
-        QString* csvFilePath = convertToCsv(xlsFilePath);
+        auto result = parseXls();
+        emit parsingFinished(result);
+    }
+
+    QList<Student*>* MultiImportHelper::parseXls()
+    {
+        QString* csvFilePath = convertToCsv();
         if (csvFilePath == nullptr || !QFile::exists(*csvFilePath)) {
             errorUi->DisplayMessage("Hata: Excel dosyası okunamadı!");
             return nullptr;
@@ -23,7 +29,7 @@ namespace BLL {
         return parseCsv();
     }
 
-    QString* MultiImportHelper::convertToCsv(const QString& xlsFilePath)
+    QString* MultiImportHelper::convertToCsv()
     {
         dal->importXlsFile(xlsFilePath);
         DAL::OfficeSuite officeSuite = DAL::LibreOffice;
@@ -90,7 +96,7 @@ namespace BLL {
             return nullptr;
         }
 
-        auto students = QHash<int, Student*>();
+        auto students = QMap<int, Student*>();
 
         bool isStandardFormat = matchesHeaderRow(lines->at(0))
             && matchesSectionFooter(lines->at(nLines - 2))
