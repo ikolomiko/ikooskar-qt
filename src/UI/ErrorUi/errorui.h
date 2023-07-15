@@ -6,7 +6,9 @@ namespace ikoOSKAR {
 namespace UI {
 
     /// @brief A class to display error messages with a previously determined title
-    class ErrorUi {
+    class ErrorUi : QObject {
+        Q_OBJECT
+
         /// @brief Contains the common title of the error messages
         const QString* const m_title;
 
