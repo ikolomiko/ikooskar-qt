@@ -1,6 +1,5 @@
 * {
     font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif" !important;
-    color: black;
 }
 
 QFrame#frmButtons > QPushButton {
