@@ -2,7 +2,9 @@
 #define IKOOSKAR_UI_MULTIIMPORTUI_H
 
 #include "BLL/MultiImportHelper/multiimporthelper.h"
+#include "UI/Common/spinner.h"
 #include <QDialog>
+#include <QList>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -18,12 +20,19 @@ namespace UI {
         explicit MultiImportUi(QWidget* parent = nullptr);
         ~MultiImportUi();
 
+    public slots:
+        void handleParsedXls(QList<Shared::Student*>*);
+
     private slots:
         void on_btnOpenFile_clicked();
 
     private:
         Ui::MultiImportUi* ui;
-        BLL::MultiImportHelper* bll;
+        Common::Spinner* spinner;
+
+        const QString* pickXlsFile();
+        void showSpinner();
+        void hideSpinner();
     };
 
 } // namespace UI

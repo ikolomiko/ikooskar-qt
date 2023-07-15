@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QThreadPool>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -12,19 +13,57 @@ namespace UI {
         , ui(new Ui::MultiImportUi)
     {
         ui->setupUi(this);
-
-        const QString* errorTitle = new QString("Excel'den Öğrenci Eklerken Hata Oluştu");
-        auto error = new ErrorUi(*errorTitle);
-        bll = new BLL::MultiImportHelper(error);
     }
 
     MultiImportUi::~MultiImportUi()
     {
-        delete this->bll;
         delete ui;
     }
 
-    void MultiImportUi::on_btnOpenFile_clicked()
+    // TODO remove this function
+    void test(QList<Shared::Student*>* parsedStudents)
+    {
+        if (parsedStudents == nullptr || parsedStudents->isEmpty()) {
+            return;
+        }
+        QString txt;
+        int i = 0;
+
+        for (const auto& s : *parsedStudents) {
+            ++i;
+            txt += QString::number(i) + ": " + s->firstName + "-" + s->lastName + "-" + QString::number(s->id) + "\n";
+        }
+
+        QMessageBox::information(nullptr, "Success", QString::number(i) + " öğrenci bulundu\n" + txt);
+    }
+
+    void MultiImportUi::showSpinner()
+    {
+        // TODO this method is a horrible hack, gonna implement a proper multipage navigation later
+        spinner = new Common::Spinner(this);
+        spinner->setTitle("Excel Dosyası Okunuyor");
+        for (const auto& ch : this->children()) {
+            if (ch->inherits("QWidget")) {
+                ((QWidget*)ch)->hide();
+            }
+        }
+        spinner->start();
+        spinner->show();
+    }
+
+    void MultiImportUi::hideSpinner()
+    {
+        // TODO this method is a horrible hack, gonna implement a proper multipage navigation later
+        for (const auto& ch : this->children()) {
+            if (ch->inherits("QWidget")) {
+                ((QWidget*)ch)->show();
+            }
+        }
+        spinner->hide();
+        spinner->deleteLater();
+    }
+
+    const QString* MultiImportUi::pickXlsFile()
     {
         QFileDialog dialog(this);
         dialog.setFileMode(QFileDialog::ExistingFile);
@@ -33,16 +72,35 @@ namespace UI {
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
 
         if (dialog.exec() == QDialog::Rejected) {
+            return nullptr;
+        }
+
+        return new QString(dialog.selectedFiles().at(0));
+    }
+
+    void MultiImportUi::on_btnOpenFile_clicked()
+    {
+        auto xlsFilePath = pickXlsFile();
+        if (xlsFilePath == nullptr) {
             return;
         }
 
-        QString xlsFilePath = dialog.selectedFiles().at(0);
+        // Show the spinner
+        showSpinner();
 
-        // TODO show loading spinner
+        // Set up the xls parser
+        const QString* errorTitle = new QString("Excel'den Öğrenci Eklerken Hata Oluştu");
+        auto error = new ErrorUi(*errorTitle);
+        auto parser = new BLL::MultiImportHelper(error, *xlsFilePath);
 
-        auto parsedStudents = bll->parseXls(xlsFilePath);
+        // Parse the xls file in another thread
+        connect(parser, &BLL::MultiImportHelper::parsingFinished, this, &MultiImportUi::handleParsedXls);
+        QThreadPool::globalInstance()->start(parser);
+    }
 
-        // TODO hide loading spinner
+    void MultiImportUi::handleParsedXls(QList<Shared::Student*>* parsedStudents)
+    {
+        hideSpinner();
 
         // All necessary error messages have been shown already,
         // just return without any further action in case of an error
@@ -50,21 +108,17 @@ namespace UI {
             return;
         }
 
-        { // Testing
-            auto s = parsedStudents->at(0);
-            auto inf = s->firstName + "+" + s->lastName + "-" + QString::number(s->id);
-            QMessageBox::information(this, "Success", QString::number(parsedStudents->size()) + " öğrenci bulundu\n" + inf);
+        test(parsedStudents);
 
-            auto s2 = parsedStudents->at(parsedStudents->size() - 1);
-            auto inf2 = s2->firstName + "+" + s2->lastName + "-" + QString::number(s2->id);
-            QMessageBox::information(this, "Success", QString::number(parsedStudents->size()) + " öğrenci bulundu\n" + inf2);
-        }
-
-        // All checks passed. Show another popup window and ask for class/grade.
-        // Or change the root widget instead of a popup window
+        // All checks passed. Move to the next page and ask for class/grade.
         // Show the number of scanned students as well.
+        // Previous and Next buttons at the bottom corners
 
-        // if dialog.exec == accepted // on_btnsave_click
+        // On the next page, display the parsed students in a qtablewidget, much like the one
+        // on DatabaseUi. Ask for confirmation.
+        // Previous and Confirm buttons at the bottom corners.
+
+        // on_btnconfirm_click
         // for each student set classname and section
         // add them all to the databse
         // msgbox successfully imported class of 9-a with its 10 students
