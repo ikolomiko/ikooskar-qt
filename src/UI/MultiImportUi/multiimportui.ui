@@ -77,7 +77,7 @@
       <string> Excel Dosyasını Seç</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../assets/resources.qrc">
+      <iconset>
        <normaloff>:/open-in.png</normaloff>:/open-in.png</iconset>
      </property>
      <property name="iconSize">
@@ -166,7 +166,7 @@
             <string> Excel Dosyası Hakkında Bilgilendirme</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/info.png</normaloff>:/info.png</iconset>
            </property>
            <property name="iconSize">
@@ -183,53 +183,8 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../assets/resources.qrc"/>
- </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>ikoOSKAR::UI::MultiImportUi</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>ikoOSKAR::UI::MultiImportUi</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources/>
+ <connections/>
 </ui>
