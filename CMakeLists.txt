@@ -28,6 +28,8 @@ set(PROJECT_SOURCES
     src/UI/HistoryUi/historyui.cpp src/UI/HistoryUi/historyui.h src/UI/HistoryUi/historyui.ui
     src/UI/MainPage/mainpage.cpp src/UI/MainPage/mainpage.h src/UI/MainPage/mainpage.ui
     src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui
+    src/UI/MultiImportUi/miclasspickerui.h src/UI/MultiImportUi/miclasspickerui.cpp src/UI/MultiImportUi/miclasspickerui.ui
+    src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui
     src/UI/SchemeGeneratorUi/schemegeneratorui.cpp src/UI/SchemeGeneratorUi/schemegeneratorui.h src/UI/SchemeGeneratorUi/schemegeneratorui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui
