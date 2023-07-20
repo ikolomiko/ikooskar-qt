@@ -1,4 +1,5 @@
 #include "multiimportui.h"
+#include "UI/MultiImportUi/mifilepickerui.h"
 #include "ui_multiimportui.h"
 #include <QDir>
 #include <QFileDialog>
@@ -13,6 +14,10 @@ namespace UI {
         , ui(new Ui::MultiImportUi)
     {
         ui->setupUi(this);
+        auto fp = new MIFilePickerUi();
+        connect(fp->btnOpenFile, &QPushButton::clicked, this, &MultiImportUi::btnOpenFile_clicked);
+        connect(fp->btnHelpExcel, &QPushButton::clicked, this, &MultiImportUi::btnHelpExcel_clicked);
+        ui->root->addWidget(fp);
     }
 
     MultiImportUi::~MultiImportUi()
@@ -78,7 +83,12 @@ namespace UI {
         return new QString(dialog.selectedFiles().at(0));
     }
 
-    void MultiImportUi::on_btnOpenFile_clicked()
+    void MultiImportUi::btnHelpExcel_clicked()
+    {
+        // TODO show relevant help
+    }
+
+    void MultiImportUi::btnOpenFile_clicked()
     {
         auto xlsFilePath = pickXlsFile();
         if (xlsFilePath == nullptr) {

@@ -24,7 +24,8 @@ namespace UI {
         void handleParsedXls(QList<Shared::Student*>*);
 
     private slots:
-        void on_btnOpenFile_clicked();
+        void btnOpenFile_clicked();
+        void btnHelpExcel_clicked();
 
     private:
         Ui::MultiImportUi* ui;
