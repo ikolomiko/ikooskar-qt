@@ -16,6 +16,11 @@ namespace UI {
         Q_OBJECT
 
     public:
+        class ClassTable : QTableWidget {
+        public:
+            ClassTable(const QString& className);
+        };
+
         static DatabaseUi* getInstance();
         const QString* getName();
         const QString* getDescription();
@@ -41,7 +46,6 @@ namespace UI {
         void createTabWidget();
         Ui::DatabaseUi* ui;
         ikoOSKAR::BLL::DatabaseHelper* bll;
-        QTableWidget* createClassTable(const QString& className);
         inline static DatabaseUi* instance;
         explicit DatabaseUi(QWidget* parent = nullptr);
     };

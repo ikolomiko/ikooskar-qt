@@ -159,46 +159,44 @@ namespace UI {
         ui->btnMore->setMenu(menuMore);
     }
 
-    QTableWidget* DatabaseUi::createClassTable(const QString& className)
+    DatabaseUi::ClassTable::ClassTable(const QString& className)
     {
+        auto bll = BLL::DatabaseHelper::getInstance(nullptr);
         auto* students = bll->GetStudentsByClassName(className);
 
-        auto* table = new QTableWidget();
-        table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        table->setAlternatingRowColors(false);
-        table->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
-        table->setHorizontalScrollMode(QTableWidget::ScrollPerPixel);
-        table->setSelectionMode(QAbstractItemView::SingleSelection);
-        table->setSelectionBehavior(QAbstractItemView::SelectRows);
-        table->setShowGrid(true);
-        table->setGridStyle(Qt::SolidLine);
-        table->setCornerButtonEnabled(false);
-        table->setRowCount(students->count());
-        table->setColumnCount(3);
-        table->horizontalHeader()->setStretchLastSection(true);
-        table->verticalHeader()->setVisible(false);
-        table->horizontalHeader()->setMinimumSectionSize(150);
-        table->setHorizontalHeaderLabels(QStringList() << "Okul No "
-                                                       << "Adı"
-                                                       << "Soyadı");
+        setEditTriggers(QAbstractItemView::NoEditTriggers);
+        setAlternatingRowColors(false);
+        setVerticalScrollMode(QTableWidget::ScrollPerPixel);
+        setHorizontalScrollMode(QTableWidget::ScrollPerPixel);
+        setSelectionMode(QAbstractItemView::SingleSelection);
+        setSelectionBehavior(QAbstractItemView::SelectRows);
+        setShowGrid(true);
+        setGridStyle(Qt::SolidLine);
+        setCornerButtonEnabled(false);
+        setRowCount(students->count());
+        setColumnCount(3);
+        horizontalHeader()->setStretchLastSection(true);
+        verticalHeader()->setVisible(false);
+        horizontalHeader()->setMinimumSectionSize(150);
+        setHorizontalHeaderLabels({ "Okul No ", "Adı", "Soyadı" });
 
-        for (int i = 0; i < table->rowCount(); i++) {
+        for (int i = 0; i < rowCount(); i++) {
             auto* student = students->at(i);
             auto* idItem = new QTableWidgetItem();
             idItem->setData(Qt::DisplayRole, student->id);
-            table->setItem(i, 0, idItem);
-            table->setItem(i, 1, new QTableWidgetItem(student->firstName, 0));
-            table->setItem(i, 2, new QTableWidgetItem(student->lastName, 0));
+            setItem(i, 0, idItem);
+            setItem(i, 1, new QTableWidgetItem(student->firstName, 0));
+            setItem(i, 2, new QTableWidgetItem(student->lastName, 0));
         }
 
-        table->setSortingEnabled(true);
-        table->sortItems(0, Qt::AscendingOrder);
-        table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        setSortingEnabled(true);
+        sortItems(0, Qt::AscendingOrder);
+        horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
         if (students->count() > 0) {
-            table->selectRow(0);
+            selectRow(0);
         }
 
-        return table;
+        delete students;
     }
 
     void DatabaseUi::createTabWidget()
@@ -213,7 +211,7 @@ namespace UI {
 
         for (int i = 0; i < classNames->count(); i++) {
             const auto& className = classNames->value(i);
-            auto* tableWidget = createClassTable(className);
+            QWidget* tableWidget = (QWidget*)new ClassTable(className);
             tabWidget->insertTab(i, tableWidget, className);
         }
 
