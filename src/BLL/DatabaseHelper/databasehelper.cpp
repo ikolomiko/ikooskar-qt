@@ -60,6 +60,40 @@ namespace BLL {
     }
 
     /**
+     * @brief Adds all given students to the database and databaseCache
+     * @attention This method assumes duplicates were already checked
+     * @param students : The list of students to be added to the database
+     */
+    void DatabaseHelper::AddAll(QList<Student*>& students)
+    {
+        // Assuming this method was called by MultiImportUi,
+        // duplicates were already checked by MultiImportHelper.
+
+        QList<int> problematicIds;
+        QString errorLog;
+        for (auto s : students) {
+            QString errorMsg;
+            if (dal->Add(*s, errorMsg)) {
+                databaseCache->insert(s->id, s);
+            } else {
+                problematicIds.append(s->id);
+                errorLog += errorMsg + "\n";
+            }
+        }
+
+        // No problems occured
+        if (problematicIds.empty()) {
+            return;
+        }
+
+        QString errorHeader = "okul no'suna sahip öğrenci(ler)de hata oluştu, bu öğrenci(ler) veri tabanına eklenemedi. Hata detayları: \n";
+        for (int id : problematicIds) {
+            errorHeader = QString::number(id) + " " + errorHeader;
+        }
+        errorUi->DisplayMessage(errorHeader + errorLog);
+    }
+
+    /**
      * @brief Updates the information of the student with id {@code s->id}.
      * @param s : The pointer of a student object with updated credentials
      * @param oldId : The old id of the student {@code s} if its id has changed. Otherwise same as {@code s->id}

@@ -37,6 +37,7 @@ namespace BLL {
     public:
         static DatabaseHelper* getInstance(UI::ErrorUi*);
         void Add(Student&);
+        void AddAll(QList<Student*>&);
         void Update(Student&, int oldId);
         void Delete(int id);
         bool IdExists(int id);
