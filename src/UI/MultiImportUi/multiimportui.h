@@ -8,6 +8,7 @@
 
 namespace ikoOSKAR {
 namespace UI {
+    using namespace Shared;
 
     namespace Ui {
         class MultiImportUi;
@@ -21,19 +22,29 @@ namespace UI {
         ~MultiImportUi();
 
     public slots:
-        void handleParsedXls(QList<Shared::Student*>*);
+        void handleParsedXls(QList<Student*>*);
+        void handleGradeAndSection(int grade, const QString& section);
+        void handleConfirmation();
 
     private slots:
         void btnOpenFile_clicked();
         void btnHelpExcel_clicked();
 
     private:
+        enum PageState {
+            FILE_PICKER = 0,
+            SPINNER,
+            CLASS_PICKER,
+            PREVIEW
+        };
+
         Ui::MultiImportUi* ui;
-        Common::Spinner* spinner;
+        PageState page;
+        QList<Student*>* parsedStudents;
 
         const QString* pickXlsFile();
-        void showSpinner();
-        void hideSpinner();
+        void prevPage();
+        void nextPage();
     };
 
 } // namespace UI
