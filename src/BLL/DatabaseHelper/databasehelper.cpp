@@ -43,7 +43,7 @@ namespace BLL {
      */
     void DatabaseHelper::Add(Student& s)
     {
-        QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, öğrenci eklenemedi";
+        QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, " + QString::number(s.id) + " no'lu öğrenci eklenemedi";
 
         if (IdExists(s.id)) {
             // Another student with the same id already exists
