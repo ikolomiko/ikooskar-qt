@@ -18,7 +18,7 @@ namespace UI {
     public:
         class ClassTable : QTableWidget {
         public:
-            ClassTable(const QString& className);
+            ClassTable(QList<Student*>* students);
         };
 
         static DatabaseUi* getInstance();

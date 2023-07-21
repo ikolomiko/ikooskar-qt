@@ -159,11 +159,8 @@ namespace UI {
         ui->btnMore->setMenu(menuMore);
     }
 
-    DatabaseUi::ClassTable::ClassTable(const QString& className)
+    DatabaseUi::ClassTable::ClassTable(QList<Student*>* students)
     {
-        auto bll = BLL::DatabaseHelper::getInstance(nullptr);
-        auto* students = bll->GetStudentsByClassName(className);
-
         setEditTriggers(QAbstractItemView::NoEditTriggers);
         setAlternatingRowColors(false);
         setVerticalScrollMode(QTableWidget::ScrollPerPixel);
@@ -211,7 +208,8 @@ namespace UI {
 
         for (int i = 0; i < classNames->count(); i++) {
             const auto& className = classNames->value(i);
-            QWidget* tableWidget = (QWidget*)new ClassTable(className);
+            auto students = bll->GetStudentsByClassName(className);
+            QWidget* tableWidget = (QWidget*)new ClassTable(students);
             tabWidget->insertTab(i, tableWidget, className);
         }
 
