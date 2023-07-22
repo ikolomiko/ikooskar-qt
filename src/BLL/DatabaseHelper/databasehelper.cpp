@@ -44,6 +44,8 @@ namespace BLL {
     void DatabaseHelper::Add(Student& s)
     {
         QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, " + QString::number(s.id) + " no'lu öğrenci eklenemedi";
+        s.firstName = *formatForFirstName(s.firstName);
+        s.lastName = *formatForLastName(s.lastName);
 
         if (IdExists(s.id)) {
             // Another student with the same id already exists
@@ -73,6 +75,9 @@ namespace BLL {
         QString errorLog;
         for (auto s : students) {
             QString errorMsg;
+            s->firstName = *formatForFirstName(s->firstName);
+            s->lastName = *formatForLastName(s->lastName);
+
             if (dal->Add(*s, errorMsg)) {
                 databaseCache->insert(s->id, s);
             } else {
@@ -127,6 +132,8 @@ namespace BLL {
             .grade = s.grade == 0 ? old->grade : s.grade,
             .section = s.section.isEmpty() ? old->section : s.section
         };
+        newStudent->firstName = *formatForFirstName(newStudent->firstName);
+        newStudent->lastName = *formatForLastName(newStudent->lastName);
 
         if (dal->Update(*newStudent, oldId, errorMsg)) {
             // The update request is successful
@@ -289,6 +296,36 @@ namespace BLL {
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
         return QPair<int, QString>(grade, section);
+    }
+
+    QString DatabaseHelper::turkishToUpper(const QString& s)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp(s.trimmed());
+        temp.replace(u'i', u'İ');
+        return turkish.toUpper(temp);
+    }
+
+    QString DatabaseHelper::turkishToLower(const QString& s)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp(s.trimmed());
+        temp.replace(u'I', u'ı');
+        return turkish.toLower(temp);
+    }
+
+    QString* DatabaseHelper::formatForFirstName(const QString& raw)
+    {
+        QStringList words = turkishToLower(raw).simplified().split(' ');
+        for (int i = 0; i < words.size(); i++) {
+            words[i][0] = turkishToUpper(words[i][0]).at(0);
+        }
+        return new QString(words.join(' '));
+    }
+
+    QString* DatabaseHelper::formatForLastName(const QString& raw)
+    {
+        return new QString(turkishToUpper(raw));
     }
 
     /**

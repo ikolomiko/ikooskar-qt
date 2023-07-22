@@ -15,10 +15,6 @@ namespace BLL {
 
         bool checkId(int id);
         bool checkName(QString& name);
-        QString turkishToUpper(const QString& s);
-        QString turkishToLower(const QString& s);
-        QString* formatForFirstName(const QString& raw);
-        QString* formatForLastName(const QString& raw);
 
     public:
         StudentEditor(UI::ErrorUi* errorUi);

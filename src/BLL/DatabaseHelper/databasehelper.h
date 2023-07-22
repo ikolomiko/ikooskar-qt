@@ -31,6 +31,10 @@ namespace BLL {
         UI::ErrorUi* errorUi;
 
         DatabaseHelper(UI::ErrorUi*);
+        QString turkishToUpper(const QString& s);
+        QString turkishToLower(const QString& s);
+        QString* formatForFirstName(const QString& raw);
+        QString* formatForLastName(const QString& raw);
 
         inline static DatabaseHelper* instance;
 
