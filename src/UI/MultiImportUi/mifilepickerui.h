@@ -16,9 +16,15 @@ namespace UI {
 
     public:
         explicit MIFilePickerUi(QWidget* parent = nullptr);
-        QPushButton* btnOpenFile;
-        QPushButton* btnHelpExcel;
         ~MIFilePickerUi();
+
+    private slots:
+        void on_btnHelpExcel_clicked();
+
+        void on_btnOpenFile_clicked();
+
+    signals:
+        void pickedXlsFile(QString* xlsFilePath);
 
     private:
         Ui::MIFilePickerUi* ui;

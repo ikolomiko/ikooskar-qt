@@ -6,8 +6,6 @@
 #include "UI/MultiImportUi/mifilepickerui.h"
 #include "UI/MultiImportUi/mipreviewui.h"
 #include "ui_multiimportui.h"
-#include <QFileDialog>
-#include <QStandardPaths>
 #include <QThreadPool>
 
 namespace ikoOSKAR {
@@ -22,8 +20,7 @@ namespace UI {
         parsedStudents = nullptr;
 
         auto fp = new MIFilePickerUi();
-        connect(fp->btnOpenFile, &QPushButton::clicked, this, &MultiImportUi::btnOpenFile_clicked);
-        connect(fp->btnHelpExcel, &QPushButton::clicked, this, &MultiImportUi::btnHelpExcel_clicked);
+        connect(fp, &MIFilePickerUi::pickedXlsFile, this, &MultiImportUi::handleXlsPath);
         ui->root->addWidget(fp);
     }
 
@@ -31,26 +28,6 @@ namespace UI {
     {
         delete parsedStudents;
         delete ui;
-    }
-
-    const QString* MultiImportUi::pickXlsFile()
-    {
-        QFileDialog dialog(this);
-        dialog.setFileMode(QFileDialog::ExistingFile);
-        dialog.setNameFilter("E-Okul Excel - Sadece Veri (*.XLS *.xls)");
-        dialog.setViewMode(QFileDialog::Detail);
-        dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-
-        if (dialog.exec() == QDialog::Rejected) {
-            return nullptr;
-        }
-
-        return new QString(dialog.selectedFiles().at(0));
-    }
-
-    void MultiImportUi::btnHelpExcel_clicked()
-    {
-        // TODO show relevant help
     }
 
     void MultiImportUi::prevPage()
@@ -117,9 +94,8 @@ namespace UI {
         page = (PageState)((int)(page) + 1);
     }
 
-    void MultiImportUi::btnOpenFile_clicked()
+    void MultiImportUi::handleXlsPath(QString* xlsFilePath)
     {
-        auto xlsFilePath = pickXlsFile();
         if (xlsFilePath == nullptr) {
             return;
         }

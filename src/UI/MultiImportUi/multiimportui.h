@@ -21,13 +21,10 @@ namespace UI {
         ~MultiImportUi();
 
     public slots:
+        void handleXlsPath(QString* xlsFilePath);
         void handleParsedXls(QList<Student*>*);
         void handleGradeAndSection(int grade, const QString& section);
         void handleConfirmation();
-
-    private slots:
-        void btnOpenFile_clicked();
-        void btnHelpExcel_clicked();
 
     private:
         enum PageState {
@@ -41,7 +38,6 @@ namespace UI {
         PageState page;
         QList<Student*>* parsedStudents;
 
-        const QString* pickXlsFile();
         void prevPage();
         void nextPage();
     };
