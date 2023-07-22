@@ -1,9 +1,11 @@
 #include "multiimportui.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
+#include "BLL/MultiImportHelper/multiimporthelper.h"
+#include "UI/Common/spinner.h"
 #include "UI/MultiImportUi/miclasspickerui.h"
 #include "UI/MultiImportUi/mifilepickerui.h"
+#include "UI/MultiImportUi/mipreviewui.h"
 #include "ui_multiimportui.h"
-#include <QDir>
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QThreadPool>
@@ -63,10 +65,6 @@ namespace UI {
         ui->root->removeWidget(currentWidget);
         currentWidget->deleteLater();
 
-        // Clear previously parsed students
-        delete parsedStudents;
-        parsedStudents = nullptr;
-
         // Decrement the pagestate by one
         page = (PageState)((int)(page)-1);
 
@@ -102,8 +100,11 @@ namespace UI {
             break;
         }
         case CLASS_PICKER: {
-            // On the next page, display the parsed students in a qtablewidget, much like the one
-            // on DatabaseUi. Ask for confirmation.
+            auto preview = new MIPreviewUi(parsedStudents, this);
+            connect(preview->btnPrev, &QPushButton::clicked, this, &MultiImportUi::prevPage);
+            connect(preview->btnConfirm, &QPushButton::clicked, this, &MultiImportUi::handleConfirmation);
+            ui->root->addWidget(preview);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case PREVIEW:
@@ -138,6 +139,7 @@ namespace UI {
 
     void MultiImportUi::handleParsedXls(QList<Student*>* parsedStudents)
     {
+        delete this->parsedStudents;
         this->parsedStudents = parsedStudents;
 
         // All necessary error messages have been shown already,

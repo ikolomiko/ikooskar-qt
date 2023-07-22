@@ -1,8 +1,7 @@
 #ifndef IKOOSKAR_UI_MULTIIMPORTUI_H
 #define IKOOSKAR_UI_MULTIIMPORTUI_H
 
-#include "BLL/MultiImportHelper/multiimporthelper.h"
-#include "UI/Common/spinner.h"
+#include "Shared/student.h"
 #include <QDialog>
 #include <QList>
 
