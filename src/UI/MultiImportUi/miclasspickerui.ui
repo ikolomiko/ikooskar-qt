@@ -37,12 +37,17 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QLabel" name="lblHeader">
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>16</pointsize>
-          <bold>false</bold>
-         </font>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
         </property>
         <property name="text">
          <string>Sınıf ve Şube Seçin</string>
@@ -54,11 +59,26 @@
       </item>
       <item>
        <widget class="QLabel" name="lblDescription">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">color: #555;</string>
         </property>
         <property name="text">
          <string>Excel dosyasından okunan &lt;n&gt; öğrencinin hangi sınıfa ve şubeye kaydedileceğini seçin</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -289,7 +309,17 @@
          </size>
         </property>
         <property name="text">
-         <string>〈  Geri   </string>
+         <string>  Geri  </string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/arrow-left.png</normaloff>:/arrow-left.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -314,8 +344,21 @@
           <height>40</height>
          </size>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="text">
-         <string>   İleri  〉</string>
+         <string>  İleri  </string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/arrow-right.png</normaloff>:/arrow-right.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
         <property name="autoDefault">
          <bool>true</bool>
