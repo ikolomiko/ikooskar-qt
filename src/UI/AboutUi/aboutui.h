@@ -1,7 +1,7 @@
 #ifndef IKOOSKAR_UI_ABOUTUI_H
 #define IKOOSKAR_UI_ABOUTUI_H
 
-#include "../Common/module.h"
+#include "UI/Common/module.h"
 #include <QWidget>
 
 namespace ikoOSKAR {

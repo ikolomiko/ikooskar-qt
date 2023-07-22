@@ -1,8 +1,9 @@
 #ifndef IKOOSKAR_BLL_STUDENTEDITOR_H
 #define IKOOSKAR_BLL_STUDENTEDITOR_H
-#include "../../BLL/DatabaseHelper/databasehelper.h"
-#include "../../Shared/student.h"
-#include "../../UI/ErrorUi/errorui.h"
+
+#include "BLL/DatabaseHelper/databasehelper.h"
+#include "Shared/student.h"
+#include "UI/ErrorUi/errorui.h"
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -14,10 +15,6 @@ namespace BLL {
 
         bool checkId(int id);
         bool checkName(QString& name);
-        QString turkishToUpper(const QString& s);
-        QString turkishToLower(const QString& s);
-        QString* formatForFirstName(const QString& raw);
-        QString* formatForLastName(const QString& raw);
 
     public:
         StudentEditor(UI::ErrorUi* errorUi);

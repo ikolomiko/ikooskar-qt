@@ -1,6 +1,6 @@
 #include "studenteditorui.h"
-#include "../../BLL/StudentEditor/studenteditor.h"
-#include "../ErrorUi/errorui.h"
+#include "BLL/StudentEditor/studenteditor.h"
+#include "UI/ErrorUi/errorui.h"
 #include "ui_studenteditorui.h"
 
 namespace ikoOSKAR {

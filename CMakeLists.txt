@@ -16,15 +16,21 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
 set(PROJECT_SOURCES
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
+    src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
     src/DAL/Database/database.cpp src/DAL/Database/database.h
+    src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
+    src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
     src/UI/HistoryUi/historyui.cpp src/UI/HistoryUi/historyui.h src/UI/HistoryUi/historyui.ui
     src/UI/MainPage/mainpage.cpp src/UI/MainPage/mainpage.h src/UI/MainPage/mainpage.ui
     src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui
+    src/UI/MultiImportUi/miclasspickerui.h src/UI/MultiImportUi/miclasspickerui.cpp src/UI/MultiImportUi/miclasspickerui.ui
+    src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui
+    src/UI/MultiImportUi/mipreviewui.h src/UI/MultiImportUi/mipreviewui.cpp src/UI/MultiImportUi/mipreviewui.ui
     src/UI/SchemeGeneratorUi/schemegeneratorui.cpp src/UI/SchemeGeneratorUi/schemegeneratorui.h src/UI/SchemeGeneratorUi/schemegeneratorui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui
@@ -60,8 +66,11 @@ set(resources_resource_files
     "assets/Icon-Transparent.png"
     "assets/Icon-WhiteBGx128.png"
     "assets/Icon-WhiteBGx64.png"
+    "assets/arrow-right.png"
+    "assets/arrow-left.png"
     "assets/add.png"
     "assets/banner.png"
+    "assets/check.png"
     "assets/edit.png"
     "assets/help.png"
     "assets/history.png"
@@ -73,8 +82,10 @@ set(resources_resource_files
     "assets/option-bullet.png"
     "assets/qtbase_tr.qm"
     "assets/remove.png"
+    "assets/spinner.gif"
     "assets/students.png"
     "assets/styles.qss"
+    "assets/xls2csv.vbs"
 )
 
 qt6_add_resources(ikoOSKAR "resources"

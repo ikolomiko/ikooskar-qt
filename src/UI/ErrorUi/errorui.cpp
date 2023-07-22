@@ -19,7 +19,9 @@ namespace UI {
      */
     void ErrorUi::DisplayMessage(const QString& message)
     {
-        QMessageBox::critical(QApplication::activeWindow(), *m_title, message);
+        QMetaObject::invokeMethod(this, [=]() {
+            QMessageBox::critical(QApplication::activeWindow(), *m_title, message);
+        });
     }
 
 } // namespace UI

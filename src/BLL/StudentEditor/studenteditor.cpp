@@ -10,34 +10,6 @@ namespace BLL {
         db = DatabaseHelper::getInstance(errorUi);
     }
 
-    QString StudentEditor::turkishToUpper(const QString& s)
-    {
-        QLocale turkish(QLocale::Turkish);
-        QString temp(s.trimmed());
-        temp.replace(u'i', u'İ');
-        return turkish.toUpper(temp);
-    }
-
-    QString StudentEditor::turkishToLower(const QString& s)
-    {
-        QLocale turkish(QLocale::Turkish);
-        QString temp(s.trimmed());
-        temp.replace(u'I', u'ı');
-        return turkish.toLower(temp);
-    }
-
-    QString* StudentEditor::formatForFirstName(const QString& raw)
-    {
-        QString temp = turkishToLower(raw);
-        temp[0] = turkishToUpper(temp.at(0)).at(0);
-        return new QString(temp);
-    }
-
-    QString* StudentEditor::formatForLastName(const QString& raw)
-    {
-        return new QString(turkishToUpper(raw));
-    }
-
     bool StudentEditor::checkId(int id)
     {
         if (id < 0) {
@@ -70,13 +42,7 @@ namespace BLL {
     bool StudentEditor::createStudent(int id, QString& firstName, QString& lastName, int grade, QString& section)
     {
         if (checkId(id) && checkName(firstName) && checkName(lastName)) {
-            Student* s = new Student {
-                .id = id,
-                .firstName = *formatForFirstName(firstName),
-                .lastName = *formatForLastName(lastName),
-                .grade = grade,
-                .section = section
-            };
+            Student* s = new Student { id, firstName, lastName, grade, section };
             db->Add(*s);
             return true;
         }
@@ -91,8 +57,8 @@ namespace BLL {
             int oldId = original.id;
 
             original.id = id;
-            original.firstName = *formatForFirstName(firstName);
-            original.lastName = *formatForLastName(lastName);
+            original.firstName = firstName;
+            original.lastName = lastName;
             original.grade = grade;
             original.section = section;
 

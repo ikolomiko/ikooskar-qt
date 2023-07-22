@@ -1,8 +1,7 @@
 #ifndef IKOOSKAR_UI_STUDENTEDITORUI_H
 #define IKOOSKAR_UI_STUDENTEDITORUI_H
 
-#include "../../Shared/student.h"
-#include "qabstractbutton.h"
+#include "Shared/student.h"
 #include <QDialog>
 
 namespace ikoOSKAR {
@@ -22,9 +21,6 @@ namespace UI {
         ~StudentEditorUi();
 
     private slots:
-
-        // void on_buttonBox_clicked(QAbstractButton* button);
-
         void done(int r);
 
     private:

@@ -1,11 +1,15 @@
 * {
     font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif" !important;
-    color: black;
 }
 
-QFrame#frmButtons > QPushButton {
+QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm {
     padding: 6px;
     font-size: 11pt;
+}
+
+QLabel#lblDescription {
+    font-size: 11pt;
+    color: #555;
 }
 
 QTabWidget, QTabBar {

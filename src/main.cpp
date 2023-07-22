@@ -1,6 +1,8 @@
 #include "UI/MainPage/mainpage.h"
 
 #include <QApplication>
+#include <QFile>
+#include <QTranslator>
 
 int main(int argc, char* argv[])
 {

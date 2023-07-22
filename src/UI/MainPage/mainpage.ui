@@ -20,7 +20,7 @@
    <string>ikoOSKAR</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../assets/resources.qrc">
+   <iconset>
     <normaloff>:/Icon-WhiteBGx128.png</normaloff>:/Icon-WhiteBGx128.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -112,7 +112,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../../../assets/resources.qrc">
+          <iconset>
            <normaloff>:/home.png</normaloff>:/home.png</iconset>
          </property>
          <property name="iconSize">
@@ -212,16 +212,8 @@
              <height>32</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
            <property name="autoFillBackground">
             <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: #555;</string>
            </property>
            <property name="text">
             <string>&lt;description&gt;</string>
@@ -291,7 +283,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/home.png</normaloff>:/home.png</iconset>
            </property>
            <property name="iconSize">
@@ -335,7 +327,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/students.png</normaloff>:/students.png</iconset>
            </property>
            <property name="iconSize">
@@ -373,7 +365,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/new-scheme.png</normaloff>:/new-scheme.png</iconset>
            </property>
            <property name="iconSize">
@@ -411,7 +403,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/history.png</normaloff>:/history.png</iconset>
            </property>
            <property name="iconSize">
@@ -449,7 +441,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../../../assets/resources.qrc">
+            <iconset>
              <normaloff>:/help.png</normaloff>:/help.png</iconset>
            </property>
            <property name="iconSize">
@@ -502,8 +494,6 @@
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="../../../assets/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

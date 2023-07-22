@@ -43,7 +43,9 @@ namespace BLL {
      */
     void DatabaseHelper::Add(Student& s)
     {
-        QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, öğrenci eklenemedi";
+        QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, " + QString::number(s.id) + " no'lu öğrenci eklenemedi";
+        s.firstName = *formatForFirstName(s.firstName);
+        s.lastName = *formatForLastName(s.lastName);
 
         if (IdExists(s.id)) {
             // Another student with the same id already exists
@@ -57,6 +59,43 @@ namespace BLL {
             // Student id is unique but an error occurred when trying to add the student to the database
             errorUi->DisplayMessage(errorMsg);
         }
+    }
+
+    /**
+     * @brief Adds all given students to the database and databaseCache
+     * @attention This method assumes duplicates were already checked
+     * @param students : The list of students to be added to the database
+     */
+    void DatabaseHelper::AddAll(QList<Student*>& students)
+    {
+        // Assuming this method was called by MultiImportUi,
+        // duplicates were already checked by MultiImportHelper.
+
+        QList<int> problematicIds;
+        QString errorLog;
+        for (auto s : students) {
+            QString errorMsg;
+            s->firstName = *formatForFirstName(s->firstName);
+            s->lastName = *formatForLastName(s->lastName);
+
+            if (dal->Add(*s, errorMsg)) {
+                databaseCache->insert(s->id, s);
+            } else {
+                problematicIds.append(s->id);
+                errorLog += errorMsg + "\n";
+            }
+        }
+
+        // No problems occured
+        if (problematicIds.empty()) {
+            return;
+        }
+
+        QString errorHeader = "okul no'suna sahip öğrenci(ler)de hata oluştu, bu öğrenci(ler) veri tabanına eklenemedi. Hata detayları: \n";
+        for (int id : problematicIds) {
+            errorHeader = QString::number(id) + " " + errorHeader;
+        }
+        errorUi->DisplayMessage(errorHeader + errorLog);
     }
 
     /**
@@ -93,6 +132,8 @@ namespace BLL {
             .grade = s.grade == 0 ? old->grade : s.grade,
             .section = s.section.isEmpty() ? old->section : s.section
         };
+        newStudent->firstName = *formatForFirstName(newStudent->firstName);
+        newStudent->lastName = *formatForLastName(newStudent->lastName);
 
         if (dal->Update(*newStudent, oldId, errorMsg)) {
             // The update request is successful
@@ -255,6 +296,36 @@ namespace BLL {
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
         return QPair<int, QString>(grade, section);
+    }
+
+    QString DatabaseHelper::turkishToUpper(const QString& s)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp(s.trimmed());
+        temp.replace(u'i', u'İ');
+        return turkish.toUpper(temp);
+    }
+
+    QString DatabaseHelper::turkishToLower(const QString& s)
+    {
+        QLocale turkish(QLocale::Turkish);
+        QString temp(s.trimmed());
+        temp.replace(u'I', u'ı');
+        return turkish.toLower(temp);
+    }
+
+    QString* DatabaseHelper::formatForFirstName(const QString& raw)
+    {
+        QStringList words = turkishToLower(raw).simplified().split(' ');
+        for (int i = 0; i < words.size(); i++) {
+            words[i][0] = turkishToUpper(words[i][0]).at(0);
+        }
+        return new QString(words.join(' '));
+    }
+
+    QString* DatabaseHelper::formatForLastName(const QString& raw)
+    {
+        return new QString(turkishToUpper(raw));
     }
 
     /**

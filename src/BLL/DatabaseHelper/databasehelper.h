@@ -31,12 +31,17 @@ namespace BLL {
         UI::ErrorUi* errorUi;
 
         DatabaseHelper(UI::ErrorUi*);
+        QString turkishToUpper(const QString& s);
+        QString turkishToLower(const QString& s);
+        QString* formatForFirstName(const QString& raw);
+        QString* formatForLastName(const QString& raw);
 
         inline static DatabaseHelper* instance;
 
     public:
         static DatabaseHelper* getInstance(UI::ErrorUi*);
         void Add(Student&);
+        void AddAll(QList<Student*>&);
         void Update(Student&, int oldId);
         void Delete(int id);
         bool IdExists(int id);

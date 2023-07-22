@@ -1,13 +1,9 @@
 #ifndef IKOOSKAR_UI_MAINPAGE_H
 #define IKOOSKAR_UI_MAINPAGE_H
 
-#include "../AboutUi/aboutui.h"
-#include "../Common/module.h"
-#include "../DatabaseUi/databaseui.h"
-#include "../HistoryUi/historyui.h"
-#include "../SchemeGeneratorUi/schemegeneratorui.h"
-#include "../WelcomeUi/welcomeui.h"
+#include "UI/Common/module.h"
 #include <QMainWindow>
+#include <QPushButton>
 
 namespace ikoOSKAR {
 namespace UI {
