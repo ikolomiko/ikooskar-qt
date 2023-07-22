@@ -20,5 +20,8 @@
         <file>open-in.png</file>
         <file>xls2csv.vbs</file>
         <file>spinner.gif</file>
+        <file>arrow-right.png</file>
+        <file>arrow-left.png</file>
+        <file>check.png</file>
     </qresource>
 </RCC>
