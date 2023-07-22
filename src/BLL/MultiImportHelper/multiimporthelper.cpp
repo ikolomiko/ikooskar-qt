@@ -117,16 +117,18 @@ namespace BLL {
                         break;
                     } else {
                         // Found another section footer, meaning there are multiple sections
-                        errorUi->DisplayMessage("Hata: Tek seferde birden fazla sınıf/şube eklenemez!");
+                        errorUi->DisplayMessage("Hata: Excel dosyası birden fazla sınıf/şube içeriyor. Tek seferde birden fazla sınıf/şube eklenemez!");
                         return nullptr;
                     }
                 }
             }
 
+            QString errorMsg = QString("Excel dosyasındaki %1. satırda hata oluştu: ").arg(i + 1);
+
             if (line.size() < 4) {
                 // When not processing any header or footer row, there must be at least 4 cells each row
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Öğrenci bilgisi içeren her satırda en az 4 sütun bulunmalıdır! (Sınıf sıra no, okul no, ad, soyad, ...)");
+                errorMsg += "Öğrenci bilgisi içeren her satırda en az 4 sütun bulunmalıdır! (Sınıf sıra no, okul no, ad, soyad, ...)";
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
@@ -139,41 +141,37 @@ namespace BLL {
 
             // Check for student id being a number
             if (!success) {
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Öğrenci numarası bir sayı olmalıdır!");
+                errorMsg += "Öğrenci numarası bir sayı olmalıdır!";
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
             // Check for first name being empty
             if (s->firstName.isEmpty()) {
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Öğrenci adı boş olamaz!");
+                errorMsg += "Öğrenci adı boş olamaz!";
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
             // Check for last name being empty
             if (s->lastName.isEmpty()) {
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Öğrenci soyadı boş olamaz!");
+                errorMsg += "Öğrenci soyadı boş olamaz!";
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
             // Check for duplicate student IDs in the file itself
             if (students.contains(s->id)) {
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Bu Excel dosyasında "
-                    + QString::number(s->id)
-                    + " öğrenci no'suna sahip başka bir öğrenci daha var!");
+                errorMsg += QString("Bu Excel dosyasında aynı öğrenci no'ya (%1) sahip birden fazla öğrenci var!").arg(s->id);
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
             // Check for duplicate student IDs between the file and the database
             const auto db = BLL::DatabaseHelper::getInstance(errorUi);
             if (db->IdExists(s->id)) {
-                errorUi->DisplayMessage(QString::number(i + 1)
-                    + ". satırda hata oluştu: Sistemde "
-                    + QString::number(s->id)
-                    + " öğrenci numarasına sahip başka bir öğrenci kayıtlı!");
+                errorMsg += QString("Sisteme kayıtlı öğrenciler arasında aynı okul no'ya (%1) sahip başka bir öğrenci daha var!").arg(s->id);
+                errorUi->DisplayMessage(errorMsg);
                 return nullptr;
             }
 
