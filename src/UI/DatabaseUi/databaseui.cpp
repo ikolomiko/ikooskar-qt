@@ -192,8 +192,6 @@ namespace UI {
         if (students->count() > 0) {
             selectRow(0);
         }
-
-        delete students;
     }
 
     void DatabaseUi::createTabWidget()
@@ -209,7 +207,7 @@ namespace UI {
         for (int i = 0; i < classNames->count(); i++) {
             const auto& className = classNames->value(i);
             auto students = bll->GetStudentsByClassName(className);
-            QWidget* tableWidget = (QWidget*)new ClassTable(students);
+            QWidget* tableWidget = new ClassTable(students);
             tabWidget->insertTab(i, tableWidget, className);
         }
 
@@ -228,6 +226,7 @@ namespace UI {
         int index = ui->tabWidget->currentIndex();
         createTabWidget();
         ui->tabWidget->setCurrentIndex(index);
+        lblDescription->setText(*getDescription());
     }
 
 } // namespace UI

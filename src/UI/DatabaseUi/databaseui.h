@@ -16,7 +16,7 @@ namespace UI {
         Q_OBJECT
 
     public:
-        class ClassTable : QTableWidget {
+        class ClassTable : public QTableWidget {
         public:
             ClassTable(QList<Student*>* students);
         };
