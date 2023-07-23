@@ -1,7 +1,6 @@
 #ifndef IKOOSKAR_UI_MAINPAGE_H
 #define IKOOSKAR_UI_MAINPAGE_H
 
-#include "UI/Common/module.h"
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -19,23 +18,13 @@ namespace UI {
         explicit MainPage(QWidget* parent = nullptr);
         ~MainPage();
 
-    private slots:
-        void on_btnHome_clicked();
-
-        void on_btnDatabase_clicked();
-
-        void on_btnNewScheme_clicked();
-
-        void on_btnHistory_clicked();
-
-        void on_btnHelp_clicked();
+    public slots:
+        void setDescription(const QString& description);
 
     private:
         enum Subpage : int;
-        QPushButton** buttons;
-        Common::Module** modules;
         Ui::MainPage* ui;
-        void changePage(Subpage);
+        void changePage(Subpage index, QIcon icon);
     };
 
 } // namespace UI

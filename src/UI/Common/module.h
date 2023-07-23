@@ -13,10 +13,11 @@ namespace UI {
 
         protected:
             QString* name;
-            QLabel* lblDescription;
+
+        signals:
+            void descriptionUpdated(const QString& description);
 
         public:
-            void setDescriptionLabel(QLabel* lbl);
             const QString* getName();
             virtual const QString* getDescription() = 0;
             explicit Module(QWidget* parent = nullptr);

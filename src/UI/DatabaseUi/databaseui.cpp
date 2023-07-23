@@ -217,7 +217,7 @@ namespace UI {
 
         // Enable the signal back
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
-            lblDescription->setText(*getDescription());
+            emit descriptionUpdated(*getDescription());
         });
     }
 
@@ -226,7 +226,7 @@ namespace UI {
         int index = ui->tabWidget->currentIndex();
         createTabWidget();
         ui->tabWidget->setCurrentIndex(index);
-        lblDescription->setText(*getDescription());
+        emit descriptionUpdated(*getDescription());
     }
 
 } // namespace UI

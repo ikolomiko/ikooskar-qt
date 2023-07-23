@@ -6,6 +6,7 @@
 #include "UI/WelcomeUi/welcomeui.h"
 #include "ui_mainpage.h"
 #include <QDebug>
+#include <QStatusBar>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -23,15 +24,22 @@ namespace UI {
     {
         ui->setupUi(this);
 
-        buttons = new QPushButton* [] { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
-        modules = new Common::Module* [] { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemeGeneratorUi::getInstance(), HistoryUi::getInstance(), AboutUi::getInstance() };
+        QPushButton* buttons[5] = { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
+        Common::Module* modules[5] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemeGeneratorUi::getInstance(), HistoryUi::getInstance(), AboutUi::getInstance() };
 
         for (int i = 0; i < 5; i++) {
-            modules[i]->setDescriptionLabel(ui->lblDescription);
-            ui->stackedWidget->addWidget(modules[i]);
+            const auto& btn = buttons[i];
+            connect(btn, &QPushButton::clicked, this, [=]() {
+                changePage((Subpage)i, btn->icon());
+            });
         }
 
-        changePage(HOME);
+        for (int i = 0; i < 5; i++) {
+            ui->stackedWidget->addWidget(modules[i]);
+            connect(modules[i], &Common::Module::descriptionUpdated, this, &MainPage::setDescription);
+        }
+
+        changePage(HOME, buttons[HOME]->icon());
 
 #ifdef QT_DEBUG
         setWindowTitle(windowTitle() + " DEBUG");
@@ -40,44 +48,22 @@ namespace UI {
 
     MainPage::~MainPage()
     {
-        delete[] buttons;
-        delete[] modules;
         delete ui;
     }
 
-    void MainPage::changePage(Subpage index)
+    void MainPage::setDescription(const QString& description)
     {
-        Common::Module* module = modules[index];
+        ui->lblDescription->setText(description);
+    }
+
+    void MainPage::changePage(Subpage index, QIcon icon)
+    {
+        auto module = (Common::Module*)ui->stackedWidget->widget(index);
 
         ui->lblModuleName->setText(*module->getName());
         ui->lblDescription->setText(*module->getDescription());
-        ui->btnCurrentPage->setIcon(buttons[index]->icon());
-        ui->stackedWidget->setCurrentWidget(modules[index]);
-    }
-
-    void MainPage::on_btnHome_clicked()
-    {
-        changePage(HOME);
-    }
-
-    void MainPage::on_btnDatabase_clicked()
-    {
-        changePage(DATABASE);
-    }
-
-    void MainPage::on_btnNewScheme_clicked()
-    {
-        changePage(NEW_SCHEME);
-    }
-
-    void MainPage::on_btnHistory_clicked()
-    {
-        changePage(HISTORY);
-    }
-
-    void MainPage::on_btnHelp_clicked()
-    {
-        changePage(ABOUT);
+        ui->btnCurrentPage->setIcon(icon);
+        ui->stackedWidget->setCurrentIndex(index);
     }
 
 } // namespace UI

@@ -13,11 +13,6 @@ namespace UI {
         {
             return name;
         }
-
-        void Module::setDescriptionLabel(QLabel* lbl)
-        {
-            lblDescription = lbl;
-        }
     } // namespace Common
 } // namespace UI
 } // namespace ikoOSKAR
