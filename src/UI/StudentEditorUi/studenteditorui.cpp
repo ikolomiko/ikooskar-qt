@@ -36,6 +36,12 @@ namespace UI {
         delete ui;
     }
 
+    void StudentEditorUi::handleError(const QString& errorMessage)
+    {
+        const QString errorTitle = mode == ADD ? "Öğrenci Eklemede Hata Oluştu" : "Öğrenci Bilgisi Düzenlemede Hata Oluştu";
+        ErrorUi(errorTitle).displayMessage(errorMessage);
+    }
+
     void StudentEditorUi::done(int r)
     {
         // Reject and return if the cancel button was clicked
@@ -45,10 +51,8 @@ namespace UI {
         }
 
         // Proceed if the clicked button was the save button
-        QString prefix = mode == ADD ? "Öğrenci Eklemede " : "Öğrenci Bilgisi Düzenlemede ";
-        QString* errorTitle = new QString(prefix + "Hata Oluştu");
-        ErrorUi* errorUi = new ErrorUi(*errorTitle);
-        BLL::StudentEditor bll(errorUi);
+        BLL::StudentEditor bll;
+        connect(&bll, &BLL::StudentEditor::error, this, &StudentEditorUi::handleError);
 
         int id = ui->spnId->value();
         QString firstName = ui->lnFirstName->text();

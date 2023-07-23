@@ -21,6 +21,7 @@ namespace UI {
         ~StudentEditorUi();
 
     private slots:
+        void handleError(const QString& errorMessage);
         void done(int r);
 
     private:

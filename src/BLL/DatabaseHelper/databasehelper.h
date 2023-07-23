@@ -3,14 +3,14 @@
 
 #include "DAL/Database/database.h"
 #include "Shared/student.h"
-#include "UI/ErrorUi/errorui.h"
 #include <QList>
 
 namespace ikoOSKAR {
 namespace BLL {
 
     /// @brief The DatabaseHelper class handles all the basic database operations and handles errors.
-    class DatabaseHelper {
+    class DatabaseHelper : public QObject {
+        Q_OBJECT
     private:
         /**
          * @brief Holds a pointer to a common {@code ikoOSKAR::DAL::Database} instance
@@ -24,13 +24,7 @@ namespace BLL {
          */
         QHash<int, Student*>* databaseCache;
 
-        /**
-         * @brief Holds a pointer to a common ErrorUi instance with a previously determined title
-         * @see ikoOSKAR::UI::ErrorUi
-         */
-        UI::ErrorUi* errorUi;
-
-        DatabaseHelper(UI::ErrorUi*);
+        DatabaseHelper();
         QString turkishToUpper(const QString& s);
         QString turkishToLower(const QString& s);
         QString* formatForFirstName(const QString& raw);
@@ -38,8 +32,11 @@ namespace BLL {
 
         inline static DatabaseHelper* instance;
 
+    signals:
+        void error(const QString& errorMessage);
+
     public:
-        static DatabaseHelper* getInstance(UI::ErrorUi*);
+        static DatabaseHelper* getInstance();
         void Add(Student&);
         void AddAll(QList<Student*>&);
         void Update(Student&, int oldId);

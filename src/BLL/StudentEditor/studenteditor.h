@@ -3,21 +3,23 @@
 
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "Shared/student.h"
-#include "UI/ErrorUi/errorui.h"
 
 namespace ikoOSKAR {
 namespace BLL {
 
-    class StudentEditor {
+    class StudentEditor : public QObject {
+        Q_OBJECT
     private:
-        UI::ErrorUi* errorUi;
         DatabaseHelper* db;
 
         bool checkId(int id);
         bool checkName(QString& name);
 
+    signals:
+        void error(const QString& errorMessage);
+
     public:
-        StudentEditor(UI::ErrorUi* errorUi);
+        StudentEditor();
         bool createStudent(int id, QString& firstName, QString& lastName, int grade, QString& section);
         bool updateStudent(Shared::Student& original, int id, QString& firstName, QString& lastName, int grade, QString& section);
     };

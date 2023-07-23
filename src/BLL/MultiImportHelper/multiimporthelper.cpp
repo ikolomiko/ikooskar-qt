@@ -5,9 +5,8 @@
 namespace ikoOSKAR {
 namespace BLL {
 
-    MultiImportHelper::MultiImportHelper(UI::ErrorUi* errorUi, const QString& xlsFilePath)
+    MultiImportHelper::MultiImportHelper(const QString& xlsFilePath)
         : xlsFilePath(xlsFilePath)
-        , errorUi(errorUi)
     {
         dal = new ikoOSKAR::DAL::MultiImport();
     }
@@ -22,7 +21,7 @@ namespace BLL {
     {
         QString* csvFilePath = convertToCsv();
         if (csvFilePath == nullptr || !QFile::exists(*csvFilePath)) {
-            errorUi->DisplayMessage("Hata: Excel dosyası okunamadı!");
+            emit error("Hata: Excel dosyası okunamadı!");
             return nullptr;
         }
 
@@ -39,7 +38,7 @@ namespace BLL {
             officeSuite = DAL::MsOffice;
             csvConverterPath = dal->getCsvConverterPath(officeSuite);
             if (csvConverterPath == nullptr) {
-                errorUi->DisplayMessage("Hata: Yüklü Office programı bulunamadı! Lütfen LibreOffice ya da Microsoft Office yükleyin.");
+                emit error("Hata: Yüklü Office programı bulunamadı! Lütfen LibreOffice ya da Microsoft Office yükleyin.");
                 return nullptr;
             }
         }
@@ -92,7 +91,7 @@ namespace BLL {
         if (nLines < 2) {
             // The first row is treated as headers row,
             // so we will ignore it
-            errorUi->DisplayMessage("Hata: Excel dosyası boş!");
+            emit error("Hata: Excel dosyası boş!");
             return nullptr;
         }
 
@@ -117,7 +116,7 @@ namespace BLL {
                         break;
                     } else {
                         // Found another section footer, meaning there are multiple sections
-                        errorUi->DisplayMessage("Hata: Excel dosyası birden fazla sınıf/şube içeriyor. Tek seferde birden fazla sınıf/şube eklenemez!");
+                        emit error("Hata: Excel dosyası birden fazla sınıf/şube içeriyor. Tek seferde birden fazla sınıf/şube eklenemez!");
                         return nullptr;
                     }
                 }
@@ -128,7 +127,7 @@ namespace BLL {
             if (line.size() < 4) {
                 // When not processing any header or footer row, there must be at least 4 cells each row
                 errorMsg += "Öğrenci bilgisi içeren her satırda en az 4 sütun bulunmalıdır! (Sınıf sıra no, okul no, ad, soyad, ...)";
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
@@ -142,36 +141,36 @@ namespace BLL {
             // Check for student id being a number
             if (!success) {
                 errorMsg += "Öğrenci numarası bir sayı olmalıdır!";
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
             // Check for first name being empty
             if (s->firstName.isEmpty()) {
                 errorMsg += "Öğrenci adı boş olamaz!";
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
             // Check for last name being empty
             if (s->lastName.isEmpty()) {
                 errorMsg += "Öğrenci soyadı boş olamaz!";
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
             // Check for duplicate student IDs in the file itself
             if (students.contains(s->id)) {
                 errorMsg += QString("Bu Excel dosyasında aynı öğrenci no'ya (%1) sahip birden fazla öğrenci var!").arg(s->id);
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
             // Check for duplicate student IDs between the file and the database
-            const auto db = BLL::DatabaseHelper::getInstance(errorUi);
+            const auto db = BLL::DatabaseHelper::getInstance();
             if (db->IdExists(s->id)) {
                 errorMsg += QString("Sisteme kayıtlı öğrenciler arasında aynı okul no'ya (%1) sahip başka bir öğrenci daha var!").arg(s->id);
-                errorUi->DisplayMessage(errorMsg);
+                emit error(errorMsg);
                 return nullptr;
             }
 
@@ -184,7 +183,6 @@ namespace BLL {
     MultiImportHelper::~MultiImportHelper()
     {
         delete this->dal;
-        delete this->errorUi;
     }
 
 } // namespace BLL

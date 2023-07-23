@@ -18,9 +18,8 @@ namespace UI {
         name = new QString("Öğrenci İşlemleri");
         ui->setupUi(this);
 
-        const QString* errorTitle = new QString("Öğrenci İşlemlerinde Hata Oluştu");
-        auto error = new ErrorUi(*errorTitle);
-        bll = BLL::DatabaseHelper::getInstance(error);
+        bll = BLL::DatabaseHelper::getInstance();
+        connect(bll, &BLL::DatabaseHelper::error, this, &DatabaseUi::handleError);
 
         createButtonMenus();
         createTabWidget();
@@ -126,6 +125,12 @@ namespace UI {
             bll->DeleteEntireClass(currentClass);
             refresh();
         }
+    }
+
+    void DatabaseUi::handleError(const QString& errorMessage)
+    {
+        const QString errorTitle = "Öğrenci İşlemlerinde Hata Oluştu";
+        ErrorUi(errorTitle).displayMessage(errorMessage);
     }
 
     void DatabaseUi::createButtonMenus()

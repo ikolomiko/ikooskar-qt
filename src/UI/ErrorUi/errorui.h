@@ -10,11 +10,11 @@ namespace UI {
         Q_OBJECT
 
         /// @brief Contains the common title of the error messages
-        const QString* const m_title;
+        const QString& title;
 
     public:
         ErrorUi(const QString& title);
-        void DisplayMessage(const QString& message);
+        void displayMessage(const QString& message);
     };
 
 } // namespace UI

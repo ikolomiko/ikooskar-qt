@@ -4,20 +4,19 @@
 namespace ikoOSKAR {
 namespace BLL {
 
-    StudentEditor::StudentEditor(UI::ErrorUi* errorUi)
-        : errorUi(errorUi)
+    StudentEditor::StudentEditor()
     {
-        db = DatabaseHelper::getInstance(errorUi);
+        db = DatabaseHelper::getInstance();
     }
 
     bool StudentEditor::checkId(int id)
     {
         if (id < 0) {
-            errorUi->DisplayMessage("Okul no negatif bir sayı olamaz.");
+            emit error("Okul no negatif bir sayı olamaz.");
             return false;
         }
         if (db->IdExists(id)) {
-            errorUi->DisplayMessage("Bu okul no'ya sahip başka bir öğrenci var. Lütfen başka bir okul no kullanın.");
+            emit error("Bu okul no'ya sahip başka bir öğrenci var. Lütfen başka bir okul no kullanın.");
             return false;
         }
 
@@ -28,11 +27,11 @@ namespace BLL {
     {
         name = name.trimmed();
         if (name.length() > 40) {
-            errorUi->DisplayMessage("Ad veya soyad 40 harften daha uzun olamaz.");
+            emit error("Ad veya soyad 40 harften daha uzun olamaz.");
             return false;
         }
         if (name.length() < 1) {
-            errorUi->DisplayMessage("Ad veya soyad 1 harften daha kısa olamaz.");
+            emit error("Ad veya soyad 1 harften daha kısa olamaz.");
             return false;
         }
         return true;

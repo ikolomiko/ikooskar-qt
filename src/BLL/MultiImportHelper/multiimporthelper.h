@@ -3,7 +3,6 @@
 
 #include "DAL/MultiImport/multiimport.h"
 #include "Shared/student.h"
-#include "UI/ErrorUi/errorui.h"
 #include <QList>
 #include <QRunnable>
 
@@ -18,8 +17,6 @@ namespace BLL {
 
         QString xlsFilePath;
 
-        UI::ErrorUi* errorUi;
-
         QString* convertToCsv();
         QList<Student*>* parseCsv();
         QList<Student*>* parseXls();
@@ -29,12 +26,13 @@ namespace BLL {
         bool matchesFileFooter(const QList<QStringList>& lines);
 
     public:
-        MultiImportHelper(UI::ErrorUi* errorUi, const QString& xlsFilePath);
+        MultiImportHelper(const QString& xlsFilePath);
         void run() override;
         ~MultiImportHelper();
 
     signals:
         void parsingFinished(QList<Student*>* result);
+        void error(const QString& errorMessage);
     };
 
 } // namespace BLL

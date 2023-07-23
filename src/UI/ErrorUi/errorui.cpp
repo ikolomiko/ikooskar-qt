@@ -9,7 +9,7 @@ namespace UI {
      * @param title : The title to be displayed on error messages
      */
     ErrorUi::ErrorUi(const QString& title)
-        : m_title(&title)
+        : title(title)
     {
     }
 
@@ -17,11 +17,9 @@ namespace UI {
      * @brief Displays an error message with the previously determined title
      * @param message : The message to be displayed on the error message
      */
-    void ErrorUi::DisplayMessage(const QString& message)
+    void ErrorUi::displayMessage(const QString& message)
     {
-        QMetaObject::invokeMethod(this, [=]() {
-            QMessageBox::critical(QApplication::activeWindow(), *m_title, message);
-        });
+        QMessageBox::critical(QApplication::activeWindow(), title, message);
     }
 
 } // namespace UI

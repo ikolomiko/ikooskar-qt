@@ -20,11 +20,12 @@ namespace UI {
         explicit MultiImportUi(QWidget* parent = nullptr);
         ~MultiImportUi();
 
-    public slots:
+    private slots:
         void handleXlsPath(QString* xlsFilePath);
         void handleParsedXls(QList<Student*>*);
         void handleGradeAndSection(int grade, const QString& section);
         void handleConfirmation();
+        void handleError(const QString& errorMessage);
 
     private:
         enum PageState {

@@ -2,6 +2,7 @@
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "BLL/MultiImportHelper/multiimporthelper.h"
 #include "UI/Common/spinner.h"
+#include "UI/ErrorUi/errorui.h"
 #include "UI/MultiImportUi/miclasspickerui.h"
 #include "UI/MultiImportUi/mifilepickerui.h"
 #include "UI/MultiImportUi/mipreviewui.h"
@@ -104,9 +105,8 @@ namespace UI {
         nextPage(); // FilePicker -> Spinner
 
         // Set up the xls parser
-        const QString* errorTitle = new QString("Excel'den Öğrenci Eklerken Hata Oluştu");
-        auto error = new ErrorUi(*errorTitle);
-        auto parser = new BLL::MultiImportHelper(error, *xlsFilePath);
+        auto parser = new BLL::MultiImportHelper(*xlsFilePath);
+        connect(parser, &BLL::MultiImportHelper::error, this, &MultiImportUi::handleError);
 
         // Parse the xls file in another thread
         connect(parser, &BLL::MultiImportHelper::parsingFinished, this, &MultiImportUi::handleParsedXls);
@@ -143,8 +143,7 @@ namespace UI {
     void MultiImportUi::handleConfirmation()
     {
         // Add all students to the database
-        const QString* errorTitle = new QString("Excel'den Öğrenci Eklerken Hata Oluştu");
-        auto db = BLL::DatabaseHelper::getInstance(new ErrorUi(*errorTitle));
+        auto db = BLL::DatabaseHelper::getInstance();
         int populationBefore = db->GetAllIds().size();
         db->AddAll(*parsedStudents);
         int populationDiff = db->GetAllIds().size() - populationBefore;
@@ -162,6 +161,12 @@ namespace UI {
         }
 
         nextPage(); // Preview -> [dialog closed]
+    }
+
+    void MultiImportUi::handleError(const QString& errorMessage)
+    {
+        const QString errorTitle = "Excel'den Öğrenci Eklerken Hata Oluştu";
+        ErrorUi(errorTitle).displayMessage(errorMessage);
     }
 
 } // namespace UI

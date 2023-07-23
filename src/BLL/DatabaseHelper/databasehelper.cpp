@@ -9,18 +9,16 @@ namespace ikoOSKAR {
 namespace BLL {
 
     /**
-     * @brief Initalizes {@code dal}, {@code databaseCache} and {@code errorUi} properties
-     * @param errorUi : A pointer to an instance of ErrorUi with a previously determined title
-     * @see dal, databaseCache, errorUi
+     * @brief Initalizes {@code dal} and {@code databaseCache} properties
+     * @see dal, databaseCache
      */
-    DatabaseHelper::DatabaseHelper(UI::ErrorUi* errorUi)
-        : errorUi(errorUi)
+    DatabaseHelper::DatabaseHelper()
     {
         QString errorMessage;
         dal = new ikoOSKAR::DAL::Database(errorMessage);
 
         if (!errorMessage.isEmpty()) {
-            errorUi->DisplayMessage(errorMessage);
+            emit error(errorMessage);
             QApplication::quit();
         }
 
@@ -28,10 +26,10 @@ namespace BLL {
     }
 
     /// TODO write doc
-    DatabaseHelper* DatabaseHelper::getInstance(UI::ErrorUi* errorUi)
+    DatabaseHelper* DatabaseHelper::getInstance()
     {
         if (instance == nullptr) {
-            instance = new DatabaseHelper(errorUi);
+            instance = new DatabaseHelper();
         }
         return instance;
     }
@@ -51,13 +49,13 @@ namespace BLL {
             // Another student with the same id already exists
             errorMsg = QString().number(s.id) + " okul no'suna sahip başka bir öğrenci var. "
                                                 "Bu nedenle yeni öğrenci eklenemedi!";
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         } else if (dal->Add(s, errorMsg)) {
             // Student id is unique and student added to the database successfully
             databaseCache->insert(s.id, &s);
         } else {
             // Student id is unique but an error occurred when trying to add the student to the database
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         }
     }
 
@@ -95,7 +93,7 @@ namespace BLL {
         for (int id : problematicIds) {
             errorHeader = QString::number(id) + " " + errorHeader;
         }
-        errorUi->DisplayMessage(errorHeader + errorLog);
+        emit error(errorHeader + errorLog);
     }
 
     /**
@@ -112,7 +110,7 @@ namespace BLL {
         if (oldId != s.id && IdExists(s.id)) {
             errorMsg = QString().number(s.id) + " okul no'suna sahip başka bir öğrenci var. "
                                                 "Öğrenci bilgileri güncellenemedi!";
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
             return;
         }
 
@@ -120,7 +118,7 @@ namespace BLL {
             // There's no student with the given id, thus cannot update its properties
             errorMsg = QString().number(s.id) + " okul no'su sistemde kayıtlı değil. "
                                                 "Öğrenci bilgileri güncellenemedi!";
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
             return;
         }
 
@@ -142,7 +140,7 @@ namespace BLL {
             databaseCache->insert(s.id, newStudent);
         } else {
             // A student with the given id exists but the update request is not successful
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         }
     }
 
@@ -158,13 +156,13 @@ namespace BLL {
             // There's no student with the given id, thus cannot delete it
             errorMsg = QString().number(id) + " okul no'su sistemde kayıtlı değil. "
                                               "Bu nedenle öğrenci silinemedi!";
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         } else if (dal->Delete(id, errorMsg)) {
             // A student with the given id exists and its deletion is successful
             databaseCache->remove(id);
         } else {
             // A student with the given id exists but its deletion is not successful
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         }
     }
 
@@ -198,7 +196,7 @@ namespace BLL {
         if (dal->EndOfTheYear(errorMsg)) {
             databaseCache = dal->GetAllStudents();
         } else {
-            errorUi->DisplayMessage(errorMsg);
+            emit error(errorMsg);
         }
     }
 
@@ -267,7 +265,7 @@ namespace BLL {
         if (databaseCache->contains(id))
             s = databaseCache->value(id);
         else
-            errorUi->DisplayMessage(QString::number(id) + " okul no'suna sahip öğrenci bulunamadı!");
+            emit error(QString::number(id) + " okul no'suna sahip öğrenci bulunamadı!");
         return s;
     }
 
@@ -329,14 +327,13 @@ namespace BLL {
     }
 
     /**
-     * @brief Frees the dynamically allocated memory spaces for dal, databaseCache and errorUi
-     * @see dal, databaseCache, errorUi
+     * @brief Frees the dynamically allocated memory spaces for dal and databaseCache
+     * @see dal, databaseCache
      */
     DatabaseHelper::~DatabaseHelper()
     {
         delete dal;
         delete databaseCache;
-        delete errorUi;
     }
 
 } // namespace BLL
