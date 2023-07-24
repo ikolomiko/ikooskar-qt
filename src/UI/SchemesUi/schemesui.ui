@@ -3,8 +3,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>ikoOSKAR::UI::HistoryUi</class>
- <widget class="QWidget" name="ikoOSKAR::UI::HistoryUi">
+ <class>ikoOSKAR::UI::SchemesUi</class>
+ <widget class="QWidget" name="ikoOSKAR::UI::SchemesUi">
   <property name="geometry">
    <rect>
     <x>0</x>

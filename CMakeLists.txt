@@ -25,13 +25,12 @@ set(PROJECT_SOURCES
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
-    src/UI/HistoryUi/historyui.cpp src/UI/HistoryUi/historyui.h src/UI/HistoryUi/historyui.ui
     src/UI/MainPage/mainpage.cpp src/UI/MainPage/mainpage.h src/UI/MainPage/mainpage.ui
     src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui
     src/UI/MultiImportUi/miclasspickerui.h src/UI/MultiImportUi/miclasspickerui.cpp src/UI/MultiImportUi/miclasspickerui.ui
     src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui
     src/UI/MultiImportUi/mipreviewui.h src/UI/MultiImportUi/mipreviewui.cpp src/UI/MultiImportUi/mipreviewui.ui
-    src/UI/SchemeGeneratorUi/schemegeneratorui.cpp src/UI/SchemeGeneratorUi/schemegeneratorui.h src/UI/SchemeGeneratorUi/schemegeneratorui.ui
+    src/UI/SchemesUi/schemesui.cpp src/UI/SchemesUi/schemesui.h src/UI/SchemesUi/schemesui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui
     src/main.cpp
