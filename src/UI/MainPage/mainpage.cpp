@@ -1,8 +1,7 @@
 #include "mainpage.h"
 #include "UI/AboutUi/aboutui.h"
 #include "UI/DatabaseUi/databaseui.h"
-#include "UI/HistoryUi/historyui.h"
-#include "UI/SchemeGeneratorUi/schemegeneratorui.h"
+#include "UI/SchemesUi/schemesui.h"
 #include "UI/WelcomeUi/welcomeui.h"
 #include "ui_mainpage.h"
 #include <QDebug>
@@ -13,8 +12,7 @@ namespace UI {
     enum MainPage::Subpage : int {
         HOME,
         DATABASE,
-        NEW_SCHEME,
-        HISTORY,
+        SCHEMES,
         ABOUT
     };
 
@@ -24,17 +22,17 @@ namespace UI {
     {
         ui->setupUi(this);
 
-        QPushButton* buttons[5] = { ui->btnHome, ui->btnDatabase, ui->btnNewScheme, ui->btnHistory, ui->btnHelp };
-        Common::Module* modules[5] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemeGeneratorUi::getInstance(), HistoryUi::getInstance(), AboutUi::getInstance() };
+        QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
+        Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             const auto& btn = buttons[i];
             connect(btn, &QPushButton::clicked, this, [=]() {
                 changePage((Subpage)i, btn->icon());
             });
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             ui->stackedWidget->addWidget(modules[i]);
             connect(modules[i], &Common::Module::descriptionUpdated, this, &MainPage::setDescription);
         }
