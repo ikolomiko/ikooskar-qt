@@ -82,6 +82,7 @@ set(resources_resource_files
     "assets/option-bullet.png"
     "assets/qtbase_tr.qm"
     "assets/remove.png"
+    "assets/scheme.png"
     "assets/spinner.gif"
     "assets/students.png"
     "assets/styles.qss"
