@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
+    src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
     src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
     src/UI/MainPage/mainpage.cpp src/UI/MainPage/mainpage.h src/UI/MainPage/mainpage.ui
