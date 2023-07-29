@@ -20,6 +20,9 @@ namespace UI {
         const QString* getDescription();
         ~SchemesUi();
 
+    private slots:
+        void on_btnNewScheme_clicked();
+
     private:
         Ui::SchemesUi* ui;
         inline static SchemesUi* instance;
