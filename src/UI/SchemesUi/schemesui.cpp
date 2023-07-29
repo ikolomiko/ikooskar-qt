@@ -1,6 +1,6 @@
 #include "schemesui.h"
-#include "ui_schemesui.h"
 #include "newschemedialog.h"
+#include "ui_schemesui.h"
 
 namespace ikoOSKAR {
 namespace UI {
@@ -31,7 +31,6 @@ namespace UI {
         return new QString("2023-2024 döneminde toplam x adet sınav düzeni oluşturdunuz");
     }
 
-
     void SchemesUi::on_btnNewScheme_clicked()
     {
         auto dialog = new NewSchemeDialog(this);
@@ -39,7 +38,6 @@ namespace UI {
             // refresh history ui
             // if mode==demo, decrement remainings by one
         }
-
     }
 
 } // namespace UI
