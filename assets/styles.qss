@@ -2,7 +2,7 @@
     font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif" !important;
 }
 
-QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm {
+QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm, btnNewScheme {
     padding: 6px;
     font-size: 11pt;
 }
