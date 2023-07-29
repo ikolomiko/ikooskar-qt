@@ -1,18 +1,38 @@
-<?xml version='1.0'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ikoOSKAR::UI::NewSchemeDialog</class>
- <widget name="ikoOSKAR::UI::NewSchemeDialog" class="QDialog">
+ <widget class="QDialog" name="ikoOSKAR::UI::NewSchemeDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>640</height>
+    <width>946</width>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Yeni Sınav Düzeni Oluştur</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget"/>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
