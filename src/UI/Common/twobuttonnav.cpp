@@ -9,6 +9,7 @@ namespace UI {
             : btnPrev(new QPushButton())
             , btnNext(new QPushButton())
         {
+            btnPrev->setObjectName("btnPrev");
             btnPrev->setText("  Geri  ");
             btnPrev->setIcon(QIcon(":/arrow-left.png"));
             btnPrev->setIconSize(QSize(22, 22));
@@ -16,6 +17,7 @@ namespace UI {
 
             auto hSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
+            btnNext->setObjectName("btnNext");
             btnNext->setText("  İleri  ");
             btnNext->setIcon(QIcon(":/arrow-right.png"));
             btnNext->setIconSize(QSize(22, 22));
