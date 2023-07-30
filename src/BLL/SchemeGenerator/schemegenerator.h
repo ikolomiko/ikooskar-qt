@@ -1,18 +1,20 @@
 #ifndef IKOOSKAR_BLL_SCHEMEGENERATOR_H
 #define IKOOSKAR_BLL_SCHEMEGENERATOR_H
 
+#include "Shared/student.h"
 #include <QDate>
 #include <QString>
 
 namespace ikoOSKAR {
 namespace BLL {
-
+    using namespace Shared;
     class SchemeGenerator : public QObject {
         Q_OBJECT
 
     private:
         QString examName;
         QDate examDate;
+        QList<Student*>* attendingStudents;
 
         QString examDir();
         bool schemeExists();

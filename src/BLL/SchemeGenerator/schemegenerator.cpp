@@ -1,5 +1,7 @@
 #include "schemegenerator.h"
+#include "BLL/DatabaseHelper/databasehelper.h"
 #include <QDir>
+#include <QSet>
 #include <QSettings>
 
 namespace ikoOSKAR {
@@ -37,6 +39,21 @@ namespace BLL {
             return false;
         }
 
+        return true;
+    }
+
+    bool SchemeGenerator::setAttendingClasses(const QList<QString>& classNames)
+    {
+        if (classNames.isEmpty()) {
+            emit error("En az bir sınıf seçiniz!");
+            return false;
+        }
+
+        attendingStudents->clear();
+        for (const auto& className : classNames) {
+            auto students = DatabaseHelper::getInstance()->GetStudentsByClassName(className);
+            attendingStudents->append(*students);
+        }
         return true;
     }
 
