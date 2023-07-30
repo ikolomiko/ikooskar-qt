@@ -42,3 +42,27 @@ QLabel#lblModuleName, QLabel#lblHeader {
 QLabel#lblHint {
     color: rgb(80,80,80);
 }
+
+#btnAddClass {
+    background-color: #60FF60;
+    border: 1px solid black;
+    border-radius: 3px;
+    icon: url(:/arrow-right.png);
+    icon-size: 30pt;
+}
+
+#btnAddClass:pressed {
+    background-color: #C0FFC0;
+}
+
+#btnRmClass {
+    background-color: #FF6060;
+    border: 1px solid black;
+    border-radius: 3px;
+    icon: url(:/arrow-left.png);
+    icon-size: 30pt
+}
+
+#btnRmClass:pressed {
+    background-color: #FFC0C0;
+}
