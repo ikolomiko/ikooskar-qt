@@ -101,11 +101,10 @@ the corresponding file/folder.
 |DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
-| MultiImport	| MultiImportHelper	| [MultiImportUi](/src/UI/MultiImportUi)
+| [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
-| -				| SchemeGenerator	| SchemeGeneratorUi
+| -				| SchemeGenerator	| [SchemesUi](/src/UI/SchemesUi)
 | XlsxWriter	| SchemeExporter	| -
-| HistoryReader	| HistoryHelper 	| HistoryUi
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
 | LocalAuth		| LocalAuthHelper 	| -
