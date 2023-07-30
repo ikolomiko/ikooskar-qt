@@ -1,5 +1,6 @@
 #include "newschemedialog.h"
 #include "UI/ErrorUi/errorui.h"
+#include "nsclasspickerui.h"
 #include "nsexaminfoui.h"
 #include "ui_newschemedialog.h"
 
@@ -80,12 +81,24 @@ namespace UI {
             }
 
             nav->btnPrev->show();
-            // classPicker = new NSClassPicker()
-            // add to root
-            // increment the current index of root
+            auto classPicker = new NSClassPickerUi();
+            ui->root->addWidget(classPicker);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case CLASS_PICKER: {
+            auto classPicker = (NSClassPickerUi*)ui->root->currentWidget();
+            auto attendingClassNames = classPicker->getAttendingClasses();
+
+            bool success = bll->setAttendingClasses(attendingClassNames);
+            if (!success) {
+                // Necessary error mesage(s) have already been shown
+                return;
+            }
+
+            // hallPicker = new NSHallPickerUi();
+            // addWidget
+            // setCurrentIndex
             break;
         }
         case HALL_PICKER: {
