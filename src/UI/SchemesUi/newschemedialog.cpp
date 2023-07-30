@@ -10,9 +10,12 @@ namespace UI {
         : QDialog(parent)
         , ui(new Ui::NewSchemeDialog)
         , nav(new Common::TwoButtonNav)
+        , bll(new BLL::SchemeGenerator)
     {
         ui->setupUi(this);
         ui->verticalLayout->addWidget(nav);
+
+        connect(bll, &BLL::SchemeGenerator::error, this, &NewSchemeDialog::handleError);
 
         connect(nav->btnPrev, &QPushButton::clicked, this, &NewSchemeDialog::prevPage);
         connect(nav->btnNext, &QPushButton::clicked, this, &NewSchemeDialog::nextPage);
@@ -66,17 +69,20 @@ namespace UI {
         switch (page) {
         case EXAM_INFO: {
             auto examInfo = (NSExamInfoUi*)ui->root->currentWidget();
-            examName = examInfo->getExamName();
+            examName = examInfo->getExamName().simplified();
             examDate = examInfo->getExamDate();
 
-            // Init bll
-            // setExamName
-            // setExamDate
-            // check for name and name-date
-            // return on any error
-            // continue if all checks passed
+            bll->setDate(examDate);
+            bool success = bll->setName(examName);
+            if (!success) {
+                // Necessary error mesage(s) have already been shown
+                return;
+            }
 
             nav->btnPrev->show();
+            // classPicker = new NSClassPicker()
+            // add to root
+            // increment the current index of root
             break;
         }
         case CLASS_PICKER: {

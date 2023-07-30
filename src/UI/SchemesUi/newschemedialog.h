@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 #define IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 
+#include "BLL/SchemeGenerator/schemegenerator.h"
 #include "UI/Common/twobuttonnav.h"
 #include <QDate>
 #include <QDialog>
@@ -30,6 +31,7 @@ namespace UI {
 
         Ui::NewSchemeDialog* ui;
         Common::TwoButtonNav* nav;
+        BLL::SchemeGenerator* bll;
         PageState page;
         QString examName;
         QDate examDate;
