@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
     src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui
     src/UI/MultiImportUi/mipreviewui.h src/UI/MultiImportUi/mipreviewui.cpp src/UI/MultiImportUi/mipreviewui.ui
     src/UI/SchemesUi/newschemedialog.h src/UI/SchemesUi/newschemedialog.cpp src/UI/SchemesUi/newschemedialog.ui
+    src/UI/SchemesUi/nsexaminfoui.h src/UI/SchemesUi/nsexaminfoui.cpp src/UI/SchemesUi/nsexaminfoui.ui
     src/UI/SchemesUi/schemesui.cpp src/UI/SchemesUi/schemesui.h src/UI/SchemesUi/schemesui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui

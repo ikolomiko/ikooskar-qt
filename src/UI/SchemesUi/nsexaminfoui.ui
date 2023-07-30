@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ikoOSKAR::UI::NSExamInfoUi</class>
+ <widget class="QWidget" name="ikoOSKAR::UI::NSExamInfoUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>871</width>
+    <height>521</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="maximumSize">
+      <size>
+       <width>600</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QFrame" name="frmHeader">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="lblHeader">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Sınav Bilgilerini Giriniz</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="wdFiller" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frmForm">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="horizontalSpacing">
+          <number>40</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>15</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="lblExamName">
+           <property name="text">
+            <string>Sınavın Adı:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="lblExamDate">
+           <property name="text">
+            <string>Sınav Tarihi:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cmbName">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Türk Dili ve Edebiyatı</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Matematik</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Fizik</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Kimya</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Biyoloji</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Coğrafya</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Tarih</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>TC İnkılap Tarihi</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Felsefe</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Din Kültürü ve Ahlak Bilgisi</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>İngilizce</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Almanca</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Fransızca</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Bilgisayar Bilimleri</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Deneme Sınavı</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDateEdit" name="dateEdit">
+           <property name="frame">
+            <bool>true</bool>
+           </property>
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="minimumDate">
+            <date>
+             <year>2010</year>
+             <month>1</month>
+             <day>1</day>
+            </date>
+           </property>
+           <property name="displayFormat">
+            <string>dd MMMM yyyy - dddd</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
