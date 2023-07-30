@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 #define IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 
+#include "UI/Common/twobuttonnav.h"
 #include <QDialog>
 
 namespace ikoOSKAR {
@@ -17,7 +18,21 @@ namespace UI {
         ~NewSchemeDialog();
 
     private:
+        enum PageState {
+            EXAM_INFO = 0,
+            CLASS_PICKER,
+            HALL_PICKER,
+            PREVIEW,
+            SPINNER,
+            RESULTS
+        };
+
         Ui::NewSchemeDialog* ui;
+        Common::TwoButtonNav* nav;
+        PageState page;
+
+        void prevPage();
+        void nextPage();
     };
 } // namespace UI
 } // namespace ikoOSKAR
