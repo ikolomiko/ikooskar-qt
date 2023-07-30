@@ -33,8 +33,8 @@ namespace UI {
 
     void SchemesUi::on_btnNewScheme_clicked()
     {
-        auto dialog = new NewSchemeDialog(this);
-        if (dialog->exec() == QDialog::Accepted) {
+        NewSchemeDialog dialog(this);
+        if (dialog.exec() == QDialog::Accepted) {
             // refresh history ui
             // if mode==demo, decrement remainings by one
         }
