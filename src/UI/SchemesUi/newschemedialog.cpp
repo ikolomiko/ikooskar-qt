@@ -1,4 +1,6 @@
 #include "newschemedialog.h"
+#include "UI/ErrorUi/errorui.h"
+#include "nsexaminfoui.h"
 #include "ui_newschemedialog.h"
 
 namespace ikoOSKAR {
@@ -12,8 +14,13 @@ namespace UI {
         ui->setupUi(this);
         ui->verticalLayout->addWidget(nav);
 
+        connect(nav->btnPrev, &QPushButton::clicked, this, &NewSchemeDialog::prevPage);
+        connect(nav->btnNext, &QPushButton::clicked, this, &NewSchemeDialog::nextPage);
+
         nav->btnPrev->hide();
         page = EXAM_INFO;
+        auto examInfo = new NSExamInfoUi();
+        ui->root->addWidget(examInfo);
     }
 
     NewSchemeDialog::~NewSchemeDialog()
@@ -29,6 +36,7 @@ namespace UI {
             return;
         }
         case CLASS_PICKER: {
+            nav->btnPrev->hide();
             break;
         }
         case HALL_PICKER: {
@@ -57,6 +65,18 @@ namespace UI {
     {
         switch (page) {
         case EXAM_INFO: {
+            auto examInfo = (NSExamInfoUi*)ui->root->currentWidget();
+            examName = examInfo->getExamName();
+            examDate = examInfo->getExamDate();
+
+            // Init bll
+            // setExamName
+            // setExamDate
+            // check for name and name-date
+            // return on any error
+            // continue if all checks passed
+
+            nav->btnPrev->show();
             break;
         }
         case CLASS_PICKER: {
@@ -77,11 +97,12 @@ namespace UI {
             return;
         }
         }
-
-        auto currentWidget = ui->root->widget(ui->root->currentIndex());
-        ui->root->removeWidget(currentWidget);
-        currentWidget->deleteLater();
         page = (PageState)((int)page + 1);
+    }
+
+    void NewSchemeDialog::handleError(const QString& errorMessage)
+    {
+        ErrorUi("HATA").displayMessage(errorMessage);
     }
 
 } // namespace UI

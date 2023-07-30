@@ -2,6 +2,7 @@
 #define IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 
 #include "UI/Common/twobuttonnav.h"
+#include <QDate>
 #include <QDialog>
 
 namespace ikoOSKAR {
@@ -30,9 +31,12 @@ namespace UI {
         Ui::NewSchemeDialog* ui;
         Common::TwoButtonNav* nav;
         PageState page;
+        QString examName;
+        QDate examDate;
 
         void prevPage();
         void nextPage();
+        void handleError(const QString& errorMessage);
     };
 } // namespace UI
 } // namespace ikoOSKAR
