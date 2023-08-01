@@ -103,7 +103,7 @@ the corresponding file/folder.
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
 | [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
-| -				| SchemeGenerator	| [SchemesUi](/src/UI/SchemesUi)
+| -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
 | XlsxWriter	| SchemeExporter	| -
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
@@ -119,9 +119,10 @@ the corresponding file/folder.
 |Shared	|
 |:-------------:|
 |[Student](/src/Shared/student.h)		|
-|Desk			|
-|Classroom		|
-|ExamStudent	|
+|[ExamStudent](/src/Shared/examstudent.h)	|
+|[Desk](/src/Shared/desk.h)			|
+|[Hall](/src/Shared/hall.h)			|
+|[Scheme](/src/Shared/scheme.h)			|
 
 &nbsp;
 
