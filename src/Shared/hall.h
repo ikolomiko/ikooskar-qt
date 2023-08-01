@@ -8,6 +8,7 @@ namespace ikoOSKAR {
 namespace Shared {
 
     class Hall {
+    public:
         class Layout {
         public:
             int rowCount;
@@ -19,7 +20,6 @@ namespace Shared {
             Layout(int capacity);
         };
 
-    public:
         QString name;
         int capacity;
         Layout layout;
