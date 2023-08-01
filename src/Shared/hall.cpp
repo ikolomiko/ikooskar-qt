@@ -5,9 +5,7 @@
 namespace ikoOSKAR {
 namespace Shared {
 
-    Hall::Hall(const QString& name, int capacity)
-        : name(name)
-        , capacity(capacity)
+    Hall::Layout::Layout(int capacity)
     {
         rowCount = std::ceil(capacity / 6);
         desks = new Desk**[rowCount];
@@ -31,15 +29,10 @@ namespace Shared {
         }
     }
 
-    Hall Hall::fromJson(const QJsonObject& json)
+    Hall::Layout Hall::Layout::fromJson(const QJsonObject& json)
     {
-        Hall result;
-        if (const QJsonValue v = json["name"]; v.isString()) {
-            result.name = v.toString();
-        }
-        if (const QJsonValue v = json["capacity"]; v.isDouble()) {
-            result.capacity = v.toInt();
-        }
+        Layout result;
+
         if (const QJsonValue v = json["rowCount"]; v.isDouble()) {
             result.rowCount = v.toInt();
         }
@@ -64,11 +57,9 @@ namespace Shared {
         return result;
     }
 
-    QJsonObject Hall::toJson() const
+    QJsonObject Hall::Layout::toJson() const
     {
         QJsonObject result;
-        result["name"] = name;
-        result["capacity"] = capacity;
         result["rowCount"] = rowCount;
 
         // Convert the 2D desks pointer matrix into a json array of arrays
@@ -84,6 +75,13 @@ namespace Shared {
         result["desks"] = jDesks;
 
         return result;
+    }
+
+    Hall::Hall(const QString& name, int capacity)
+        : name(name)
+        , capacity(capacity)
+        , layout(Layout(capacity))
+    {
     }
 
 } // namespace Shared

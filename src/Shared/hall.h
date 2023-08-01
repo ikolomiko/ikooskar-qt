@@ -8,16 +8,24 @@ namespace ikoOSKAR {
 namespace Shared {
 
     class Hall {
+        class Layout {
+        public:
+            int rowCount;
+            Desk*** desks;
+            static Layout fromJson(const QJsonObject& json);
+            QJsonObject toJson() const;
+
+            Layout();
+            Layout(int capacity);
+        };
+
     public:
         QString name;
         int capacity;
-        int rowCount;
-        Desk*** desks;
+        Layout layout;
 
         Hall();
         Hall(const QString& name, int capacity);
-        static Hall fromJson(const QJsonObject& json);
-        QJsonObject toJson() const;
     };
 
 } // namespace Shared
