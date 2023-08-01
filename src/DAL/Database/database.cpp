@@ -44,6 +44,22 @@ namespace DAL {
         return false;
     }
 
+    bool Database::Add(Hall& h, QString& errorMessage)
+    {
+        QSqlQuery q;
+        q.prepare("INSERT INTO halls (name, capacity, layout) "
+                  "VALUES (:name, :capacity, :layout)");
+        q.bindValue(":name", h.name);
+        q.bindValue(":capacity", h.capacity);
+        q.bindValue(":layout", h.layout.toJson());
+
+        if (q.exec())
+            return true;
+
+        errorMessage = "DAL.Add() fonksiyonunda bir hata oluştu, derslik eklenemedi\n" + q.lastError().text();
+        return false;
+    }
+
     bool Database::Delete(int id, QString& errorMessage)
     {
         QSqlQuery q;
@@ -54,6 +70,19 @@ namespace DAL {
             return true;
 
         errorMessage = "DAL.Delete() fonksiyonunda bir hata oluştu, öğrenci silinemedi\n" + q.lastError().text();
+        return false;
+    }
+
+    bool Database::Delete(Hall& h, QString& errorMessage)
+    {
+        QSqlQuery q;
+        q.prepare("DELETE FROM halls WHERE name = (:name)");
+        q.bindValue(":name", h.name);
+
+        if (q.exec())
+            return true;
+
+        errorMessage = "DAL.Delete() fonksiyonunda bir hata oluştu, derslik silinemedi\n" + q.lastError().text();
         return false;
     }
 
@@ -72,6 +101,21 @@ namespace DAL {
             students->insert(s->id, s);
         }
         return students;
+    }
+
+    QHash<QString, Hall*>* Database::GetAllHalls()
+    {
+        auto halls = new QHash<QString, Hall*>();
+        QSqlQuery q("SELECT * FROM halls");
+        while (q.next()) {
+            Hall* h = new Hall();
+            h->name = q.value(0).toString();
+            h->capacity = q.value(1).toInt();
+            h->layout = Hall::Layout::fromJson(q.value(2).toJsonObject());
+
+            halls->insert(h->name, h);
+        }
+        return halls;
     }
 
     bool Database::Update(Student& s, int oldId, QString& errorMessage)
@@ -96,8 +140,30 @@ namespace DAL {
         return false;
     }
 
+    bool Database::Update(Hall& h, QString& oldName, QString& errorMessage)
+    {
+        QSqlQuery q;
+        q.prepare("UPDATE halls SET name=(:name), capacity=(:capacity), "
+                  "layout=(:layout) WHERE name=(:oldName)");
+        q.bindValue(":oldName", oldName);
+        q.bindValue(":name", h.name);
+        q.bindValue(":capacity", h.capacity);
+        q.bindValue(":layout", h.layout.toJson());
+
+        if (q.exec())
+            return true;
+
+        errorMessage = "DAL.Update() fonksiyonunda bir hata oluştu, derslik bilgileri "
+                       "güncellenemedi\n"
+            + q.lastError().text();
+
+        return false;
+    }
+
     bool Database::CreateDatabase(QString& errorMessage)
     {
+        QString errorBody;
+
         QSqlQuery q;
         q.prepare("CREATE TABLE IF NOT EXISTS students ("
                   "id integer PRIMARY KEY,"
@@ -105,10 +171,24 @@ namespace DAL {
                   "lastname text,"
                   "grade integer,"
                   "section text )");
-        if (q.exec())
-            return true;
+        if (!q.exec()) {
+            errorBody = q.lastError().text() + "\n";
+        }
 
-        errorMessage = "Veri tabanı oluşturulamadı: " + q.lastError().text();
+        q.prepare("CREATE TABLE IF NOT EXISTS halls ("
+                  "name text PRIMARY KEY,"
+                  "capacity integer,"
+                  "layout text )");
+        if (!q.exec()) {
+            errorBody += q.lastError().text();
+        }
+
+        if (errorBody.isEmpty()) {
+            // No errors
+            return true;
+        }
+
+        errorMessage = "Veri tabanı oluşturulamadı: " + errorBody;
         return false;
     }
 
@@ -120,7 +200,7 @@ namespace DAL {
 
         QChar seperator = dirName[0] == '/' ? '/' : '\\';
         dirName.append(seperator);
-        dirName.append("students.db");
+        dirName.append("database.db");
         return dirName;
     }
 

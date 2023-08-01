@@ -1,5 +1,6 @@
 #ifndef IKOOSKAR_DAL_DATABASE_H
 #define IKOOSKAR_DAL_DATABASE_H
+#include "Shared/hall.h"
 #include "Shared/student.h"
 #include <QList>
 #include <QtSql>
@@ -12,9 +13,13 @@ namespace DAL {
     public:
         Database(QString& errorMessage);
         QHash<int, Student*>* GetAllStudents();
+        QHash<QString, Hall*>* GetAllHalls();
         bool Add(Student& s, QString& errorMessage);
+        bool Add(Hall& h, QString& errorMessage);
         bool Update(Student& s, int oldId, QString& errorMessage);
+        bool Update(Hall& h, QString& oldName, QString& errorMessage);
         bool Delete(int id, QString& errorMessage);
+        bool Delete(Hall& h, QString& errorMessage);
         bool EndOfTheYear(QString& errorMessage);
         ~Database();
 
