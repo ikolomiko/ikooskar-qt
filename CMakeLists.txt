@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/desk.h
     src/Shared/examstudent.h
+    src/Shared/hall.h src/Shared/hall.cpp
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
