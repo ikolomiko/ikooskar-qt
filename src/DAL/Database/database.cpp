@@ -140,7 +140,7 @@ namespace DAL {
         return false;
     }
 
-    bool Database::Update(Hall& h, QString& oldName, QString& errorMessage)
+    bool Database::Update(Hall& h, const QString& oldName, QString& errorMessage)
     {
         QSqlQuery q;
         q.prepare("UPDATE halls SET name=(:name), capacity=(:capacity), "

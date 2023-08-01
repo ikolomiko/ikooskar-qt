@@ -17,7 +17,7 @@ namespace DAL {
         bool Add(Student& s, QString& errorMessage);
         bool Add(Hall& h, QString& errorMessage);
         bool Update(Student& s, int oldId, QString& errorMessage);
-        bool Update(Hall& h, QString& oldName, QString& errorMessage);
+        bool Update(Hall& h, const QString& oldName, QString& errorMessage);
         bool Delete(int id, QString& errorMessage);
         bool Delete(Hall& h, QString& errorMessage);
         bool EndOfTheYear(QString& errorMessage);
