@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
     src/Shared/desk.h
     src/Shared/examstudent.h
     src/Shared/hall.h src/Shared/hall.cpp
+    src/Shared/scheme.h
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
     src/UI/Common/module.cpp src/UI/Common/module.h
