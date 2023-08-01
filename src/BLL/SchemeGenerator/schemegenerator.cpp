@@ -57,5 +57,21 @@ namespace BLL {
         return true;
     }
 
+    bool SchemeGenerator::setExamHalls(const QList<QString>& hallNames)
+    {
+        examHalls = DatabaseHelper::getInstance()->GetHallsByName(hallNames);
+        int totalCapacity = 0;
+        for (const auto& h : *examHalls) {
+            totalCapacity += h->capacity;
+        }
+
+        if (totalCapacity < attendingStudents->size()) {
+            emit error("Sınava katılacak öğrenci sayısı, dersliklerdeki sıra sayısından daha fazla! Lütfen derslik sayısını ya da kapasitesini artırınız!");
+            return false;
+        }
+
+        return true;
+    }
+
 } // namespace BLL
 } // namespace ikoOSKAR

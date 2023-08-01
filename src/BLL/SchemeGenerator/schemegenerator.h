@@ -1,6 +1,8 @@
 #ifndef IKOOSKAR_BLL_SCHEMEGENERATOR_H
 #define IKOOSKAR_BLL_SCHEMEGENERATOR_H
 
+#include "Shared/hall.h"
+#include "Shared/scheme.h"
 #include "Shared/student.h"
 #include <QDate>
 #include <QString>
@@ -15,6 +17,7 @@ namespace BLL {
         QString examName;
         QDate examDate;
         QList<Student*>* attendingStudents;
+        QList<Hall*>* examHalls;
 
         QString examDir();
         bool schemeExists();
@@ -27,8 +30,8 @@ namespace BLL {
         void setDate(const QDate& date);
         bool setName(const QString& name);
         bool setAttendingClasses(const QList<QString>& classNames);
-        // bool setExamHalls(const QList<Shared::Hall>& halls);
-        // Shared::Scheme generate();
+        bool setExamHalls(const QList<QString>& hallNames);
+        // Scheme generate();
     };
 
 } // namespace BLL
