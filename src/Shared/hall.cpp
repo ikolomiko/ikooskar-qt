@@ -84,5 +84,12 @@ namespace Shared {
     {
     }
 
+    Hall::Hall(const QString& name, int capacity, const Layout& layout)
+        : name(name)
+        , capacity(capacity)
+        , layout(layout)
+    {
+    }
+
 } // namespace Shared
 } // namespace ikoOSKAR

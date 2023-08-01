@@ -26,6 +26,7 @@ namespace Shared {
 
         Hall();
         Hall(const QString& name, int capacity);
+        Hall(const QString& name, int capacity, const Layout& layout);
     };
 
 } // namespace Shared
