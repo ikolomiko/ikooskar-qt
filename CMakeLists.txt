@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
     src/DAL/Database/database.cpp src/DAL/Database/database.h
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
+    src/Shared/desk.h
     src/Shared/examstudent.h
     src/Shared/student.h
     src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
