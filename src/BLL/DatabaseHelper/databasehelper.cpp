@@ -323,10 +323,45 @@ namespace BLL {
      */
     void DatabaseHelper::EndOfTheYear()
     {
+        const auto& eotyUpdateHall = [this](int gradeFrom, QList<QString>* prevClassNames) {
+            for (const auto& className : *prevClassNames) {
+                auto pair = ParseClassName(className);
+                if (pair.first == gradeFrom) {
+                    Hall* hall = GetHallByName(className);
+                    hall->name = QString::number(pair.first + 1) + "-" + pair.second;
+                    Update(*hall, className);
+                }
+            }
+        };
+
+        const auto& eotyDeleteHall = [this](int grade, QList<QString>* prevClassNames) {
+            for (const auto& className : *prevClassNames) {
+                auto pair = ParseClassName(className);
+                if (pair.first == grade) {
+                    Delete(className);
+                }
+            }
+        };
+
         QString errorMsg = "BLL.EndOfTheYear() fonksiyonunda bir hata oluştu, yıl sonu işlemleri yapılamadı";
 
+        auto prevClassNames = GetClassNames();
         if (dal->EndOfTheYear(errorMsg)) {
             studentCache = dal->GetAllStudents();
+
+            // Update hall names
+
+            // Delete 12th grades
+            eotyDeleteHall(12, prevClassNames);
+
+            // 11th grade -> 12th grade
+            eotyUpdateHall(11, prevClassNames);
+
+            // 10th grade -> 11th grade
+            eotyUpdateHall(10, prevClassNames);
+
+            // 9th grade  -> 10th grade
+            eotyUpdateHall(9, prevClassNames);
         } else {
             emit error(errorMsg);
         }
