@@ -59,9 +59,11 @@ namespace BLL {
         QList<Student*>* GetStudentsByClassName(int grade, const QString& section);
         QList<Student*>* GetStudentsByClassName(const QString& className);
         Student* GetStudentById(int id);
+        Hall* GetHallByName(const QString& hallName);
         int GetNumberOfStudents();
         void DeleteEntireClass(const QString& className);
         QPair<int, QString> ParseClassName(const QString& className);
+        void AddDesk(Hall&, int n);
         ~DatabaseHelper();
     };
 

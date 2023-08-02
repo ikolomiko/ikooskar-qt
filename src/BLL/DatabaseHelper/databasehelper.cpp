@@ -3,7 +3,7 @@
 #include <QLocale>
 #include <QMessageBox>
 #include <QStringView>
-#include <algorithm>
+#include <cmath>
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -23,6 +23,7 @@ namespace BLL {
         }
 
         studentCache = dal->GetAllStudents();
+        hallCache = dal->GetAllHalls();
     }
 
     /// TODO write doc
@@ -382,6 +383,17 @@ namespace BLL {
         return s;
     }
 
+    Hall* DatabaseHelper::GetHallByName(const QString& hallName)
+    {
+        Hall* h = nullptr;
+        if (hallCache->contains(hallName)) {
+            h = hallCache->value(hallName);
+        } else {
+            emit error(hallName + " adlı derslik bulunamadı!");
+        }
+        return h;
+    }
+
     int DatabaseHelper::GetNumberOfStudents()
     {
         return studentCache->count();
@@ -407,6 +419,74 @@ namespace BLL {
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
         return QPair<int, QString>(grade, section);
+    }
+
+    /**
+     * @brief Adds @code{n} new desks to the given exam hall
+     * @param h : Exam hall
+     * @param n : Number of desks to be added
+     */
+    void DatabaseHelper::AddDesk(Hall& h, int n)
+    {
+        Hall::Layout layout = h.layout;
+        int lastRowIdx = layout.rowCount - 1;
+        auto lastRow = layout.desks[lastRowIdx];
+        int emptyIdx = 5;
+        for (; emptyIdx > 0; emptyIdx--) {
+            if (lastRow[emptyIdx] != nullptr) {
+                emptyIdx += 1;
+                break;
+            }
+        }
+
+        h.capacity += n;
+        int emptyDesks = 6 - emptyIdx;
+        int rowsToAdd = (n > emptyDesks) ? std::ceil((float)(n - emptyDesks) / 6) : 0;
+
+        if (rowsToAdd == 0) {
+            // Add n desks to the last row
+            for (int i = 0; i < n; i++) {
+                layout.desks[lastRowIdx][emptyIdx + i] = new Desk();
+            }
+        } else {
+            layout.rowCount += rowsToAdd;
+            Desk*** desks = new Desk**[layout.rowCount];
+
+            // Copy the rows from the old layout
+            for (int row = 0; row <= lastRowIdx; row++) {
+                desks[row] = layout.desks[row];
+            }
+
+            // Fill the empty desks at the end of the (old) last row
+            for (int col = emptyIdx; col < 6; col++) {
+                desks[lastRowIdx][col] = new Desk();
+            }
+
+            // Add new rows
+            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
+                desks[row] = new Desk*[6];
+            }
+
+            // Fill the new rows
+            for (int row = lastRowIdx + 1; row < layout.rowCount - 1; row++) {
+                for (int col = 0; col < 6; col++) {
+                    desks[row][col] = new Desk();
+                }
+            }
+
+            // Fill enough desks from the new last row
+            int col = 0;
+            for (; col < h.capacity % 6; col++) {
+                desks[layout.rowCount - 1][col] = new Desk();
+            }
+            for (; col < 6; col++) {
+                desks[layout.rowCount - 1][col] = nullptr;
+            }
+            layout.desks = desks;
+        }
+        h.layout = layout;
+
+        Update(h, h.name);
     }
 
     QString DatabaseHelper::turkishToUpper(const QString& s)
