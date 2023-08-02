@@ -359,7 +359,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Yeni Sınav Düzeni</string>
+            <string>Sınav Düzenleri</string>
            </property>
            <property name="text">
             <string/>
