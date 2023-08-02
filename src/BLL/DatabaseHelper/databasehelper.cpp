@@ -24,6 +24,8 @@ namespace BLL {
 
         studentCache = dal->GetAllStudents();
         hallCache = dal->GetAllHalls();
+
+        ResizeAllClassrooms();
     }
 
     /// TODO write doc
@@ -54,6 +56,7 @@ namespace BLL {
         } else if (dal->Add(s, errorMsg)) {
             // Student id is unique and student added to the database successfully
             studentCache->insert(s.id, &s);
+            ResizeClassroom(s.grade, s.section);
         } else {
             // Student id is unique but an error occurred when trying to add the student to the database
             emit error(errorMsg);
@@ -93,6 +96,10 @@ namespace BLL {
         // Assuming this method was called by MultiImportUi,
         // duplicates were already checked by MultiImportHelper.
 
+        if (students.isEmpty()) {
+            return;
+        }
+
         QList<int> problematicIds;
         QString errorLog;
         for (auto s : students) {
@@ -110,6 +117,8 @@ namespace BLL {
 
         // No problems occured
         if (problematicIds.empty()) {
+            auto s = *students.at(0);
+            ResizeClassroom(s.grade, s.section);
             return;
         }
 
@@ -162,6 +171,7 @@ namespace BLL {
             if (oldId != s.id)
                 studentCache->remove(oldId);
             studentCache->insert(s.id, newStudent);
+            ResizeClassroom(newStudent->grade, newStudent->section);
         } else {
             // A student with the given id exists but the update request is not successful
             emit error(errorMsg);
@@ -487,6 +497,32 @@ namespace BLL {
         h.layout = layout;
 
         Update(h, h.name);
+    }
+
+    void DatabaseHelper::ResizeClassroom(int grade, const QString& section)
+    {
+        // Create new classroom (hall) if no such exam hall exists
+        QString hallname = QString::number(grade) + "-" + section;
+        int classPopulation = GetStudentsByClassName(grade, section)->size();
+        if (!HallNameExists(hallname)) {
+            auto hall = new Hall(hallname, classPopulation);
+            Add(*hall);
+        } else {
+            // If such classroom (hall) exists, make sure its capacity >= class population
+            // Add new desks if necessary
+            Hall* hall = GetHallByName(hallname);
+            if (hall->capacity < classPopulation) {
+                AddDesk(*hall, classPopulation - hall->capacity);
+            }
+        }
+    }
+
+    void DatabaseHelper::ResizeAllClassrooms()
+    {
+        for (const auto& c : *GetClassNames()) {
+            auto pair = ParseClassName(c);
+            ResizeClassroom(pair.first, pair.second);
+        }
     }
 
     QString DatabaseHelper::turkishToUpper(const QString& s)
