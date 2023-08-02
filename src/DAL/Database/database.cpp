@@ -51,7 +51,7 @@ namespace DAL {
                   "VALUES (:name, :capacity, :layout)");
         q.bindValue(":name", h.name);
         q.bindValue(":capacity", h.capacity);
-        q.bindValue(":layout", h.layout.toJson());
+        q.bindValue(":layout", h.layout.toJsonStr());
 
         if (q.exec())
             return true;
@@ -111,7 +111,7 @@ namespace DAL {
             Hall* h = new Hall();
             h->name = q.value(0).toString();
             h->capacity = q.value(1).toInt();
-            h->layout = Hall::Layout::fromJson(q.value(2).toJsonObject());
+            h->layout = Hall::Layout::fromJsonStr(q.value(2).toString());
 
             halls->insert(h->name, h);
         }
@@ -148,7 +148,7 @@ namespace DAL {
         q.bindValue(":oldName", oldName);
         q.bindValue(":name", h.name);
         q.bindValue(":capacity", h.capacity);
-        q.bindValue(":layout", h.layout.toJson());
+        q.bindValue(":layout", h.layout.toJsonStr());
 
         if (q.exec())
             return true;
