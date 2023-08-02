@@ -9,6 +9,8 @@ namespace BLL {
 
     SchemeGenerator::SchemeGenerator()
     {
+        attendingStudents = new QList<Student*>();
+        examHalls = new QList<Hall*>();
     }
 
     QString SchemeGenerator::examDir()
@@ -59,7 +61,8 @@ namespace BLL {
 
     bool SchemeGenerator::setExamHalls(const QList<QString>& hallNames)
     {
-        examHalls = DatabaseHelper::getInstance()->GetHallsByName(hallNames);
+        examHalls->clear();
+        examHalls->append(*DatabaseHelper::getInstance()->GetHallsByName(hallNames));
         int totalCapacity = 0;
         for (const auto& h : *examHalls) {
             totalCapacity += h->capacity;
