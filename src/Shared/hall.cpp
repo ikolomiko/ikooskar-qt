@@ -1,5 +1,6 @@
 #include "hall.h"
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <cmath>
 
 namespace ikoOSKAR {
@@ -9,7 +10,7 @@ namespace Shared {
 
     Hall::Layout::Layout(int capacity)
     {
-        rowCount = std::ceil(capacity / 6);
+        rowCount = std::ceil((float)capacity / 6);
         desks = new Desk**[rowCount];
 
         // Fill rowCount * 6 desks
@@ -31,12 +32,28 @@ namespace Shared {
         }
     }
 
+    Hall::Layout Hall::Layout::fromJsonStr(const QString& jsonStr)
+    {
+        auto jObject = QJsonDocument::fromJson(jsonStr.toUtf8()).object();
+        return fromJson(jObject);
+    }
+
+    QString Hall::Layout::toJsonStr() const
+    {
+        auto jObject = toJson();
+        return QJsonDocument(jObject).toJson(QJsonDocument::Compact);
+    }
+
     Hall::Layout Hall::Layout::fromJson(const QJsonObject& json)
     {
         Layout result;
 
         if (const QJsonValue v = json["rowCount"]; v.isDouble()) {
             result.rowCount = v.toInt();
+        } else {
+            result.rowCount = 0;
+            result.desks = nullptr;
+            return result;
         }
 
         result.desks = new Desk**[result.rowCount];

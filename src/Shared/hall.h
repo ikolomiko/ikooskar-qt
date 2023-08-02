@@ -10,14 +10,18 @@ namespace Shared {
     class Hall {
     public:
         class Layout {
-        public:
-            int rowCount;
-            Desk*** desks;
+        private:
             static Layout fromJson(const QJsonObject& json);
             QJsonObject toJson() const;
 
+        public:
+            int rowCount;
+            Desk*** desks;
+
             Layout();
             Layout(int capacity);
+            static Layout fromJsonStr(const QString& jsonStr);
+            QString toJsonStr() const;
         };
 
         QString name;
