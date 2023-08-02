@@ -248,21 +248,21 @@ namespace BLL {
     }
 
     /**
-     * @brief Deletes the student with the given id from the database and studentCache
-     * @param id : The id of the student to be deleted
+     * @brief Deletes the exam hall with the given name from the database and hallCache
+     * @param hallName : The id of the student to be deleted
      */
-    void DatabaseHelper::Delete(Hall& hall)
+    void DatabaseHelper::Delete(const QString& hallName)
     {
         QString errorMsg = "BLL.Delete() fonksiyonunda bir hata oluştu, derslik silinemedi";
 
-        if (!HallNameExists(hall.name)) {
+        if (!HallNameExists(hallName)) {
             // There's no exam hall with the given name, thus cannot delete it
-            errorMsg = hall.name + " adlı derslik sistemde kayıtlı değil. "
-                                   "Bu nedenle derslik silinemedi!";
+            errorMsg = hallName + " adlı derslik sistemde kayıtlı değil. "
+                                  "Bu nedenle derslik silinemedi!";
             emit error(errorMsg);
-        } else if (dal->Delete(hall, errorMsg)) {
+        } else if (dal->Delete(hallName, errorMsg)) {
             // An exam hall with the given name exists and its deletion is successful
-            hallCache->remove(hall.name);
+            hallCache->remove(hallName);
         } else {
             // An exam hall with the given name exists but its deletion is not successful
             emit error(errorMsg);

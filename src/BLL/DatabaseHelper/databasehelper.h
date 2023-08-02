@@ -49,7 +49,7 @@ namespace BLL {
         void Update(Student&, int oldId);
         void Update(Hall&, const QString& oldName);
         void Delete(int id);
-        void Delete(Hall& hall);
+        void Delete(const QString& hallName);
         bool IdExists(int id);
         bool HallNameExists(const QString& hallName);
         QList<int> GetAllIds();

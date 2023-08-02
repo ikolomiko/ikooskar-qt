@@ -73,11 +73,11 @@ namespace DAL {
         return false;
     }
 
-    bool Database::Delete(Hall& h, QString& errorMessage)
+    bool Database::Delete(const QString& hallName, QString& errorMessage)
     {
         QSqlQuery q;
         q.prepare("DELETE FROM halls WHERE name = (:name)");
-        q.bindValue(":name", h.name);
+        q.bindValue(":name", hallName);
 
         if (q.exec())
             return true;
