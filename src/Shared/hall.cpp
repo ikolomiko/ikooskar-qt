@@ -5,6 +5,8 @@
 namespace ikoOSKAR {
 namespace Shared {
 
+    Hall::Layout::Layout() { }
+
     Hall::Layout::Layout(int capacity)
     {
         rowCount = std::ceil(capacity / 6);
@@ -76,6 +78,8 @@ namespace Shared {
 
         return result;
     }
+
+    Hall::Hall() { }
 
     Hall::Hall(const QString& name, int capacity)
         : name(name)
