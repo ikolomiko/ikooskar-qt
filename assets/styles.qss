@@ -35,7 +35,7 @@ QHeaderView::section {
     border: 1px solid #6c6c6c;
 }
 
-QLabel#lblModuleName, QLabel#lblHeader {
+QLabel#lblModuleName, QLabel#lblHeader, #btnOpenFile {
     font-size: 17pt;
 }
 
