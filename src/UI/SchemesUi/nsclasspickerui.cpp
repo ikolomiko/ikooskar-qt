@@ -14,7 +14,6 @@ namespace UI {
         ui->setupUi(this);
 
         auto nonAttendingList = *BLL::DatabaseHelper::getInstance()->GetClassNames();
-        nonAttendingList.sort();
         QList<QString> attendingList;
 
         // Restore previously selected classes
@@ -66,9 +65,9 @@ namespace UI {
         }
 
         // Add selected items to attending
-        QStringList existingItems = attendingModel->stringList();
+        QList<QString> existingItems = attendingModel->stringList();
         existingItems.append(selectedClasses);
-        existingItems.sort();
+        BLL::DatabaseHelper::sortClassnames(&existingItems);
         attendingModel->setStringList(existingItems);
     }
 
@@ -93,7 +92,7 @@ namespace UI {
         // Add selected items to nonAttending
         QStringList existingItems = nonAttendingModel->stringList();
         existingItems.append(selectedClasses);
-        existingItems.sort();
+        BLL::DatabaseHelper::sortClassnames(&existingItems);
         nonAttendingModel->setStringList(existingItems);
     }
 

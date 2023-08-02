@@ -14,7 +14,7 @@ namespace UI {
         ui->setupUi(this);
 
         auto excludedList = BLL::DatabaseHelper::getInstance()->GetAllHallNames();
-        excludedList.sort();
+        BLL::DatabaseHelper::sortClassnames(&excludedList);
         QList<QString> includedList;
 
         // Restore previously selected halls
@@ -68,7 +68,7 @@ namespace UI {
         // Add selected items to included
         QStringList existingItems = includedModel->stringList();
         existingItems.append(selectedHalls);
-        existingItems.sort();
+        BLL::DatabaseHelper::sortClassnames(&existingItems);
         includedModel->setStringList(existingItems);
     }
 
@@ -93,7 +93,7 @@ namespace UI {
         // Add selected items to excluded
         QStringList existingItems = excludedModel->stringList();
         existingItems.append(selectedHalls);
-        existingItems.sort();
+        BLL::DatabaseHelper::sortClassnames(&existingItems);
         excludedModel->setStringList(existingItems);
     }
 
