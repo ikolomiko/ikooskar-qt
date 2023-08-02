@@ -2,6 +2,7 @@
 #include "UI/ErrorUi/errorui.h"
 #include "nsclasspickerui.h"
 #include "nsexaminfoui.h"
+#include "nshallpickerui.h"
 #include "ui_newschemedialog.h"
 
 namespace ikoOSKAR {
@@ -96,12 +97,26 @@ namespace UI {
                 return;
             }
 
-            // hallPicker = new NSHallPickerUi();
-            // addWidget
-            // setCurrentIndex
+            auto hallPicker = new NSHallPickerUi();
+            ui->root->addWidget(hallPicker);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case HALL_PICKER: {
+            auto hallPicker = (NSHallPickerUi*)ui->root->currentWidget();
+            auto selectedHallNames = hallPicker->getSelectedHalls();
+
+            bool success = bll->setExamHalls(selectedHallNames);
+            if (!success) {
+                // Necessary error mesage(s) have already been shown
+                return;
+            }
+
+            /*
+            auto preview = new NSPreviewUi();
+            ui->root->addWidget(preview);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
+            */
             break;
         }
         case PREVIEW: {
