@@ -43,7 +43,7 @@ QLabel#lblHint {
     color: rgb(80,80,80);
 }
 
-#btnAddClass {
+#btnAddClass, #btnAddHall {
     background-color: #60FF60;
     border: 1px solid black;
     border-radius: 3px;
@@ -51,11 +51,11 @@ QLabel#lblHint {
     icon-size: 30pt;
 }
 
-#btnAddClass:pressed {
+#btnAddClass:pressed, #btnAddHall:pressed {
     background-color: #C0FFC0;
 }
 
-#btnRmClass {
+#btnRmClass, #btnRmHall {
     background-color: #FF6060;
     border: 1px solid black;
     border-radius: 3px;
@@ -63,6 +63,6 @@ QLabel#lblHint {
     icon-size: 30pt
 }
 
-#btnRmClass:pressed {
+#btnRmClass:pressed, #btnRmHall:pressed {
     background-color: #FFC0C0;
 }
