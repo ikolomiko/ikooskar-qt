@@ -37,6 +37,14 @@ namespace BLL {
         return instance;
     }
 
+    void DatabaseHelper::sortClassnames(QList<QString>* classNames)
+    {
+        std::sort(classNames->begin(), classNames->end(),
+            [](const QString& first, const QString& second) {
+                return first.size() != second.size() ? first.size() < second.size() : first < second;
+            });
+    }
+
     /**
      * @brief Adds the given student to the database and studentCache
      * @param s : The pointer of the student to be added to the database
@@ -340,10 +348,7 @@ namespace BLL {
         // Sorts the elements in 'sortedClassnames' by their lengths first,
         // and if their lengths are equal, uses the regular string comparison
         auto* sortedClassnames = new QList(uniqueClassnames->values());
-        std::sort(sortedClassnames->begin(), sortedClassnames->end(),
-            [](const QString& first, const QString& second) {
-                return first.size() != second.size() ? first.size() < second.size() : first < second;
-            });
+        sortClassnames(sortedClassnames);
 
         return sortedClassnames;
     }

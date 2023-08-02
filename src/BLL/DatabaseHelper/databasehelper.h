@@ -42,6 +42,7 @@ namespace BLL {
 
     public:
         static DatabaseHelper* getInstance();
+        static void sortClassnames(QList<QString>* classNames);
         void Add(Student&);
         void Add(Hall&);
         void AddAll(QList<Student*>&);
