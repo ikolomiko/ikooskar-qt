@@ -2,6 +2,7 @@
 #define IKOOSKAR_BLL_SCHEMEGENERATOR_H
 
 #include "Shared/hall.h"
+#include "Shared/pattern.h"
 #include "Shared/scheme.h"
 #include "Shared/student.h"
 #include <QDate>
@@ -13,11 +14,27 @@ namespace BLL {
     class SchemeGenerator : public QObject {
         Q_OBJECT
 
+    public:
+        class Preview {
+        public:
+            QString examName;
+            QString examDate;
+            QList<QString> attendingClassNames;
+            QList<QString> examHallNames;
+            int nGrades;
+            int nStudents;
+            int totalCapacity;
+            Pattern* pattern;
+        };
+
     private:
         QString examName;
         QString examDate;
+        QList<QString> attendingClassNames;
         QList<Student*>* attendingStudents;
+        QList<int> attendingGrades;
         QList<Hall*>* examHalls;
+        int totalCapacity;
 
         QString examDir();
         bool schemeExists();
@@ -31,7 +48,8 @@ namespace BLL {
         bool setName(const QString& name);
         bool setAttendingClasses(const QList<QString>& classNames);
         bool setExamHalls(const QList<QString>& hallNames);
-        // Scheme generate();
+        Preview preview();
+        Scheme generate();
     };
 
 } // namespace BLL

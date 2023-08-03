@@ -51,11 +51,21 @@ namespace BLL {
             return false;
         }
 
+        attendingClassNames = classNames;
+        attendingGrades.clear();
         attendingStudents->clear();
         for (const auto& className : classNames) {
+            // Get all students of selected classes
             auto students = DatabaseHelper::getInstance()->GetStudentsByClassName(className);
             attendingStudents->append(*students);
+
+            int grade = DatabaseHelper::ParseClassName(className).first;
+            if (!attendingGrades.contains(grade)) {
+                attendingGrades << grade;
+            }
         }
+        std::sort(attendingGrades.begin(), attendingGrades.end());
+
         return true;
     }
 
@@ -63,7 +73,8 @@ namespace BLL {
     {
         examHalls->clear();
         examHalls->append(*DatabaseHelper::getInstance()->GetHallsByName(hallNames));
-        int totalCapacity = 0;
+
+        totalCapacity = 0;
         for (const auto& h : *examHalls) {
             totalCapacity += h->capacity;
         }
@@ -74,6 +85,34 @@ namespace BLL {
         }
 
         return true;
+    }
+
+    SchemeGenerator::Preview SchemeGenerator::preview()
+    {
+        QList<QString> examHallNames;
+        for (const auto& hall : *examHalls) {
+            examHallNames << hall->name;
+        };
+        BLL::DatabaseHelper::sortClassnames(&examHallNames);
+
+        Preview p;
+        p.examName = examName;
+        p.examDate = examDate;
+        p.attendingClassNames = attendingClassNames;
+        p.examHallNames = examHallNames;
+        p.nGrades = attendingGrades.size();
+        p.nStudents = attendingStudents->size();
+        p.totalCapacity = totalCapacity;
+        p.pattern = new Pattern(attendingGrades, 0);
+
+        return p;
+    }
+
+    Scheme SchemeGenerator::generate()
+    {
+        Scheme scheme;
+
+        return scheme;
     }
 
 } // namespace BLL
