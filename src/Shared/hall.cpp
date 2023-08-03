@@ -21,14 +21,13 @@ namespace Shared {
             }
         }
 
-        // Delete the empty (non existent) desks from the last row
+        // Set the non-existent flag for the non-existent desks from the last row
         int col = capacity % 6;
         if (col == 0)
             return;
 
         for (; col < 6; col++) {
-            delete desks[rowCount - 1][col];
-            desks[rowCount - 1][col] = nullptr;
+            desks[rowCount - 1][col]->exists = false;
         }
     }
 
@@ -64,11 +63,7 @@ namespace Shared {
                 QJsonArray jRow = jDesks.at(row).toArray();
                 for (int col = 0; col < 6; col++) {
                     bool deskExists = jRow.at(col).toBool();
-                    if (deskExists) {
-                        result.desks[row][col] = new Desk();
-                    } else {
-                        result.desks[row][col] = nullptr;
-                    }
+                    result.desks[row][col] = new Desk(deskExists);
                 }
             }
         }
@@ -82,12 +77,12 @@ namespace Shared {
         result["rowCount"] = rowCount;
 
         // Convert the 2D desks pointer matrix into a json array of arrays
-        // The values in the json array are booleans, indicating whether the desk exists (not a nullptr)
+        // The values in the json array are booleans, indicating whether the desk exists
         QJsonArray jDesks;
         for (int row = 0; row < rowCount; row++) {
             QJsonArray jRow;
             for (int col = 0; col < 6; col++) {
-                jRow.append(desks[row][col] != nullptr);
+                jRow.append(desks[row][col]->exists);
             }
             jDesks.append(jRow);
         }

@@ -7,7 +7,23 @@ namespace Shared {
 
     class Desk {
     public:
-        Student* student = nullptr;
+        Student* student;
+        bool exists;
+        bool isEmpty;
+
+        Desk()
+            : student(nullptr)
+            , exists(true)
+            , isEmpty(true)
+        {
+        }
+
+        Desk(bool exists)
+            : student(nullptr)
+            , exists(exists)
+            , isEmpty(true)
+        {
+        }
     };
 
 } // namespace Shared

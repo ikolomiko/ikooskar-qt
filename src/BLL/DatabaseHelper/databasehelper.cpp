@@ -483,7 +483,7 @@ namespace BLL {
         auto lastRow = layout.desks[lastRowIdx];
         int emptyIdx = 5;
         for (; emptyIdx > 0; emptyIdx--) {
-            if (lastRow[emptyIdx] != nullptr) {
+            if (lastRow[emptyIdx]->exists) {
                 emptyIdx += 1;
                 break;
             }
@@ -496,7 +496,7 @@ namespace BLL {
         if (rowsToAdd == 0) {
             // Add n desks to the last row
             for (int i = 0; i < n; i++) {
-                layout.desks[lastRowIdx][emptyIdx + i] = new Desk();
+                layout.desks[lastRowIdx][emptyIdx + i]->exists = true;
             }
         } else {
             layout.rowCount += rowsToAdd;
@@ -509,7 +509,7 @@ namespace BLL {
 
             // Fill the empty desks at the end of the (old) last row
             for (int col = emptyIdx; col < 6; col++) {
-                desks[lastRowIdx][col] = new Desk();
+                desks[lastRowIdx][col]->exists = true;
             }
 
             // Add new rows
@@ -518,19 +518,16 @@ namespace BLL {
             }
 
             // Fill the new rows
-            for (int row = lastRowIdx + 1; row < layout.rowCount - 1; row++) {
+            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
                 for (int col = 0; col < 6; col++) {
                     desks[row][col] = new Desk();
                 }
             }
 
-            // Fill enough desks from the new last row
-            int col = 0;
-            for (; col < h.capacity % 6; col++) {
-                desks[layout.rowCount - 1][col] = new Desk();
-            }
+            // Remove the unneeded desks from the new last row
+            int col = h.capacity % 6;
             for (; col < 6; col++) {
-                desks[layout.rowCount - 1][col] = nullptr;
+                desks[layout.rowCount - 1][col]->exists = false;
             }
             layout.desks = desks;
         }
