@@ -1,9 +1,10 @@
 #ifndef IKOOSKAR_UI_NSPREVIEWUI_H
 #define IKOOSKAR_UI_NSPREVIEWUI_H
 
-#include "Shared/hall.h"
-#include "Shared/student.h"
+#include "BLL/SchemeGenerator/schemegenerator.h"
 #include <QWidget>
+
+using Preview = ikoOSKAR::BLL::SchemeGenerator::Preview;
 
 namespace ikoOSKAR {
 namespace UI {
@@ -16,7 +17,7 @@ namespace UI {
         Q_OBJECT
 
     public:
-        explicit NSPreviewUi(QWidget* parent = nullptr);
+        explicit NSPreviewUi(Preview preview, QWidget* parent = nullptr);
         ~NSPreviewUi();
 
     private:

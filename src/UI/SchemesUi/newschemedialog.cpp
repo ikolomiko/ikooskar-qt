@@ -1,8 +1,10 @@
 #include "newschemedialog.h"
+#include "UI/Common/spinner.h"
 #include "UI/ErrorUi/errorui.h"
 #include "nsclasspickerui.h"
 #include "nsexaminfoui.h"
 #include "nshallpickerui.h"
+#include "nspreviewui.h"
 #include "ui_newschemedialog.h"
 
 namespace ikoOSKAR {
@@ -48,6 +50,8 @@ namespace UI {
             break;
         }
         case PREVIEW: {
+            nav->btnNext->setText("  İleri  ");
+            nav->btnNext->setIcon(QIcon(":/arrow-right.png"));
             break;
         }
         case SPINNER: {
@@ -112,17 +116,28 @@ namespace UI {
                 return;
             }
 
-            /*
-            auto preview = new NSPreviewUi();
+            auto preview = new NSPreviewUi(bll->preview());
             ui->root->addWidget(preview);
             ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
-            */
+            nav->btnNext->setText("  Oluştur  ");
+            nav->btnNext->setIcon(QIcon(":/check.png"));
             break;
         }
         case PREVIEW: {
+            auto spinner = new Common::Spinner();
+            spinner->setTitle("Sınav düzeni oluşturuluyor. Lütfen bekleyiniz.");
+            spinner->start();
+            ui->root->addWidget(spinner);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
+            nav->hide();
+
+            // generate and export scheme in another thread
+            // connect the thread finish signal to nextPage slot
             break;
         }
         case SPINNER: {
+            // the scheme has been generated and exported as two xlsx files
+            // results = new NSResultsUi()
             break;
         }
         case RESULTS: {
