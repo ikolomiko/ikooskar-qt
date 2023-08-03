@@ -15,7 +15,7 @@ namespace BLL {
 
     private:
         QString examName;
-        QDate examDate;
+        QString examDate;
         QList<Student*>* attendingStudents;
         QList<Hall*>* examHalls;
 

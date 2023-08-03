@@ -15,7 +15,7 @@ namespace BLL {
 
     QString SchemeGenerator::examDir()
     {
-        return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + examDate.toString("dd.MM.yyyy") + "/" + examName;
+        return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + examDate + "/" + examName;
     }
 
     bool SchemeGenerator::schemeExists()
@@ -25,7 +25,7 @@ namespace BLL {
 
     void SchemeGenerator::setDate(const QDate& date)
     {
-        examDate = date;
+        examDate = date.toString("dd.MM.yyyy");
     }
 
     bool SchemeGenerator::setName(const QString& name)
