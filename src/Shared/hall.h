@@ -1,5 +1,6 @@
 #ifndef IKOOSKAR_SHARED_HALL_H
 #define IKOOSKAR_SHARED_HALL_H
+#include "Shared/pattern.h"
 #include "desk.h"
 #include <QJsonObject>
 #include <QString>
@@ -27,6 +28,7 @@ namespace Shared {
         QString name;
         int capacity;
         Layout layout;
+        Pattern* pattern;
 
         Hall();
         Hall(const QString& name, int capacity);
