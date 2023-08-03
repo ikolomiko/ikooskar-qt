@@ -40,6 +40,7 @@ set(PROJECT_SOURCES
     src/UI/SchemesUi/nsclasspickerui.h src/UI/SchemesUi/nsclasspickerui.cpp src/UI/SchemesUi/nsclasspickerui.ui
     src/UI/SchemesUi/nsexaminfoui.h src/UI/SchemesUi/nsexaminfoui.cpp src/UI/SchemesUi/nsexaminfoui.ui
     src/UI/SchemesUi/nshallpickerui.h src/UI/SchemesUi/nshallpickerui.cpp src/UI/SchemesUi/nshallpickerui.ui
+    src/UI/SchemesUi/nspreviewui.h src/UI/SchemesUi/nspreviewui.cpp src/UI/SchemesUi/nspreviewui.ui
     src/UI/SchemesUi/schemesui.cpp src/UI/SchemesUi/schemesui.h src/UI/SchemesUi/schemesui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui
