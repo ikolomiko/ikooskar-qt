@@ -43,6 +43,7 @@ namespace BLL {
     public:
         static DatabaseHelper* getInstance();
         static void sortClassnames(QList<QString>* classNames);
+        static QPair<int, QString> ParseClassName(const QString& className);
         void Add(Student&);
         void Add(Hall&);
         void AddAll(QList<Student*>&);
@@ -63,7 +64,6 @@ namespace BLL {
         Hall* GetHallByName(const QString& hallName);
         int GetNumberOfStudents();
         void DeleteEntireClass(const QString& className);
-        QPair<int, QString> ParseClassName(const QString& className);
         void AddDesk(Hall&, int n);
         void ResizeClassroom(int grade, const QString& section);
         void ResizeAllClassrooms();
