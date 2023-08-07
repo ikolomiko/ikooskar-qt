@@ -21,6 +21,7 @@ set(PROJECT_SOURCES
     src/DAL/Database/database.cpp src/DAL/Database/database.h
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/desk.h
+    src/Shared/deskcoordinates.h
     src/Shared/examstudent.h
     src/Shared/hall.h src/Shared/hall.cpp
     src/Shared/pattern.h src/Shared/pattern.cpp
