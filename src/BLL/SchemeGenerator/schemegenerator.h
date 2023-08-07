@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_BLL_SCHEMEGENERATOR_H
 #define IKOOSKAR_BLL_SCHEMEGENERATOR_H
 
+#include "Shared/deskcoordinates.h"
 #include "Shared/hall.h"
 #include "Shared/pattern.h"
 #include "Shared/scheme.h"
@@ -20,6 +21,7 @@ namespace BLL {
             QHash<Pattern::Variant, int> defaultMappings;
 
         public:
+            Preview(QList<int> grades);
             QString examName;
             QString examDate;
             QList<QString> attendingClassNames;
@@ -44,6 +46,9 @@ namespace BLL {
         QString examDir();
         bool schemeExists();
         int deskIndex(int row, int col);
+        bool isDeskSuitable(int grade, DeskCoordinates desk);
+        void placeStudent(const DeskCoordinates& coord, ExamStudent* s);
+        Scheme finalizeScheme(Scheme& scheme);
 
     signals:
         void error(const QString& errorMessage);
