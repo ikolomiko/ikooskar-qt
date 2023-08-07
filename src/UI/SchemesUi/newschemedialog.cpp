@@ -33,6 +33,8 @@ namespace UI {
     NewSchemeDialog::~NewSchemeDialog()
     {
         delete ui;
+        delete bll;
+        delete nav;
     }
 
     void NewSchemeDialog::prevPage()
