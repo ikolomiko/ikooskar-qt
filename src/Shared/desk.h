@@ -1,13 +1,13 @@
 #ifndef IKOOSKAR_SHARED_DESK_H
 #define IKOOSKAR_SHARED_DESK_H
-#include "student.h"
+#include "examstudent.h"
 
 namespace ikoOSKAR {
 namespace Shared {
 
     class Desk {
     public:
-        Student* student;
+        ExamStudent* student;
         bool exists;
         bool isEmpty;
 
