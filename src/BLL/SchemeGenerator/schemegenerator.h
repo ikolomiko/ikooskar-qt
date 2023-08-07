@@ -48,6 +48,7 @@ namespace BLL {
 
     public:
         SchemeGenerator();
+        ~SchemeGenerator();
         void setDate(const QDate& date);
         bool setName(const QString& name);
         bool setAttendingClasses(const QList<QString>& classNames);

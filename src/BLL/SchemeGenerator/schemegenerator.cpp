@@ -9,8 +9,17 @@ namespace BLL {
 
     SchemeGenerator::SchemeGenerator()
     {
-        attendingStudents = new QList<Student*>();
-        examHalls = new QList<Hall*>();
+        attendingStudents = new QList<ExamStudent*>();
+        examHalls = new QHash<QString, Hall*>();
+    }
+
+    SchemeGenerator::~SchemeGenerator()
+    {
+        for (const auto& hall : std::as_const(*examHalls)) {
+            hall->layout.clear();
+        }
+        delete attendingStudents;
+        delete examHalls;
     }
 
     QString SchemeGenerator::examDir()
