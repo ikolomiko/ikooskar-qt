@@ -32,6 +32,11 @@ namespace BLL {
         return QDir(examDir()).exists();
     }
 
+    int SchemeGenerator::deskIndex(int row, int col)
+    {
+        return (row * 6) + col + 1;
+    }
+
     void SchemeGenerator::setDate(const QDate& date)
     {
         examDate = date.toString("dd.MM.yyyy");

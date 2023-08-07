@@ -35,13 +35,15 @@ namespace BLL {
         QString examName;
         QString examDate;
         QList<QString> attendingClassNames;
-        QList<Student*>* attendingStudents;
+        QList<ExamStudent*>* attendingStudents;
+        QHash<int, QList<ExamStudent*>*> studentsByGrade;
         QList<int> attendingGrades;
-        QList<Hall*>* examHalls;
+        QHash<QString, Hall*>* examHalls;
         int totalCapacity;
 
         QString examDir();
         bool schemeExists();
+        int deskIndex(int row, int col);
 
     signals:
         void error(const QString& errorMessage);
