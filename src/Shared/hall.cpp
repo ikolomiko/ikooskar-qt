@@ -43,6 +43,16 @@ namespace Shared {
         return QJsonDocument(jObject).toJson(QJsonDocument::Compact);
     }
 
+    void Hall::Layout::clear()
+    {
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < 6; col++) {
+                desks[row][col]->isEmpty = true;
+                desks[row][col]->student = nullptr;
+            }
+        }
+    }
+
     Hall::Layout Hall::Layout::fromJson(const QJsonObject& json)
     {
         Layout result;

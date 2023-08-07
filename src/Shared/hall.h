@@ -23,6 +23,7 @@ namespace Shared {
             Layout(int capacity);
             static Layout fromJsonStr(const QString& jsonStr);
             QString toJsonStr() const;
+            void clear();
         };
 
         QString name;
