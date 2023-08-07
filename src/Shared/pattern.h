@@ -16,17 +16,13 @@ namespace Shared {
             d
         };
 
-        Pattern(QList<int> grades, int seed);
-        static Pattern* random(QList<int> grades);
-
-        int mapToGrade(Variant v);
+        Pattern(int gradeCount, int seed);
+        static Pattern* random(int gradeCount);
         Variant variantAt(int row, int col);
-        int gradeAt(int row, int col);
 
     private:
         int gradeIndex; // gradeIndex = gradeCount - 1
         int startOffset;
-        QHash<Variant, int> variantGradeMappings;
 
         // clang-format off
         const static inline Variant patterns[4][6][6] = {
