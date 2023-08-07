@@ -13,7 +13,7 @@ namespace Shared {
     class Scheme {
     public:
         QString name;
-        QDate date;
+        QString date;
         QMap<QString, QList<ExamStudent>> classLists; // { className: [ExamStudent] }
         QMap<QString, Hall> hallLayouts; // { hallName: Hall }
     };
