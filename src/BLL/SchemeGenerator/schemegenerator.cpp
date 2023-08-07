@@ -90,12 +90,12 @@ namespace BLL {
     SchemeGenerator::Preview SchemeGenerator::preview()
     {
         QList<QString> examHallNames;
-        for (const auto& hall : *examHalls) {
+        for (const auto& hall : std::as_const(*examHalls)) {
             examHallNames << hall->name;
         };
         BLL::DatabaseHelper::sortClassnames(&examHallNames);
 
-        Preview p;
+        Preview p(attendingGrades);
         p.examName = examName;
         p.examDate = examDate;
         p.attendingClassNames = attendingClassNames;
@@ -103,7 +103,7 @@ namespace BLL {
         p.nGrades = attendingGrades.size();
         p.nStudents = attendingStudents->size();
         p.totalCapacity = totalCapacity;
-        p.pattern = new Pattern(attendingGrades, 0);
+        p.pattern = new Pattern(attendingGrades.count(), 0);
 
         return p;
     }
@@ -112,7 +112,20 @@ namespace BLL {
     {
         Scheme scheme;
 
-        return scheme;
+    SchemeGenerator::Preview::Preview(QList<int> grades)
+    {
+        std::sort(grades.begin(), grades.end());
+        for (int i = 0; i < grades.size(); i++) {
+            int grade = grades[i];
+            auto v = (Pattern::Variant)i;
+            defaultMappings.insert(v, grade);
+        }
+    }
+
+    int SchemeGenerator::Preview::gradeAt(int row, int col)
+    {
+        auto v = pattern->variantAt(row, col);
+        return defaultMappings[v];
     }
 
 } // namespace BLL

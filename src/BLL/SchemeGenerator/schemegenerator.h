@@ -16,6 +16,9 @@ namespace BLL {
 
     public:
         class Preview {
+        private:
+            QHash<Pattern::Variant, int> defaultMappings;
+
         public:
             QString examName;
             QString examDate;
@@ -25,6 +28,7 @@ namespace BLL {
             int nStudents;
             int totalCapacity;
             Pattern* pattern;
+            int gradeAt(int row, int col);
         };
 
     private:
