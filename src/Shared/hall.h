@@ -34,6 +34,7 @@ namespace Shared {
         Hall();
         Hall(const QString& name, int capacity);
         Hall(const QString& name, int capacity, const Layout& layout);
+        int countVariant(Pattern::Variant v);
     };
 
 } // namespace Shared

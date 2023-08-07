@@ -117,5 +117,24 @@ namespace Shared {
     {
     }
 
+    int Hall::countVariant(Pattern::Variant v)
+    {
+        if (pattern == nullptr) {
+            return -1;
+        }
+
+        int count = 0;
+        for (int row = 0; row < layout.rowCount; row++) {
+            for (int col = 0; col < 6; col++) {
+                const auto& desk = layout.desks[row][col];
+                if (desk->exists && pattern->variantAt(row, col) == v) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
 } // namespace Shared
 } // namespace ikoOSKAR
