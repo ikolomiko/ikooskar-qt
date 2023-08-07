@@ -69,7 +69,7 @@ namespace UI {
                     if (col > 5)
                         effectiveCol -= 2;
 
-                    int grade = preview.pattern->gradeAt(row, effectiveCol);
+                    int grade = preview.gradeAt(row, effectiveCol);
                     lbl->setText(QString::number(grade));
                 }
                 ui->tableWidget->setCellWidget(row, col, lbl);
