@@ -10,6 +10,20 @@ namespace Shared {
     public:
         QString hallName;
         int deskIndex;
+
+        ExamStudent(Student& s)
+        {
+            firstName = s.firstName;
+            lastName = s.lastName;
+            grade = s.grade;
+            id = s.id;
+            section = s.section;
+        }
+
+        bool operator<(const ExamStudent& other) const
+        {
+            return (id < other.id);
+        }
     };
 
 } // namespace Shared
