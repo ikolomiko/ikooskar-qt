@@ -22,14 +22,12 @@ namespace BLL {
         delete examHalls;
     }
 
-    QString SchemeGenerator::examDir()
-    {
-        return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + examDate + "/" + examName;
-    }
-
     bool SchemeGenerator::schemeExists()
     {
-        return QDir(examDir()).exists();
+        Scheme s;
+        s.name = examName;
+        s.date = examDate;
+        return QDir(s.path()).exists();
     }
 
     int SchemeGenerator::deskIndex(int row, int col)

@@ -43,7 +43,6 @@ namespace BLL {
         QHash<QString, Hall*>* examHalls;
         int totalCapacity;
 
-        QString examDir();
         bool schemeExists();
         int deskIndex(int row, int col);
         bool isDeskSuitable(int grade, DeskCoordinates desk);
