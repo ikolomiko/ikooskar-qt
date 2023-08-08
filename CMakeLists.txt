@@ -60,19 +60,18 @@ qt_add_executable(ikoOSKAR
 )
 
 FetchContent_Declare(
-  QXlsx
-  GIT_REPOSITORY https://github.com/QtExcel/QXlsx.git
-  GIT_TAG        499901003f02da34f7fbc1ec214a24e4dc128b74
-  SOURCE_SUBDIR  QXlsx
+  libxlsxwriter
+  GIT_REPOSITORY https://github.com/jmcnamara/libxlsxwriter.git
+  GIT_TAG        4aaca54c4188aaedca7d01a28f0c9d11f99d4cb2
 )
-FetchContent_MakeAvailable(QXlsx)
+FetchContent_MakeAvailable(libxlsxwriter)
 
 target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Widgets
     Qt6::Core
     Qt6::Gui
     Qt6::Sql
-    QXlsx::QXlsx
+    xlsxwriter
 )
 
 target_compile_options(ikoOSKAR PRIVATE
