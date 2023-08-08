@@ -104,7 +104,7 @@ the corresponding file/folder.
 | [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
 | -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
-| XlsxWriter	| SchemeExporter	| -
+| [QXlsx](https://github.com/QtExcel/QXlsx) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
 | LocalAuth		| LocalAuthHelper 	| -
@@ -128,3 +128,5 @@ the corresponding file/folder.
 
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
+
+[1] [QXlsx](https://github.com/QtExcel/QXlsx), the library used by ikoOSKAR::BLL::SchemeExporter, is licensed under the [MIT License](https://github.com/QtExcel/QXlsx/blob/master/LICENSE).
