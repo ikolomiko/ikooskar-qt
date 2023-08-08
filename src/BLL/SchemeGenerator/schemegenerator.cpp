@@ -104,11 +104,12 @@ namespace BLL {
         for (const auto& className : attendingClassNames) {
             auto [grade, section] = BLL::DatabaseHelper::ParseClassName(className);
             QList<ExamStudent> students;
-            for (const auto& s : *studentsByGrade[grade]) {
-                if (s->section == section) {
+            for (const auto& s : *attendingStudents) {
+                if (s->grade == grade && s->section == section) {
                     students.append(*s);
                 }
             }
+            std::sort(students.begin(), students.end());
             scheme.classLists.append({ className, students });
         }
 
