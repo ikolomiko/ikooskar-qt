@@ -121,7 +121,9 @@ the corresponding file/folder.
 |[Student](/src/Shared/student.h)		|
 |[ExamStudent](/src/Shared/examstudent.h)	|
 |[Desk](/src/Shared/desk.h)			|
+|[DeskCoordinates](/src/Shared/deskcoordinates.h) |
 |[Hall](/src/Shared/hall.h)			|
+|[Pattern](/src/Shared/pattern.h)		|
 |[Scheme](/src/Shared/scheme.h)			|
 
 &nbsp;
@@ -129,4 +131,4 @@ the corresponding file/folder.
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
 
-[1] [QXlsx](https://github.com/QtExcel/QXlsx), the library used by ikoOSKAR::BLL::SchemeExporter, is licensed under the [MIT License](https://github.com/QtExcel/QXlsx/blob/master/LICENSE).
+[1] [QXlsx](https://github.com/QtExcel/QXlsx), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under the [MIT License](https://github.com/QtExcel/QXlsx/blob/master/LICENSE).
