@@ -89,8 +89,15 @@ namespace BLL {
         // Assign the hall layouts
         scheme.hallLayouts.clear();
         for (const auto& hall : std::as_const(*examHalls)) {
-            scheme.hallLayouts.insert(hall->name, *hall);
+            scheme.hallLayouts.append(*hall);
         }
+
+        // Sort the halls by their names
+        std::sort(scheme.hallLayouts.begin(), scheme.hallLayouts.end(), [](const Hall& h1, const Hall& h2) {
+            const QString& name1 = h1.name;
+            const QString& name2 = h2.name;
+            return name1.size() != name2.size() ? name1.size() < name2.size() : name1 < name2;
+        });
 
         // Create the class lists
         scheme.classLists.clear();
@@ -102,8 +109,15 @@ namespace BLL {
                     students.append(*s);
                 }
             }
-            scheme.classLists.insert(className, students);
+            scheme.classLists.append({ className, students });
         }
+
+        // Sort the class lists by their names
+        std::sort(scheme.classLists.begin(), scheme.classLists.end(), [](const auto& p1, const auto& p2) {
+            const QString& name1 = p1.first;
+            const QString& name2 = p2.first;
+            return name1.size() != name2.size() ? name1.size() < name2.size() : name1 < name2;
+        });
 
         return scheme;
     }
