@@ -1,7 +1,7 @@
-# Generated from src.pro.
-
 cmake_minimum_required(VERSION 3.16)
 project(ikoOSKAR VERSION 1.0 LANGUAGES CXX)
+
+include(FetchContent)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
@@ -58,12 +58,20 @@ qt_add_executable(ikoOSKAR
     ${PROJECT_SOURCES}
 )
 
+FetchContent_Declare(
+  QXlsx
+  GIT_REPOSITORY https://github.com/QtExcel/QXlsx.git
+  GIT_TAG        499901003f02da34f7fbc1ec214a24e4dc128b74
+  SOURCE_SUBDIR  QXlsx
+)
+FetchContent_MakeAvailable(QXlsx)
 
 target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Widgets
     Qt6::Core
     Qt6::Gui
     Qt6::Sql
+    QXlsx::QXlsx
 )
 
 target_compile_options(ikoOSKAR PRIVATE
