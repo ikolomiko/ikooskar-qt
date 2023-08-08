@@ -15,8 +15,8 @@ namespace Shared {
     public:
         QString name;
         QString date;
-        QMap<QString, QList<ExamStudent>> classLists; // { className: [ExamStudent] }
-        QMap<QString, Hall> hallLayouts; // { hallName: Hall }
+        QList<QPair<QString, QList<ExamStudent>>> classLists; // [ { className, [ExamStudent] } ]
+        QList<Hall> hallLayouts; // [Hall]
 
         QString path()
         {
