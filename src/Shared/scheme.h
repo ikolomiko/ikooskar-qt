@@ -5,6 +5,7 @@
 #include "hall.h"
 #include <QDate>
 #include <QMap>
+#include <QSettings>
 #include <QString>
 
 namespace ikoOSKAR {
@@ -16,6 +17,11 @@ namespace Shared {
         QString date;
         QMap<QString, QList<ExamStudent>> classLists; // { className: [ExamStudent] }
         QMap<QString, Hall> hallLayouts; // { hallName: Hall }
+
+        QString path()
+        {
+            return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + date + "/" + name;
+        }
     };
 
 } // namespace Shared
