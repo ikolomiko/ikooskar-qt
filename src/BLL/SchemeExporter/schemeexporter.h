@@ -1,6 +1,8 @@
 #ifndef IKOOSKAR_BLL_SCHEMEEXPORTER_H
 #define IKOOSKAR_BLL_SCHEMEEXPORTER_H
+#include "Shared/deskcoordinates.h"
 #include "Shared/scheme.h"
+#include "xlsxwriter.h"
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -8,6 +10,12 @@ namespace BLL {
     class SchemeExporter {
     private:
         Scheme scheme;
+
+        void noDesk(lxw_workbook* workbook, lxw_worksheet* sheet, int xRow, int xCol);
+        void emptyDesk(lxw_workbook* workbook, lxw_worksheet* sheet, DeskCoordinates& coord);
+        void regularDesk(lxw_workbook* workbook, lxw_worksheet* sheet, DeskCoordinates& coord);
+        void separator(lxw_workbook* workbook, lxw_worksheet* sheet, int xRow, int xCol, bool bothSidesEmpty);
+        bool createDesk(lxw_workbook* workbook, lxw_worksheet* sheet, DeskCoordinates& coord);
 
     public:
         SchemeExporter(Scheme scheme);
