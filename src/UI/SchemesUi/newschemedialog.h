@@ -35,10 +35,12 @@ namespace UI {
         PageState page;
         QString examName;
         QDate examDate;
+        QString pathClassLists, pathHallLayouts;
 
         void prevPage();
         void nextPage();
         void handleError(const QString& errorMessage);
+        void onExportFinished(const QString& pathClassLists, const QString& pathHallLayouts);
     };
 } // namespace UI
 } // namespace ikoOSKAR

@@ -1,4 +1,5 @@
 #include "newschemedialog.h"
+#include "BLL/SchemeExporter/schemeexporter.h"
 #include "UI/Common/spinner.h"
 #include "UI/ErrorUi/errorui.h"
 #include "nsclasspickerui.h"
@@ -6,6 +7,7 @@
 #include "nshallpickerui.h"
 #include "nspreviewui.h"
 #include "ui_newschemedialog.h"
+#include <QtConcurrent/QtConcurrentRun>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -134,12 +136,28 @@ namespace UI {
             nav->hide();
 
             // generate and export scheme in another thread
-            // connect the thread finish signal to nextPage slot
+            QtConcurrent::run([&]() {
+                return bll->generate();
+            }).then([&](Shared::Scheme scheme) {
+                BLL::SchemeExporter exporter(scheme);
+                connect(&exporter, &BLL::SchemeExporter::exportFinished, this, &UI::NewSchemeDialog::onExportFinished);
+                connect(&exporter, &BLL::SchemeExporter::error, this, &UI::NewSchemeDialog::handleError);
+                exporter.exportAll();
+            });
+
+            // TODO // if demo, decrease demo.remainingBalance by one
             break;
         }
         case SPINNER: {
             // the scheme has been generated and exported as two xlsx files
-            // results = new NSResultsUi()
+            auto spinner = (Common::Spinner*)ui->root->widget(ui->root->currentIndex());
+            ui->root->removeWidget(spinner);
+            spinner->stop();
+            spinner->deleteLater();
+
+            // auto results = new NSResultsUi(pathClassLists, pathHallLayouts)
+            // ui->root->addWidget(results);
+            // ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case RESULTS: {
@@ -154,6 +172,13 @@ namespace UI {
     void NewSchemeDialog::handleError(const QString& errorMessage)
     {
         ErrorUi("HATA").displayMessage(errorMessage);
+    }
+
+    void NewSchemeDialog::onExportFinished(const QString& pathClassLists, const QString& pathHallLayouts)
+    {
+        this->pathClassLists = pathClassLists;
+        this->pathHallLayouts = pathHallLayouts;
+        nextPage(); // spinner -> results
     }
 
 } // namespace UI
