@@ -35,6 +35,7 @@ namespace Shared {
         Hall(const QString& name, int capacity);
         Hall(const QString& name, int capacity, const Layout& layout);
         int countVariant(Pattern::Variant v);
+        int countStudents(int grade, const QString& section);
     };
 
 } // namespace Shared

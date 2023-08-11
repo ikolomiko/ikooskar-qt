@@ -136,5 +136,23 @@ namespace Shared {
         return count;
     }
 
+    int Hall::countStudents(int grade, const QString& section)
+    {
+        int count = 0;
+        for (int row = 0; row < layout.rowCount; row++) {
+            for (int col = 0; col < 6; col++) {
+                const auto& desk = layout.desks[row][col];
+                if (desk->exists && !desk->isEmpty) {
+                    const auto& student = desk->student;
+                    if (student->grade == grade && student->section == section) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
 } // namespace Shared
 } // namespace ikoOSKAR
