@@ -118,13 +118,15 @@ namespace BLL {
         : scheme(scheme)
     {
         QDir().mkpath(scheme.path());
-        pathClassLists = scheme.path() + "/Sınıf Karma Listeleri.xlsx";
-        pathHallLayouts = scheme.path() + "/Oturma Planları.xlsx";
+        pathClassLists = QDir::toNativeSeparators(scheme.path() + "/Sınıf Karma Listeleri.xlsx");
+        pathHallLayouts = QDir::toNativeSeparators(scheme.path() + "/Oturma Planları.xlsx");
     }
 
     void SchemeExporter::exportClassLists()
     {
-        lxw_workbook* workbook = workbook_new(pathClassLists.toUtf8());
+        auto bPath = pathClassLists.toLocal8Bit();
+        char* path = bPath.data();
+        lxw_workbook* workbook = workbook_new(path);
 
         for (const auto& [className, studentList] : scheme.classLists) {
             lxw_worksheet* sheet = workbook_add_worksheet(workbook, className.toUtf8());
@@ -226,7 +228,9 @@ namespace BLL {
 
     void SchemeExporter::exportHallLayouts()
     {
-        lxw_workbook* workbook = workbook_new(pathHallLayouts.toUtf8());
+        auto bPath = pathHallLayouts.toLocal8Bit();
+        char* path = bPath.data();
+        lxw_workbook* workbook = workbook_new(path);
 
         for (auto& hall : scheme.hallLayouts) {
             lxw_worksheet* sheet = workbook_add_worksheet(workbook, hall.name.toUtf8());
