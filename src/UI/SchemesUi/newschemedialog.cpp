@@ -141,7 +141,6 @@ namespace UI {
             }).then([&](Shared::Scheme scheme) {
                 BLL::SchemeExporter exporter(scheme);
                 connect(&exporter, &BLL::SchemeExporter::exportFinished, this, &UI::NewSchemeDialog::onExportFinished);
-                connect(&exporter, &BLL::SchemeExporter::error, this, &UI::NewSchemeDialog::handleError);
                 exporter.exportAll();
             });
 
