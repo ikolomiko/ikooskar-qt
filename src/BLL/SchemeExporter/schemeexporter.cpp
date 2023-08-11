@@ -13,7 +13,7 @@ namespace BLL {
     void SchemeExporter::noDesk(lxw_workbook* workbook, lxw_worksheet* sheet, int xRow, int xCol)
     {
         lxw_format* format = workbook_add_format(workbook);
-        format_set_border(format, LXW_BORDER_NONE);
+        format_set_border(format, LXW_BORDER_DOTTED);
 
         worksheet_write_string(sheet, xRow, xCol, "", format);
     }
@@ -118,12 +118,13 @@ namespace BLL {
         : scheme(scheme)
     {
         QDir().mkpath(scheme.path());
+        pathClassLists = scheme.path() + "/Sınıf Karma Listeleri.xlsx";
+        pathHallLayouts = scheme.path() + "/Oturma Planları.xlsx";
     }
 
     void SchemeExporter::exportClassLists()
     {
-        const auto filePath = scheme.path() + "/Sınıf Karma Listeleri.xlsx";
-        lxw_workbook* workbook = workbook_new(filePath.toUtf8());
+        lxw_workbook* workbook = workbook_new(pathClassLists.toUtf8());
 
         for (const auto& [className, studentList] : scheme.classLists) {
             lxw_worksheet* sheet = workbook_add_worksheet(workbook, className.toUtf8());
@@ -225,8 +226,7 @@ namespace BLL {
 
     void SchemeExporter::exportHallLayouts()
     {
-        const auto filePath = scheme.path() + "/Oturma Planları.xlsx";
-        lxw_workbook* workbook = workbook_new(filePath.toUtf8());
+        lxw_workbook* workbook = workbook_new(pathHallLayouts.toUtf8());
 
         for (auto& hall : scheme.hallLayouts) {
             lxw_worksheet* sheet = workbook_add_worksheet(workbook, hall.name.toUtf8());
@@ -244,7 +244,7 @@ namespace BLL {
 
             {
                 // Row 1: main header
-                char* txt = (hall.name + " SINIFI OTURMA PLANI").toUtf8().data();
+                char* txt = (hall.name + " DERSLİK OTURMA PLANI").toUtf8().data();
                 lxw_format* format = workbook_add_format(workbook);
                 format_set_bold(format);
                 format_set_font_size(format, 32);
@@ -407,6 +407,7 @@ namespace BLL {
     {
         exportClassLists();
         exportHallLayouts();
+        emit exportFinished(pathClassLists, pathHallLayouts);
     }
 
 } // namespace BLL

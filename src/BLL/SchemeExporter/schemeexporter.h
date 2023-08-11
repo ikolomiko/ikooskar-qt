@@ -7,8 +7,11 @@
 namespace ikoOSKAR {
 namespace BLL {
     using namespace Shared;
-    class SchemeExporter {
+    class SchemeExporter : public QObject {
+        Q_OBJECT
+
     private:
+        QString pathClassLists, pathHallLayouts;
         Scheme scheme;
 
         void noDesk(lxw_workbook* workbook, lxw_worksheet* sheet, int xRow, int xCol);
@@ -22,6 +25,9 @@ namespace BLL {
         void exportClassLists();
         void exportHallLayouts();
         void exportAll();
+
+    signals:
+        void exportFinished(const QString& pathClassLists, const QString& pathHallLayouts);
     };
 
 } // namespace BLL
