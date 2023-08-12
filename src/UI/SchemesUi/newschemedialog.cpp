@@ -6,7 +6,10 @@
 #include "nsexaminfoui.h"
 #include "nshallpickerui.h"
 #include "nspreviewui.h"
+#include "nsresultsui.h"
 #include "ui_newschemedialog.h"
+#include <QDesktopServices>
+#include <QUrl>
 #include <QtConcurrent/QtConcurrentRun>
 
 namespace ikoOSKAR {
@@ -63,8 +66,12 @@ namespace UI {
             return;
         }
         case RESULTS: {
-            // Illegal state, there's no going back from the results page
-            return;
+            // btnBack on the results subpage has a new purpose:
+            // opening the folder containing the newly created exam schemes
+            auto path = Shared::Scheme::path(examName, examDate);
+            QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+
+            return; // Don't decrease the page index
         }
         }
 
@@ -154,9 +161,28 @@ namespace UI {
             spinner->stop();
             spinner->deleteLater();
 
-            // auto results = new NSResultsUi(pathClassLists, pathHallLayouts)
-            // ui->root->addWidget(results);
-            // ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
+            auto results = new NSResultsUi(examName, examDate.toString("dd/MM/yyyy"));
+            ui->root->addWidget(results);
+            ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
+
+            // Assign the nav buttons new purposes, give them bigger new icons and make them slightly taller
+            // After this reassignment, there'll be no page changes.
+
+            // btnPrev becomes btnOpenExamFolder
+            nav->btnPrev->setIcon(QIcon(":/folder.png"));
+            nav->btnPrev->setText("  Bu sınava ait klasörü aç  ");
+            nav->btnPrev->setIconSize({ 32, 32 });
+            nav->btnPrev->setMinimumHeight(50);
+
+            // btnNext becomes btnClose (refer to the 'case: RESULTS' part below)
+            nav->btnNext->setIcon(QIcon(":/home.png"));
+            nav->btnNext->setText("  Ana sayfaya dön  ");
+            nav->btnNext->setIconSize({ 32, 32 });
+            nav->btnNext->setMinimumHeight(50);
+            nav->btnNext->setLayoutDirection(Qt::LeftToRight);
+
+            nav->setMaximumHeight(50);
+            nav->show();
             break;
         }
         case RESULTS: {
