@@ -92,6 +92,7 @@ set(resources_resource_files
     "assets/banner.png"
     "assets/check.png"
     "assets/edit.png"
+    "assets/folder.png"
     "assets/help.png"
     "assets/history.png"
     "assets/home.png"
@@ -100,12 +101,14 @@ set(resources_resource_files
     "assets/new-scheme.png"
     "assets/open-in.png"
     "assets/option-bullet.png"
+    "assets/printer.png"
     "assets/qtbase_tr.qm"
     "assets/remove.png"
     "assets/scheme.png"
     "assets/spinner.gif"
     "assets/students.png"
     "assets/styles.qss"
+    "assets/xlsx.png"
     "assets/xls2csv.vbs"
 )
 
