@@ -22,6 +22,11 @@ namespace Shared {
         {
             return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + date + "/" + name;
         }
+
+        static QString path(const QString& examName, const QDate& examDate)
+        {
+            return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + examDate.toString("dd.MM.yyyy") + "/" + examName;
+        }
     };
 
 } // namespace Shared
