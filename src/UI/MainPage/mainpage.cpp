@@ -4,8 +4,6 @@
 #include "UI/SchemesUi/schemesui.h"
 #include "UI/WelcomeUi/welcomeui.h"
 #include "ui_mainpage.h"
-#include <QDebug>
-#include <QStatusBar>
 
 namespace ikoOSKAR {
 namespace UI {
