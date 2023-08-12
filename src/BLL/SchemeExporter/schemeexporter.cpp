@@ -374,9 +374,9 @@ namespace BLL {
                         int grade = it.key();
                         int count = hall.countStudents(grade, section);
                         gradePopulations[grade] += count;
-                        char* txt = QString::number(count).toUtf8().data();
 
-                        worksheet_merge_range(sheet, xrow, col, xrow, col + 1, txt, format);
+                        worksheet_merge_range(sheet, xrow, col, xrow, col + 1, nullptr, format);
+                        worksheet_write_number(sheet, xrow, col, count, format);
                         col += 2;
                     }
 
@@ -395,9 +395,9 @@ namespace BLL {
                 int col = 1;
                 for (int count : std::as_const(gradePopulations)) {
                     totalPopulation += count;
-                    char* txt = QString::number(count).toUtf8().data();
 
-                    worksheet_merge_range(sheet, xrow, col, xrow, col + 1, txt, fmtInfoHeader);
+                    worksheet_merge_range(sheet, xrow, col, xrow, col + 1, nullptr, fmtInfoHeader);
+                    worksheet_write_number(sheet, xrow, col, count, fmtInfoHeader);
                     col += 2;
                 }
 
