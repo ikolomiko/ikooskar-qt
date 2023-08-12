@@ -54,6 +54,15 @@ namespace BLL {
         int xRow = 3 + 2 * coord.row;
         int xCol = 2 * coord.col;
         int deskIndex = student->deskIndex;
+        if (deskIndex % 2 == 1) {
+            // The desk is on the left,
+            // make the right border dotted
+            format_set_right(format, LXW_BORDER_DOTTED);
+        } else {
+            // The desk is on the left,
+            // make the left border dotted
+            format_set_left(format, LXW_BORDER_DOTTED);
+        }
 
         QByteArray bUpperText = QString::number(deskIndex).toUtf8();
         char* upperText = bUpperText.data();
