@@ -57,6 +57,7 @@ include_directories("src")
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    src/UI/SchemesUi/nsresultsui.h src/UI/SchemesUi/nsresultsui.cpp src/UI/SchemesUi/nsresultsui.ui
 )
 
 FetchContent_Declare(
