@@ -1,6 +1,5 @@
 #include "welcomeui.h"
 #include "ui_welcomeui.h"
-#include <QDebug>
 
 namespace ikoOSKAR {
 namespace UI {
