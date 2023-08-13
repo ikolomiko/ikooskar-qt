@@ -263,6 +263,13 @@ namespace BLL {
             studentsByGrade[s->grade]->append(s);
         }
 
+        // This hashmap may seem unnecessary, but throughout the scheme generation, the studentsByGrade hashmap gets modified.
+        // This hashmap remains unmodified during its whole lifetime, except the initialization below.
+        QHash<int, int> studentCountsByGrade;
+        for (auto it = studentsByGrade.begin(); it != studentsByGrade.end(); it++) {
+            studentCountsByGrade.insert(it.key(), it.value()->count());
+        }
+
         // Shuffle the lists of students
         auto rd = std::random_device {};
         auto rng = std::default_random_engine { rd() };
@@ -288,6 +295,43 @@ namespace BLL {
             auto variant = sortedVariants[i];
             int grade = attendingGrades[i];
             variantToGrade.insert(variant, grade);
+        }
+
+        // Round zero of student placement: strive for homogeneous grade distribution across halls;
+        // try to place 'averageGradePopulation' amount of students to each hall, wrt the desk variants
+        for (const auto& hall : std::as_const(*examHalls)) {
+            for (int grade : attendingGrades) {
+                int averageGradePopulation = (hall->capacity * studentCountsByGrade[grade]) / totalCapacity;
+                for (int i = 0; i < averageGradePopulation; i++) {
+                    if (studentsByGrade[grade]->isEmpty()) {
+                        break;
+                    }
+                    auto student = studentsByGrade[grade]->last();
+                    bool placed = false;
+
+                    for (int row = 0; row < hall->layout.rowCount; row++) {
+                        for (int col = 0; col < 6; col++) {
+                            auto deskVariant = hall->pattern->variantAt(row, col);
+                            int deskGrade = variantToGrade[deskVariant];
+                            if (deskGrade != grade) {
+                                continue;
+                            }
+
+                            DeskCoordinates coords = { hall, row, col };
+
+                            if (!isDeskSuitable(grade, coords)) {
+                                continue;
+                            }
+                            placeStudent(coords, student);
+                            studentsByGrade[grade]->removeLast();
+                            placed = true;
+                            break;
+                        }
+                        if (placed)
+                            break;
+                    }
+                }
+            }
         }
 
         // First round of student placement: the direct approach
