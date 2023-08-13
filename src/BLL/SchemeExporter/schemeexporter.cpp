@@ -31,7 +31,8 @@ namespace BLL {
         int xRow = 3 + 2 * coord.row;
         int xCol = 2 * coord.col;
         int deskIdx = (coord.row * 6) + coord.col + 1;
-        char* txt = (QString::number(deskIdx) + "\n\nBOŞ").toUtf8().data();
+        auto bTxt = (QString::number(deskIdx) + "\n\nBOŞ").toUtf8();
+        char* txt = bTxt.data();
 
         worksheet_write_string(sheet, xRow, xCol, txt, format);
     }
@@ -64,16 +65,17 @@ namespace BLL {
             format_set_left(format, LXW_BORDER_DOTTED);
         }
 
-        QByteArray bUpperText = QString::number(deskIndex).toUtf8();
+        auto bUpperText = QString::number(deskIndex).toUtf8();
         char* upperText = bUpperText.data();
         // clang-format off
-        char* lowerText = QString("\n%1 - %2/%3\n%4 %5").arg(
+        auto bLowerText = QString("\n%1 - %2/%3\n%4 %5").arg(
             QString::number(student->id),
             QString::number(student->grade),
             student->section,
             student->firstName,
             student->lastName
-        ).toUtf8().data();
+        ).toUtf8();
+        char* lowerText = bLowerText.data();
         // clang-format on
 
         lxw_rich_string_tuple upper = { .format = bold, .string = upperText };
@@ -138,7 +140,9 @@ namespace BLL {
         lxw_workbook* workbook = workbook_new(path);
 
         for (const auto& [className, studentList] : scheme.classLists) {
-            lxw_worksheet* sheet = workbook_add_worksheet(workbook, className.toUtf8());
+            auto bClassName = className.toUtf8();
+            char* sheetName = bClassName.data();
+            lxw_worksheet* sheet = workbook_add_worksheet(workbook, sheetName);
 
             // Merge cells
             worksheet_merge_range(sheet, 0, 0, 0, 4, "", nullptr);
@@ -165,7 +169,9 @@ namespace BLL {
                 for (int col = 1; col < 5; col++) {
                     worksheet_write_string(sheet, 0, col, "", format);
                 }
-                worksheet_write_string(sheet, 0, 0, (className + " SINIFI KARMA LİSTESİ").toUtf8(), format);
+                auto bTxt = (className + " SINIFI KARMA LİSTESİ").toUtf8();
+                char* txt = bTxt.data();
+                worksheet_write_string(sheet, 0, 0, txt, format);
             }
 
             {
@@ -175,7 +181,9 @@ namespace BLL {
                 format_set_border(format, LXW_BORDER_THIN);
                 format_set_font_size(format, 15);
                 format_set_bg_color(format, GRAY);
-                worksheet_write_string(sheet, 1, 0, ("Sınavın Adı: " + scheme.name).toUtf8(), format);
+                auto bTxtName = ("Sınavın Adı: " + scheme.name).toUtf8();
+                char* txtName = bTxtName.data();
+                worksheet_write_string(sheet, 1, 0, txtName, format);
 
                 lxw_format* format2 = workbook_add_format(workbook);
                 format_set_bold(format2);
@@ -187,7 +195,9 @@ namespace BLL {
                 for (int col = 2; col < 5; col++) {
                     worksheet_write_string(sheet, 1, col, "", format2);
                 }
-                worksheet_write_string(sheet, 1, 2, ("Sınav Tarihi: " + scheme.date).toUtf8(), format2);
+                auto bTxtDate = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                char* txtDate = bTxtDate.data();
+                worksheet_write_string(sheet, 1, 2, txtDate, format2);
             }
 
             {
@@ -215,10 +225,18 @@ namespace BLL {
                     format_set_align(format, LXW_ALIGN_LEFT);
                     format_set_font_size(format, 12);
 
+                    auto bTxtFirstName = s.firstName.toUtf8();
+                    auto bTxtLastName = s.lastName.toUtf8();
+                    auto bTxtHallName = s.hallName.toUtf8();
+
+                    char* txtFirstName = bTxtFirstName.data();
+                    char* txtLastName = bTxtLastName.data();
+                    char* txtHallName = bTxtHallName.data();
+
                     worksheet_write_number(sheet, row, 0, s.id, format);
-                    worksheet_write_string(sheet, row, 1, s.firstName.toUtf8(), format);
-                    worksheet_write_string(sheet, row, 2, s.lastName.toUtf8(), format);
-                    worksheet_write_string(sheet, row, 3, s.hallName.toUtf8(), format);
+                    worksheet_write_string(sheet, row, 1, txtFirstName, format);
+                    worksheet_write_string(sheet, row, 2, txtLastName, format);
+                    worksheet_write_string(sheet, row, 3, txtHallName, format);
                     worksheet_write_number(sheet, row, 4, s.deskIndex, format);
 
                     row++;
@@ -242,7 +260,9 @@ namespace BLL {
         lxw_workbook* workbook = workbook_new(path);
 
         for (auto& hall : scheme.hallLayouts) {
-            lxw_worksheet* sheet = workbook_add_worksheet(workbook, hall.name.toUtf8());
+            auto bHallName = hall.name.toUtf8();
+            char* sheetName = bHallName.data();
+            lxw_worksheet* sheet = workbook_add_worksheet(workbook, sheetName);
 
             // Set column widths
             for (int col = 0; col < 11; col++) {
@@ -257,7 +277,8 @@ namespace BLL {
 
             {
                 // Row 1: main header
-                char* txt = (hall.name + " DERSLİK OTURMA PLANI").toUtf8().data();
+                auto bTxt = (hall.name + " DERSLİK OTURMA PLANI").toUtf8();
+                char* txt = bTxt.data();
                 lxw_format* format = workbook_add_format(workbook);
                 format_set_bold(format);
                 format_set_font_size(format, 32);
@@ -267,14 +288,16 @@ namespace BLL {
 
             {
                 // Row 2: sub header including exam name and date
-                char* txt = ("Sınavın Adı: " + scheme.name).toUtf8().data();
+                auto bTxt = ("Sınavın Adı: " + scheme.name).toUtf8();
+                char* txt = bTxt.data();
                 lxw_format* format = workbook_add_format(workbook);
                 format_set_bold(format);
                 format_set_font_size(format, 16);
                 format_set_bg_color(format, GRAY);
                 worksheet_merge_range(sheet, 1, 0, 1, 5, txt, format);
 
-                char* txt2 = ("Sınav Tarihi: " + scheme.date).toUtf8().data();
+                auto bTxt2 = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                char* txt2 = bTxt2.data();
                 lxw_format* format2 = workbook_add_format(workbook);
                 format_set_bold(format2);
                 format_set_font_size(format2, 16);
@@ -348,7 +371,8 @@ namespace BLL {
                 int col = 1;
                 for (auto it = gradePopulations.constBegin(); it != gradePopulations.constEnd(); ++it) {
                     int grade = it.key();
-                    char* txt = QString("%1. Sınıf").arg(grade).toUtf8().data();
+                    auto bTxt = QString("%1. Sınıf").arg(grade).toUtf8();
+                    char* txt = bTxt.data();
 
                     worksheet_merge_range(sheet, xrow, col, xrow, col + 1, txt, fmtInfoHeader);
                     col += 2;
@@ -361,7 +385,8 @@ namespace BLL {
                 for (QString& section : sections) {
                     {
                         // First cell
-                        char* txt = QString("%1 Şubesi").arg(section).toUtf8().data();
+                        auto bTxt = QString("%1 Şubesi").arg(section).toUtf8();
+                        char* txt = bTxt.data();
                         worksheet_write_string(sheet, xrow, 0, txt, fmtInfoHeader);
                     }
 
@@ -402,7 +427,8 @@ namespace BLL {
                 }
 
                 // Last cell
-                char* txt = QString("Toplam: %1").arg(totalPopulation).toUtf8().data();
+                auto bTxt = QString("Toplam: %1").arg(totalPopulation).toUtf8();
+                char* txt = bTxt.data();
                 worksheet_merge_range(sheet, xrow, col, xrow, col + 1, txt, fmtInfoHeader);
             }
 

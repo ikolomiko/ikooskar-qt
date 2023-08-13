@@ -2,7 +2,10 @@
 #define IKOOSKAR_BLL_SCHEMEEXPORTER_H
 #include "Shared/deskcoordinates.h"
 #include "Shared/scheme.h"
+
+extern "C" {
 #include "xlsxwriter.h"
+}
 
 namespace ikoOSKAR {
 namespace BLL {
