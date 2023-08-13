@@ -11,7 +11,8 @@ namespace Shared {
 
     Pattern* Pattern::random(int gradeCount)
     {
-        int rand = QRandomGenerator::system()->generate();
+        auto rng = QRandomGenerator::system();
+        int rand = rng->bounded(0, 1 << 30);
         return new Pattern(gradeCount, rand);
     }
 
