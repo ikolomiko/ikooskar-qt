@@ -231,6 +231,16 @@ namespace BLL {
             }
         }
 
+        // Reset the exam info of the students and the hall layouts
+        // This is required if the SchemeGenerator::generate() function is called more than once
+        for (const auto& s : *attendingStudents) {
+            s->deskIndex = 0;
+            s->hallName.clear();
+        }
+        for (const auto& hall : std::as_const(*examHalls)) {
+            hall->layout.clear();
+        }
+
         // Create a list of available variants sorted by their total counts
         QList<Pattern::Variant> sortedVariants = variantCounts.keys();
         std::sort(sortedVariants.begin(), sortedVariants.end(), [&](Pattern::Variant v1, Pattern::Variant v2) {
