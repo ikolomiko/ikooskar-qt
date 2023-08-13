@@ -35,14 +35,17 @@ namespace BLL {
         return (row * 6) + col + 1;
     }
 
-    bool SchemeGenerator::isDeskSuitable(int grade, DeskCoordinates deskCoord)
+    bool SchemeGenerator::isDeskSuitable(int grade, DeskCoordinates deskCoord, bool deskMustBeEmpty = true)
     {
         Hall* hall = deskCoord.hall;
         int row = deskCoord.row;
         int col = deskCoord.col;
 
         auto& desk = hall->layout.desks[row][col];
-        if (!desk->exists || !desk->isEmpty) {
+        if (!desk->exists) {
+            return false;
+        }
+        if (!desk->isEmpty && deskMustBeEmpty) {
             return false;
         }
         if (attendingGrades.count() == 1) {
@@ -353,14 +356,17 @@ namespace BLL {
             bool placed = false;
             for (const auto& d0 : emptyDesks) {
                 for (auto& s1 : *attendingStudents) {
-                    if (!s1->hallName.isEmpty()) {
+                    if (s1->deskIndex == 0) {
                         // ensuring that s1 was placed to a desk
+                        continue;
+                    }
+                    if (filledDesks.contains(d0)) {
                         continue;
                     }
 
                     Hall* h1 = examHalls->value(s1->hallName);
                     DeskCoordinates d1 = { h1, s1->deskIndex };
-                    if (isDeskSuitable(s1->grade, d0) && isDeskSuitable(s0->grade, d1)) {
+                    if (isDeskSuitable(s1->grade, d0, false) && isDeskSuitable(s0->grade, d1, false)) {
                         // Move s1 to d0
                         placeStudent(d0, s1);
 
@@ -379,7 +385,9 @@ namespace BLL {
                 }
                 if (placed)
                     break;
+                std::shuffle(attendingStudents->begin(), attendingStudents->end(), rng);
             }
+            std::shuffle(emptyDesks.begin(), emptyDesks.end(), rng);
         }
         // Remove placed students from remaining students
         for (const auto& student : placedStudents) {

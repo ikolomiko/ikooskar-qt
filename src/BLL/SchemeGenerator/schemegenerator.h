@@ -5,7 +5,6 @@
 #include "Shared/hall.h"
 #include "Shared/pattern.h"
 #include "Shared/scheme.h"
-#include "Shared/student.h"
 #include <QDate>
 #include <QString>
 
@@ -45,7 +44,7 @@ namespace BLL {
 
         bool schemeExists();
         int deskIndex(int row, int col);
-        bool isDeskSuitable(int grade, DeskCoordinates desk);
+        bool isDeskSuitable(int grade, DeskCoordinates desk, bool deskMustBeEmpty);
         void placeStudent(const DeskCoordinates& coord, ExamStudent* s);
         Scheme finalizeScheme(Scheme& scheme);
 
