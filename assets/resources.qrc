@@ -25,7 +25,6 @@
         <file>check.png</file>
         <file>scheme.png</file>
         <file>folder.png</file>
-        <file>printer.png</file>
         <file>xlsx.png</file>
     </qresource>
 </RCC>

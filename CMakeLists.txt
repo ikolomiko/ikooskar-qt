@@ -103,7 +103,6 @@ set(resources_resource_files
     "assets/new-scheme.png"
     "assets/open-in.png"
     "assets/option-bullet.png"
-    "assets/printer.png"
     "assets/qtbase_tr.qm"
     "assets/remove.png"
     "assets/scheme.png"
