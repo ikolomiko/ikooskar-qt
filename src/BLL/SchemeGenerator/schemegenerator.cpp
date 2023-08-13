@@ -254,7 +254,8 @@ namespace BLL {
         }
 
         // Shuffle the lists of students
-        auto rng = std::default_random_engine {};
+        auto rd = std::random_device {};
+        auto rng = std::default_random_engine { rd() };
         for (auto* list : std::as_const(studentsByGrade)) {
             std::shuffle(list->begin(), list->end(), rng);
         }
