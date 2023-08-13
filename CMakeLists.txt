@@ -46,7 +46,9 @@ set(PROJECT_SOURCES
     src/UI/SchemesUi/nspreviewui.h src/UI/SchemesUi/nspreviewui.cpp src/UI/SchemesUi/nspreviewui.ui
     src/UI/SchemesUi/schemesui.cpp src/UI/SchemesUi/schemesui.h src/UI/SchemesUi/schemesui.ui
     src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
-    src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui
+    src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui    
+    src/UI/SchemesUi/nsresultsui.h src/UI/SchemesUi/nsresultsui.cpp src/UI/SchemesUi/nsresultsui.ui
+    src/UI/SchemesUi/xlsxbutton.h src/UI/SchemesUi/xlsxbutton.cpp src/UI/SchemesUi/xlsxbutton.ui
     src/main.cpp
     assets/icon.rc
 )
@@ -57,7 +59,6 @@ include_directories("src")
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
-    src/UI/SchemesUi/nsresultsui.h src/UI/SchemesUi/nsresultsui.cpp src/UI/SchemesUi/nsresultsui.ui
 )
 
 FetchContent_Declare(
