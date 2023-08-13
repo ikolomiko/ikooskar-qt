@@ -46,6 +46,11 @@
              <height>30</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>17</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Sınav Düzeni Oluşturuldu</string>
            </property>
@@ -93,6 +98,11 @@
             </item>
             <item>
              <widget class="QLabel" name="lblName">
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Sınav Adı</string>
               </property>
@@ -106,8 +116,13 @@
               <property name="enabled">
                <bool>true</bool>
               </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
               <property name="styleSheet">
-               <string notr="true">color: #777777</string>
+               <string notr="true">color: #666666</string>
               </property>
               <property name="text">
                <string>00/00/2023</string>
@@ -146,6 +161,19 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QFrame" name="frmLeft">
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
@@ -153,7 +181,7 @@
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_4"/>
           </widget>
          </item>
          <item>
@@ -189,8 +217,21 @@
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_5"/>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>

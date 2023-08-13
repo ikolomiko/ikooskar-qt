@@ -161,7 +161,7 @@ namespace UI {
             spinner->stop();
             spinner->deleteLater();
 
-            auto results = new NSResultsUi(examName, examDate.toString("dd/MM/yyyy"));
+            auto results = new NSResultsUi(examName, examDate.toString("dd/MM/yyyy"), pathClassLists, pathHallLayouts);
             ui->root->addWidget(results);
             ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
 

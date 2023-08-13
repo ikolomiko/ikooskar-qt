@@ -14,7 +14,7 @@ namespace UI {
         Q_OBJECT
 
     public:
-        explicit NSResultsUi(const QString& examName, const QString& examDate, QWidget* parent = nullptr);
+        explicit NSResultsUi(const QString& examName, const QString& examDate, const QString& pathClassLists, const QString& pathHallLayouts, QWidget* parent = nullptr);
         ~NSResultsUi();
 
     private:
