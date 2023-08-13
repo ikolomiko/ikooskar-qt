@@ -1,8 +1,9 @@
 * {
     font-family: "Segoe UI", Arial, Helvetica, Cantarell, "Sans Serif" !important;
+    font-size: 11pt;
 }
 
-QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm {
+QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm, #btnNewScheme {
     padding: 6px;
     font-size: 11pt;
 }
@@ -34,10 +35,34 @@ QHeaderView::section {
     border: 1px solid #6c6c6c;
 }
 
-QLabel#lblModuleName, QLabel#lblHeader {
+QLabel#lblModuleName, QLabel#lblHeader, #btnOpenFile, #btnXlsxFile {
     font-size: 17pt;
 }
 
 QLabel#lblHint {
     color: rgb(80,80,80);
+}
+
+#btnAddClass, #btnAddHall {
+    background-color: #60FF60;
+    border: 1px solid black;
+    border-radius: 3px;
+    icon: url(:/arrow-right.png);
+    icon-size: 30pt;
+}
+
+#btnAddClass:pressed, #btnAddHall:pressed {
+    background-color: #C0FFC0;
+}
+
+#btnRmClass, #btnRmHall {
+    background-color: #FF6060;
+    border: 1px solid black;
+    border-radius: 3px;
+    icon: url(:/arrow-left.png);
+    icon-size: 30pt
+}
+
+#btnRmClass:pressed, #btnRmHall:pressed {
+    background-color: #FFC0C0;
 }

@@ -2,10 +2,17 @@
 
 #include <QApplication>
 #include <QFile>
+#include <QSettings>
+#include <QStandardPaths>
 #include <QTranslator>
 
 int main(int argc, char* argv[])
 {
+    QCoreApplication::setOrganizationName("ikoSoft");
+    QCoreApplication::setApplicationName("ikoOSKAR");
+
+    QSettings().setValue("PATH_DOCS_ROOT", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ikoOSKAR");
+
     QApplication app(argc, argv);
     ikoOSKAR::UI::MainPage w;
 

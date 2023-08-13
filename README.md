@@ -101,11 +101,10 @@ the corresponding file/folder.
 |DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabaseUi](/src/UI/DatabaseUi)
-| MultiImport	| MultiImportHelper	| [MultiImportUi](/src/UI/MultiImportUi)
+| [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
-| -				| SchemeGenerator	| SchemeGeneratorUi
-| XlsxWriter	| SchemeExporter	| -
-| HistoryReader	| HistoryHelper 	| HistoryUi
+| -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
+| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
 | LocalAuth		| LocalAuthHelper 	| -
@@ -120,11 +119,16 @@ the corresponding file/folder.
 |Shared	|
 |:-------------:|
 |[Student](/src/Shared/student.h)		|
-|Desk			|
-|Classroom		|
-|ExamStudent	|
+|[ExamStudent](/src/Shared/examstudent.h)	|
+|[Desk](/src/Shared/desk.h)			|
+|[DeskCoordinates](/src/Shared/deskcoordinates.h) |
+|[Hall](/src/Shared/hall.h)			|
+|[Pattern](/src/Shared/pattern.h)		|
+|[Scheme](/src/Shared/scheme.h)			|
 
 &nbsp;
 
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
+
+[1] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).

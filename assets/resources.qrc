@@ -23,5 +23,8 @@
         <file>arrow-right.png</file>
         <file>arrow-left.png</file>
         <file>check.png</file>
+        <file>scheme.png</file>
+        <file>folder.png</file>
+        <file>xlsx.png</file>
     </qresource>
 </RCC>

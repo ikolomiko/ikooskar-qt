@@ -3,14 +3,14 @@
 #include <QLocale>
 #include <QMessageBox>
 #include <QStringView>
-#include <algorithm>
+#include <cmath>
 
 namespace ikoOSKAR {
 namespace BLL {
 
     /**
-     * @brief Initalizes {@code dal} and {@code databaseCache} properties
-     * @see dal, databaseCache
+     * @brief Initalizes {@code dal} and {@code studentCache} properties
+     * @see dal, studentCache
      */
     DatabaseHelper::DatabaseHelper()
     {
@@ -22,7 +22,10 @@ namespace BLL {
             QApplication::quit();
         }
 
-        databaseCache = dal->GetAllStudents();
+        studentCache = dal->GetAllStudents();
+        hallCache = dal->GetAllHalls();
+
+        ResizeAllClassrooms();
     }
 
     /// TODO write doc
@@ -34,10 +37,18 @@ namespace BLL {
         return instance;
     }
 
+    void DatabaseHelper::sortClassnames(QList<QString>* classNames)
+    {
+        std::sort(classNames->begin(), classNames->end(),
+            [](const QString& first, const QString& second) {
+                return first.size() != second.size() ? first.size() < second.size() : first < second;
+            });
+    }
+
     /**
-     * @brief Adds the given student to the database and databaseCache
+     * @brief Adds the given student to the database and studentCache
      * @param s : The pointer of the student to be added to the database
-     * @see ikoOSKAR::DAL::Database::Add()
+     * @see ikoOSKAR::DAL::Database::Add(Student&)
      */
     void DatabaseHelper::Add(Student& s)
     {
@@ -52,7 +63,8 @@ namespace BLL {
             emit error(errorMsg);
         } else if (dal->Add(s, errorMsg)) {
             // Student id is unique and student added to the database successfully
-            databaseCache->insert(s.id, &s);
+            studentCache->insert(s.id, &s);
+            ResizeClassroom(s.grade, s.section);
         } else {
             // Student id is unique but an error occurred when trying to add the student to the database
             emit error(errorMsg);
@@ -60,7 +72,30 @@ namespace BLL {
     }
 
     /**
-     * @brief Adds all given students to the database and databaseCache
+     * @brief Adds the given exam hall to the database and hallCache
+     * @param h : The pointer of the exam hall to be added to the database
+     * @see ikoOSKAR::DAL::Database::Add(Hall&)
+     */
+    void DatabaseHelper::Add(Hall& h)
+    {
+        QString errorMsg = "BLL.Add() fonksiyonunda bir hata oluştu, " + h.name + " adlı derslik eklenemedi";
+
+        if (HallNameExists(h.name)) {
+            // Another exam hall with the same name already exists
+            errorMsg = h.name + " adına sahip başka bir derslik var. "
+                                "Bu nedenle yeni derslik eklenemedi!";
+            emit error(errorMsg);
+        } else if (dal->Add(h, errorMsg)) {
+            // Hall name is unique and the exam hall added to the database successfully
+            hallCache->insert(h.name, &h);
+        } else {
+            // Hall name is unique but an error occurred when trying to add the exam hall to the database
+            emit error(errorMsg);
+        }
+    }
+
+    /**
+     * @brief Adds all given students to the database and studentCache
      * @attention This method assumes duplicates were already checked
      * @param students : The list of students to be added to the database
      */
@@ -68,6 +103,10 @@ namespace BLL {
     {
         // Assuming this method was called by MultiImportUi,
         // duplicates were already checked by MultiImportHelper.
+
+        if (students.isEmpty()) {
+            return;
+        }
 
         QList<int> problematicIds;
         QString errorLog;
@@ -77,7 +116,7 @@ namespace BLL {
             s->lastName = *formatForLastName(s->lastName);
 
             if (dal->Add(*s, errorMsg)) {
-                databaseCache->insert(s->id, s);
+                studentCache->insert(s->id, s);
             } else {
                 problematicIds.append(s->id);
                 errorLog += errorMsg + "\n";
@@ -86,6 +125,8 @@ namespace BLL {
 
         // No problems occured
         if (problematicIds.empty()) {
+            auto s = *students.at(0);
+            ResizeClassroom(s.grade, s.section);
             return;
         }
 
@@ -100,7 +141,7 @@ namespace BLL {
      * @brief Updates the information of the student with id {@code s->id}.
      * @param s : The pointer of a student object with updated credentials
      * @param oldId : The old id of the student {@code s} if its id has changed. Otherwise same as {@code s->id}
-     * @see ikoOSKAR::DAL::Database::Update()
+     * @see ikoOSKAR::DAL::Database::Update(Student&)
      */
     void DatabaseHelper::Update(Student& s, int oldId)
     {
@@ -122,7 +163,7 @@ namespace BLL {
             return;
         }
 
-        Student* old = databaseCache->value(oldId);
+        Student* old = studentCache->value(oldId);
         Student* newStudent = new Student {
             .id = s.id,
             .firstName = s.firstName.isEmpty() ? old->firstName : s.firstName,
@@ -136,8 +177,9 @@ namespace BLL {
         if (dal->Update(*newStudent, oldId, errorMsg)) {
             // The update request is successful
             if (oldId != s.id)
-                databaseCache->remove(oldId);
-            databaseCache->insert(s.id, newStudent);
+                studentCache->remove(oldId);
+            studentCache->insert(s.id, newStudent);
+            ResizeClassroom(newStudent->grade, newStudent->section);
         } else {
             // A student with the given id exists but the update request is not successful
             emit error(errorMsg);
@@ -145,7 +187,46 @@ namespace BLL {
     }
 
     /**
-     * @brief Deletes the student with the given id from the database and databaseCache
+     * @brief Updates the information of the exam hall with name {@code h->name}.
+     * @param h : The pointer of a hall object with updated credentials
+     * @param oldName : The old name of the exam hall {@code h} if its name has changed. Otherwise same as {@code h->name}
+     * @see ikoOSKAR::DAL::Database::Update(Hall&)
+     */
+    void DatabaseHelper::Update(Hall& h, const QString& oldName)
+    {
+        QString errorMsg = "BLL.Update() fonksiyonunda bir hata oluştu, derslik bilgileri güncellenemedi";
+
+        // If the name of the hall has changed and there's already another exam hall with the new name
+        if (oldName != h.name && HallNameExists(h.name)) {
+            errorMsg = h.name + " adına sahip başka bir derslik var. "
+                                "Derslik bilgileri güncellenemedi!";
+            emit error(errorMsg);
+            return;
+        }
+
+        if (oldName == h.name && !HallNameExists(h.name)) {
+            // There's no hall with the given name, thus cannot update its properties
+            errorMsg = h.name + " derslik adı sistemde kayıtlı değil. "
+                                "Derslik bilgileri güncellenemedi!";
+            emit error(errorMsg);
+            return;
+        }
+
+        Hall* newHall = new Hall(h.name, h.capacity, h.layout);
+
+        if (dal->Update(*newHall, oldName, errorMsg)) {
+            // The update request is successful
+            if (oldName != h.name)
+                hallCache->remove(oldName);
+            hallCache->insert(h.name, newHall);
+        } else {
+            // An exam hall with the given name exists but the update request is not successful
+            emit error(errorMsg);
+        }
+    }
+
+    /**
+     * @brief Deletes the student with the given id from the database and studentCache
      * @param id : The id of the student to be deleted
      */
     void DatabaseHelper::Delete(int id)
@@ -159,7 +240,7 @@ namespace BLL {
             emit error(errorMsg);
         } else if (dal->Delete(id, errorMsg)) {
             // A student with the given id exists and its deletion is successful
-            databaseCache->remove(id);
+            studentCache->remove(id);
         } else {
             // A student with the given id exists but its deletion is not successful
             emit error(errorMsg);
@@ -167,22 +248,73 @@ namespace BLL {
     }
 
     /**
-     * @brief Checks the databaseCache if a student with id {@code id} exists
+     * @brief Deletes the exam hall with the given name from the database and hallCache
+     * @param hallName : The id of the student to be deleted
+     */
+    void DatabaseHelper::Delete(const QString& hallName)
+    {
+        QString errorMsg = "BLL.Delete() fonksiyonunda bir hata oluştu, derslik silinemedi";
+
+        if (!HallNameExists(hallName)) {
+            // There's no exam hall with the given name, thus cannot delete it
+            errorMsg = hallName + " adlı derslik sistemde kayıtlı değil. "
+                                  "Bu nedenle derslik silinemedi!";
+            emit error(errorMsg);
+        } else if (dal->Delete(hallName, errorMsg)) {
+            // An exam hall with the given name exists and its deletion is successful
+            hallCache->remove(hallName);
+        } else {
+            // An exam hall with the given name exists but its deletion is not successful
+            emit error(errorMsg);
+        }
+    }
+
+    /**
+     * @brief Checks the studentCache if a student with id {@code id} exists
      * @param id : The id of the student to be checked
      * @return {@code true} if the given id exists, {@code false} if not
      */
     bool DatabaseHelper::IdExists(int id)
     {
-        return databaseCache->contains(id);
+        return studentCache->contains(id);
     }
 
     /**
-     * @brief Gets all the ids in the {@code databaseCache}.
+     * @brief Checks the hallCache if an exam hall with name {@code hallName} exists
+     * @param hallName : The name of the exam hall to be checked
+     * @return {@code true} if the given hall name exists, {@code false} if not
+     */
+    bool DatabaseHelper::HallNameExists(const QString& hallName)
+    {
+        return hallCache->contains(hallName);
+    }
+
+    /**
+     * @brief Gets all the ids in the {@code studentCache}.
      * @return A list of ids in the form of {@code QList<int>}
      */
     QList<int> DatabaseHelper::GetAllIds()
     {
-        return databaseCache->keys();
+        return studentCache->keys();
+    }
+
+    /**
+     * @brief Gets all the hall names in the {@code hallCache}.
+     * @return A list of hall names in the form of {@code QList<QString>}
+     */
+    QList<QString> DatabaseHelper::GetAllHallNames()
+    {
+        return hallCache->keys();
+    }
+
+    QList<Hall*>* DatabaseHelper::GetHallsByName(const QList<QString>& hallNames)
+    {
+        auto result = new QList<Hall*>();
+        for (const auto& name : hallNames) {
+            result->append(hallCache->value(name));
+        }
+
+        return result;
     }
 
     /**
@@ -191,10 +323,45 @@ namespace BLL {
      */
     void DatabaseHelper::EndOfTheYear()
     {
+        const auto& eotyUpdateHall = [this](int gradeFrom, QList<QString>* prevClassNames) {
+            for (const auto& className : *prevClassNames) {
+                auto pair = ParseClassName(className);
+                if (pair.first == gradeFrom) {
+                    Hall* hall = GetHallByName(className);
+                    hall->name = QString::number(pair.first + 1) + "-" + pair.second;
+                    Update(*hall, className);
+                }
+            }
+        };
+
+        const auto& eotyDeleteHall = [this](int grade, QList<QString>* prevClassNames) {
+            for (const auto& className : *prevClassNames) {
+                auto pair = ParseClassName(className);
+                if (pair.first == grade) {
+                    Delete(className);
+                }
+            }
+        };
+
         QString errorMsg = "BLL.EndOfTheYear() fonksiyonunda bir hata oluştu, yıl sonu işlemleri yapılamadı";
 
+        auto prevClassNames = GetClassNames();
         if (dal->EndOfTheYear(errorMsg)) {
-            databaseCache = dal->GetAllStudents();
+            studentCache = dal->GetAllStudents();
+
+            // Update hall names
+
+            // Delete 12th grades
+            eotyDeleteHall(12, prevClassNames);
+
+            // 11th grade -> 12th grade
+            eotyUpdateHall(11, prevClassNames);
+
+            // 10th grade -> 11th grade
+            eotyUpdateHall(10, prevClassNames);
+
+            // 9th grade  -> 10th grade
+            eotyUpdateHall(9, prevClassNames);
         } else {
             emit error(errorMsg);
         }
@@ -210,16 +377,13 @@ namespace BLL {
     {
         auto uniqueClassnames = new QSet<QString>();
 
-        for (auto const& s : *databaseCache)
+        for (auto const& s : *studentCache)
             uniqueClassnames->insert(QString().number(s->grade) + "-" + s->section);
 
         // Sorts the elements in 'sortedClassnames' by their lengths first,
         // and if their lengths are equal, uses the regular string comparison
         auto* sortedClassnames = new QList(uniqueClassnames->values());
-        std::sort(sortedClassnames->begin(), sortedClassnames->end(),
-            [](const QString& first, const QString& second) {
-                return first.size() != second.size() ? first.size() < second.size() : first < second;
-            });
+        sortClassnames(sortedClassnames);
 
         return sortedClassnames;
     }
@@ -233,7 +397,7 @@ namespace BLL {
     QList<Student*>* DatabaseHelper::GetStudentsByClassName(int grade, const QString& section)
     {
         QList<Student*>* result = new QList<Student*>();
-        for (const auto& s : *databaseCache) {
+        for (const auto& s : *studentCache) {
             if (s->grade == grade && s->section == section) {
                 result->append(s);
             }
@@ -262,16 +426,27 @@ namespace BLL {
     Student* DatabaseHelper::GetStudentById(int id)
     {
         Student* s = nullptr;
-        if (databaseCache->contains(id))
-            s = databaseCache->value(id);
+        if (studentCache->contains(id))
+            s = studentCache->value(id);
         else
             emit error(QString::number(id) + " okul no'suna sahip öğrenci bulunamadı!");
         return s;
     }
 
+    Hall* DatabaseHelper::GetHallByName(const QString& hallName)
+    {
+        Hall* h = nullptr;
+        if (hallCache->contains(hallName)) {
+            h = hallCache->value(hallName);
+        } else {
+            emit error(hallName + " adlı derslik bulunamadı!");
+        }
+        return h;
+    }
+
     int DatabaseHelper::GetNumberOfStudents()
     {
-        return databaseCache->count();
+        return studentCache->count();
     }
 
     void DatabaseHelper::DeleteEntireClass(const QString& className)
@@ -280,7 +455,7 @@ namespace BLL {
         int grade = pair.first;
         QString section = pair.second;
         QList<int> idsToDelete;
-        for (const auto& s : *databaseCache)
+        for (const auto& s : *studentCache)
             if (s->grade == grade && s->section == section)
                 idsToDelete.append(s->id);
 
@@ -294,6 +469,97 @@ namespace BLL {
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
         return QPair<int, QString>(grade, section);
+    }
+
+    /**
+     * @brief Adds @code{n} new desks to the given exam hall
+     * @param h : Exam hall
+     * @param n : Number of desks to be added
+     */
+    void DatabaseHelper::AddDesk(Hall& h, int n)
+    {
+        Hall::Layout layout = h.layout;
+        int lastRowIdx = layout.rowCount - 1;
+        auto lastRow = layout.desks[lastRowIdx];
+        int emptyIdx = 5;
+        for (; emptyIdx > 0; emptyIdx--) {
+            if (lastRow[emptyIdx]->exists) {
+                emptyIdx += 1;
+                break;
+            }
+        }
+
+        h.capacity += n;
+        int emptyDesks = 6 - emptyIdx;
+        int rowsToAdd = (n > emptyDesks) ? std::ceil((float)(n - emptyDesks) / 6) : 0;
+
+        if (rowsToAdd == 0) {
+            // Add n desks to the last row
+            for (int i = 0; i < n; i++) {
+                layout.desks[lastRowIdx][emptyIdx + i]->exists = true;
+            }
+        } else {
+            layout.rowCount += rowsToAdd;
+            Desk*** desks = new Desk**[layout.rowCount];
+
+            // Copy the rows from the old layout
+            for (int row = 0; row <= lastRowIdx; row++) {
+                desks[row] = layout.desks[row];
+            }
+
+            // Fill the empty desks at the end of the (old) last row
+            for (int col = emptyIdx; col < 6; col++) {
+                desks[lastRowIdx][col]->exists = true;
+            }
+
+            // Add new rows
+            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
+                desks[row] = new Desk*[6];
+            }
+
+            // Fill the new rows
+            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
+                for (int col = 0; col < 6; col++) {
+                    desks[row][col] = new Desk();
+                }
+            }
+
+            // Remove the unneeded desks from the new last row
+            int col = h.capacity % 6;
+            for (; col < 6; col++) {
+                desks[layout.rowCount - 1][col]->exists = false;
+            }
+            layout.desks = desks;
+        }
+        h.layout = layout;
+
+        Update(h, h.name);
+    }
+
+    void DatabaseHelper::ResizeClassroom(int grade, const QString& section)
+    {
+        // Create new classroom (hall) if no such exam hall exists
+        QString hallname = QString::number(grade) + "-" + section;
+        int classPopulation = GetStudentsByClassName(grade, section)->size();
+        if (!HallNameExists(hallname)) {
+            auto hall = new Hall(hallname, classPopulation);
+            Add(*hall);
+        } else {
+            // If such classroom (hall) exists, make sure its capacity >= class population
+            // Add new desks if necessary
+            Hall* hall = GetHallByName(hallname);
+            if (hall->capacity < classPopulation) {
+                AddDesk(*hall, classPopulation - hall->capacity);
+            }
+        }
+    }
+
+    void DatabaseHelper::ResizeAllClassrooms()
+    {
+        for (const auto& c : *GetClassNames()) {
+            auto pair = ParseClassName(c);
+            ResizeClassroom(pair.first, pair.second);
+        }
     }
 
     QString DatabaseHelper::turkishToUpper(const QString& s)
@@ -327,13 +593,13 @@ namespace BLL {
     }
 
     /**
-     * @brief Frees the dynamically allocated memory spaces for dal and databaseCache
-     * @see dal, databaseCache
+     * @brief Frees the dynamically allocated memory spaces for dal and studentCache
+     * @see dal, studentCache
      */
     DatabaseHelper::~DatabaseHelper()
     {
         delete dal;
-        delete databaseCache;
+        delete studentCache;
     }
 
 } // namespace BLL

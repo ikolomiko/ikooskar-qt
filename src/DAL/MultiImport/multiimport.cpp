@@ -18,7 +18,7 @@ namespace DAL {
 
     MultiImport::MultiImport()
     {
-        const QString tempPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ikoOSKAR/.tmp/";
+        const QString tempPath = QSettings().value("PATH_DOCS_ROOT").toString() + "/.tmp/";
         auto tempRoot = QDir(tempPath);
         tempRoot.removeRecursively();
         tempRoot.mkpath(".");

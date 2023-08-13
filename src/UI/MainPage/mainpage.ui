@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>817</width>
-    <height>484</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -339,7 +339,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnNewScheme">
+          <widget class="QPushButton" name="btnSchemes">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
              <horstretch>0</horstretch>
@@ -359,52 +359,14 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Yeni Sınav Düzeni</string>
+            <string>Sınav Düzenleri</string>
            </property>
            <property name="text">
             <string/>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>:/new-scheme.png</normaloff>:/new-scheme.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>36</width>
-             <height>36</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnHistory">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>55</width>
-             <height>55</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>55</width>
-             <height>55</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Önceki Sınav Düzenleri</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/history.png</normaloff>:/history.png</iconset>
+             <normaloff>:/scheme.png</normaloff>:/scheme.png</iconset>
            </property>
            <property name="iconSize">
             <size>
