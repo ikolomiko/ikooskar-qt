@@ -22,6 +22,7 @@ namespace BLL {
 
     signals:
         void upgradeFinished(int nStudents);
+        void error(const QString& errorMessage);
     };
 
 } // namespace BLL

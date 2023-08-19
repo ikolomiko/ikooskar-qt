@@ -38,6 +38,9 @@ namespace UI {
             ui->stackedWidget->addWidget(spinner);
 
             connect(assistant, &BLL::UpgradeAssistant::upgradeFinished, this, &MainPage::handleFinishedUpgrade);
+            connect(assistant, &BLL::UpgradeAssistant::error, [](const QString& message) {
+                ErrorUi("Güncelleme Hatası").displayMessage(message);
+            });
             QThreadPool::globalInstance()->start(assistant);
         } else {
             initSubpages();
