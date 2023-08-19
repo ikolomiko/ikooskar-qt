@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QRunnable>
+#include <QTemporaryDir>
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -12,9 +13,13 @@ namespace BLL {
 
     private:
         QString oldDbPath;
+        QTemporaryDir* tempDir;
 
         void findOldDatabaseFile();
         QByteArray convertToZippedSqlite();
+        QByteArray unzip(const QByteArray& zipBytes);
+        QString saveTemp(const QByteArray& unzippedBytes);
+        int modifyDatabase(const QString& path);
 
     public:
         explicit UpgradeAssistant();
