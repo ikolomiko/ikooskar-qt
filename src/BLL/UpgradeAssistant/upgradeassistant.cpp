@@ -2,11 +2,14 @@
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include <QCheckBox>
 #include <QDirIterator>
+#include <QHttpMultiPart>
+#include <QHttpPart>
 #include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QSettings>
 #include <QStandardPaths>
-
-#include <unistd.h>
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -18,11 +21,53 @@ namespace BLL {
         while (it.hasNext()) {
             auto path = it.next();
             oldDbPath = path;
+            break;
         }
     }
 
-    UpgradeAssistant::UpgradeAssistant(QObject* parent)
-        : QObject(parent)
+    QByteArray UpgradeAssistant::convertToZippedSqlite()
+    {
+        QNetworkAccessManager manager;
+        QString boundary = "boundaryString";
+
+        QNetworkRequest request;
+        request.setUrl(QUrl("https://www.rebasedata.com/api/v1/convert?outputFormat=sqlite"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
+
+        QHttpMultiPart* multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+        QFile oldDb(oldDbPath);
+        oldDb.open(QFile::ReadWrite);
+
+        QHttpPart filePart;
+        filePart.setHeader(QNetworkRequest::ContentDispositionHeader, "form-data; name=\"files[]\"; filename=\"ogrenciler.sdf\"");
+        filePart.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+        filePart.setBodyDevice(&oldDb);
+        multiPart->setBoundary(boundary.toUtf8());
+        multiPart->append(filePart);
+
+        QNetworkReply* reply = manager.post(request, multiPart);
+        multiPart->setParent(reply);
+
+        QEventLoop loop;
+        QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec();
+
+        if (reply->error() == QNetworkReply::NoError
+            && reply->header(QNetworkRequest::ContentTypeHeader).toString() == "application/zip") {
+            QByteArray responseData = reply->readAll();
+            return responseData;
+        } else {
+            emit error("Dosya dönüştürme hatası: " + reply->errorString());
+        }
+
+        reply->deleteLater();
+        return QByteArray();
+    }
+
+    UpgradeAssistant::UpgradeAssistant() { }
+
+    UpgradeAssistant::~UpgradeAssistant()
     {
     }
 
@@ -70,8 +115,13 @@ namespace BLL {
 
     void UpgradeAssistant::run()
     {
-        sleep(5);
-        emit upgradeFinished(2);
+        // Send http request to the converter api and get the response
+        QByteArray zippedSqliteBytes = convertToZippedSqlite();
+        if (zippedSqliteBytes.isEmpty() || zippedSqliteBytes.size() < 50) {
+            // necessary error message was shown
+            emit upgradeFinished(-1);
+            return;
+        }
     }
 
 } // namespace BLL

@@ -14,9 +14,11 @@ namespace BLL {
         QString oldDbPath;
 
         void findOldDatabaseFile();
+        QByteArray convertToZippedSqlite();
 
     public:
-        explicit UpgradeAssistant(QObject* parent = nullptr);
+        explicit UpgradeAssistant();
+        ~UpgradeAssistant();
         bool willUpgrade();
         void run() override;
 
