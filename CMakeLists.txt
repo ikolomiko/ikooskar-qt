@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ikoOSKAR VERSION 1.0 LANGUAGES CXX)
+project(ikoOSKAR VERSION 1.0 LANGUAGES CXX C)
 
 include(FetchContent)
 
@@ -52,9 +52,11 @@ set(PROJECT_SOURCES
     src/UI/SchemesUi/xlsxbutton.h src/UI/SchemesUi/xlsxbutton.cpp src/UI/SchemesUi/xlsxbutton.ui
     src/main.cpp
     assets/icon.rc
+    _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
 )
 
 include_directories("src")
+include_directories("_deps/libxlsxwriter-src")
 
 
 qt_add_executable(ikoOSKAR

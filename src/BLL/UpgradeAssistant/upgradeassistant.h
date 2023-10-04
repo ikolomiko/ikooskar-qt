@@ -13,12 +13,12 @@ namespace BLL {
 
     private:
         QString oldDbPath;
-        QTemporaryDir* tempDir;
+        QTemporaryDir* tempDir = nullptr;
 
         void findOldDatabaseFile();
         QByteArray convertToZippedSqlite();
-        QByteArray unzip(const QByteArray& zipBytes);
-        QString saveTemp(const QByteArray& unzippedBytes);
+        QByteArray unzip(const QString& zipPath);
+        QString saveTemp(const QByteArray& bytes, const QString& name);
         int modifyDatabase(const QString& path);
 
     public:

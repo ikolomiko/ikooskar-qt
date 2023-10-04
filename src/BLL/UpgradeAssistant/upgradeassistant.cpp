@@ -1,6 +1,7 @@
 #include "upgradeassistant.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "DAL/Database/database.h"
+#include "_deps/libxlsxwriter-src/third_party/minizip/unzip.h"
 #include <QCheckBox>
 #include <QDirIterator>
 #include <QHttpMultiPart>
@@ -66,45 +67,109 @@ namespace BLL {
         return QByteArray();
     }
 
-    QByteArray UpgradeAssistant::unzip(const QByteArray& zipBytes)
+    QByteArray UpgradeAssistant::unzip(const QString& zipPath)
     {
-        // Unzip
-        return zipBytes;
+        auto bPath = zipPath.toUtf8();
+        char* path = bPath.data();
+        unzFile zipFile = unzOpen(path);
+        if (!zipFile) {
+            // Could not open the file at zipPath
+            return QByteArray();
+        }
+
+        unz_global_info globalInfo;
+        if (unzGetGlobalInfo(zipFile, &globalInfo) != UNZ_OK) {
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        if (globalInfo.number_entry != 1) {
+            // Handle unexpected number of entries
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        if (unzGoToFirstFile(zipFile) != UNZ_OK) {
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        char filename[256];
+        unz_file_info fileInfo;
+        if (unzGetCurrentFileInfo(zipFile, &fileInfo, filename, sizeof(filename), NULL, 0, NULL, 0) != UNZ_OK) {
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        if (strcmp(filename, "data.sqlite") != 0) {
+            // Handle unexpected filename
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        if (unzOpenCurrentFile(zipFile) != UNZ_OK) {
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        char extracted[fileInfo.uncompressed_size];
+        for (uLong i = 0; i < fileInfo.uncompressed_size; i++) {
+            extracted[i] = '\0';
+        }
+        if (unzReadCurrentFile(zipFile, extracted, fileInfo.uncompressed_size) != (int)fileInfo.uncompressed_size) {
+            unzCloseCurrentFile(zipFile);
+            unzClose(zipFile);
+            return QByteArray();
+        }
+
+        unzCloseCurrentFile(zipFile);
+        unzClose(zipFile);
+
+        return QByteArray(extracted, fileInfo.uncompressed_size);
     }
 
-    QString UpgradeAssistant::saveTemp(const QByteArray& unzippedBytes)
+    QString UpgradeAssistant::saveTemp(const QByteArray& bytes, const QString& name)
     {
-        const QString tempPath = QSettings().value("PATH_DOCS_ROOT").toString() + "/.tmp/";
-        auto tempRoot = QDir(tempPath);
-        tempRoot.removeRecursively();
-        tempRoot.mkpath(".");
-        tempDir = new QTemporaryDir(tempPath);
+        const QString tempPath = QSettings().value("PATH_DOCS_ROOT").toString() + "/.tmp";
+        if (tempDir == nullptr) {
+            tempDir = new QTemporaryDir(tempPath);
+        }
 
-        QFile out(tempDir->filePath("database.db"));
+        QFile out(tempDir->filePath(name));
         out.open(QIODevice::WriteOnly);
-        out.write(unzippedBytes);
+        out.write(bytes);
         return out.fileName();
     }
 
     int UpgradeAssistant::modifyDatabase(const QString& path)
     {
-        /*
-         * Run the following sql commands
-            CREATE TABLE "students" (
-                "id"	INTEGER,
-                "firstname"	TEXT,
-                "lastname"	TEXT,
-                "grade"	INTEGER,
-                "section"	TEXT,
-                PRIMARY KEY("id")
-            );
-            INSERT INTO "main"."students" ("id","firstname","lastname","grade","section") SELECT "okulno","ad","soyad","sinif","sube" FROM "main"."ogrenciler";
-            DROP TABLE "main"."ogrenciler";
-            SELECT COUNT(id) FROM students;
-        */
-        // Return the result of the last command
-        qDebug() << path;
-        return -1;
+        QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
+        database.setDatabaseName(path);
+        database.open();
+
+        QString cmds[] = {
+            "CREATE TABLE students (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, grade INTEGER, section TEXT)",
+            "INSERT INTO students (id, firstname, lastname, grade, section) SELECT okulno, ad, soyad, sinif, sube FROM ogrenciler",
+            "DROP TABLE ogrenciler",
+            "SELECT COUNT(*) FROM students"
+        };
+
+        int studentsImported = -1;
+        for (int i = 0; i < 4; i++) {
+            QSqlQuery q;
+            q.prepare(cmds[i]);
+            if (!q.exec()) {
+                database.close();
+                return -1;
+            }
+
+            if (i == 3 && q.next()) {
+                studentsImported = q.value(0).toInt();
+            }
+        }
+        database.close();
+
+        return studentsImported;
     }
 
     UpgradeAssistant::UpgradeAssistant() { }
@@ -165,9 +230,10 @@ namespace BLL {
             emit upgradeFinished(-1);
             return;
         }
+        QString zipPath = saveTemp(zippedSqliteBytes, "zipped-database.zip");
 
         // Unzip the response file
-        QByteArray unzippedBytes = unzip(zippedSqliteBytes);
+        QByteArray unzippedBytes = unzip(zipPath);
         if (unzippedBytes.isEmpty()) {
             // the response file wasn't a zip file or something went wrong unzipping the response file
             emit upgradeFinished(-2);
@@ -175,14 +241,14 @@ namespace BLL {
         }
 
         // Save the new converted database file to a temporary location
-        QString tempDbPath = saveTemp(unzippedBytes);
+        QString tempDbPath = saveTemp(unzippedBytes, "database.db");
 
         // Modify the structure of the database and the tables to match the new structure
         int studentsImported = modifyDatabase(tempDbPath);
 
         if (studentsImported < 0) {
             // Some error occurred during the import process
-            emit upgradeFinished(3);
+            emit upgradeFinished(-3);
             return;
         }
 
