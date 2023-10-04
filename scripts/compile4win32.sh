@@ -4,17 +4,14 @@ cd "$(dirname "$0")/.."
 rm -rf build
 mkdir build
 cd build
-cp -r ../src .
-cp -r ../assets .
-cp ../CMakeLists.txt .
 
 if [ "$1" = "cmake" ]; then
   # Use the CMake backend if specified
-  x86_64-w64-mingw32.static-cmake .
+  x86_64-w64-mingw32.static-cmake ..
   x86_64-w64-mingw32.static-cmake --build . -j8
 else
   # Use the Ninja backend by default
-  x86_64-w64-mingw32.static-cmake . -G Ninja
+  x86_64-w64-mingw32.static-cmake .. -G Ninja
   ninja -j8
 fi
 
