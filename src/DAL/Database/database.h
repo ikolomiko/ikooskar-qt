@@ -21,13 +21,13 @@ namespace DAL {
         bool Delete(int id, QString& errorMessage);
         bool Delete(const QString& hallName, QString& errorMessage);
         bool EndOfTheYear(QString& errorMessage);
+        static QString GetDatabasePath(bool withFileName = false);
         ~Database();
 
     private:
         void CreateDatabasePath();
         bool CreateDatabase(QString& errorMessage);
         bool DatabaseFileExists();
-        QString GetDatabasePath(bool withFileName = false);
 
         QString databaseFilePath;
         QString databasePath;

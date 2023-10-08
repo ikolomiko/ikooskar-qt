@@ -1,9 +1,14 @@
 #include "mainpage.h"
+#include "BLL/UpgradeAssistant/upgradeassistant.h"
 #include "UI/AboutUi/aboutui.h"
+#include "UI/Common/spinner.h"
 #include "UI/DatabaseUi/databaseui.h"
+#include "UI/ErrorUi/errorui.h"
 #include "UI/SchemesUi/schemesui.h"
 #include "UI/WelcomeUi/welcomeui.h"
 #include "ui_mainpage.h"
+#include <QMessageBox>
+#include <QThreadPool>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -20,6 +25,30 @@ namespace UI {
     {
         ui->setupUi(this);
 
+#ifdef QT_DEBUG
+        setWindowTitle(windowTitle() + " DEBUG");
+#endif
+
+        auto assistant = new BLL::UpgradeAssistant();
+        if (assistant->willUpgrade()) {
+            auto* spinner = new Common::Spinner();
+            spinner->setTitle("Güncelleme yapılıyor...");
+            spinner->start();
+            ui->frameHeaderbar->hide();
+            ui->stackedWidget->addWidget(spinner);
+
+            connect(assistant, &BLL::UpgradeAssistant::upgradeFinished, this, &MainPage::handleFinishedUpgrade);
+            connect(assistant, &BLL::UpgradeAssistant::error, [](const QString& message) {
+                ErrorUi("Güncelleme Hatası").displayMessage(message);
+            });
+            QThreadPool::globalInstance()->start(assistant);
+        } else {
+            initSubpages();
+        }
+    }
+
+    void MainPage::initSubpages()
+    {
         QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
         Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
 
@@ -36,10 +65,6 @@ namespace UI {
         }
 
         changePage(HOME, buttons[HOME]->icon());
-
-#ifdef QT_DEBUG
-        setWindowTitle(windowTitle() + " DEBUG");
-#endif
     }
 
     MainPage::~MainPage()
@@ -50,6 +75,21 @@ namespace UI {
     void MainPage::setDescription(const QString& description)
     {
         ui->lblDescription->setText(description);
+    }
+
+    void MainPage::handleFinishedUpgrade(int nStudents)
+    {
+        auto* spinner = (Common::Spinner*)ui->stackedWidget->currentWidget();
+        ui->stackedWidget->removeWidget(spinner);
+        spinner->deleteLater();
+        ui->frameHeaderbar->show();
+        initSubpages();
+        if (nStudents < 0) {
+            ErrorUi("Güncelleme Hatası").displayMessage("Bir hata oluştu, ikoOSKAR'ın eski sürümündeki öğrenci bilgileri aktarılamadı.");
+        } else {
+            auto text = QString("Güncelleme başarılı, ikoOSKAR'ın eski sürümündeki %1 adet öğrenci kaydı başarıyla içeri aktarıldı.").arg(nStudents);
+            QMessageBox::information(this, "Güncelleme Başarılı", text);
+        }
     }
 
     void MainPage::changePage(Subpage index, QIcon icon)

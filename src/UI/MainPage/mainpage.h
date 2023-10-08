@@ -20,10 +20,12 @@ namespace UI {
 
     public slots:
         void setDescription(const QString& description);
+        void handleFinishedUpgrade(int nStudents);
 
     private:
         enum Subpage : int;
         Ui::MainPage* ui;
+        void initSubpages();
         void changePage(Subpage index, QIcon icon);
     };
 

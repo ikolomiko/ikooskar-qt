@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ikoOSKAR VERSION 1.0 LANGUAGES CXX)
+project(ikoOSKAR VERSION 1.0 LANGUAGES CXX C)
 
 include(FetchContent)
 
@@ -11,7 +11,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
 
 set(PROJECT_SOURCES
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
     src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
     src/BLL/SchemeExporter/schemeexporter.h src/BLL/SchemeExporter/schemeexporter.cpp
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
+    src/BLL/UpgradeAssistant/upgradeassistant.h src/BLL/UpgradeAssistant/upgradeassistant.cpp
     src/DAL/Database/database.cpp src/DAL/Database/database.h
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/desk.h
@@ -51,9 +52,11 @@ set(PROJECT_SOURCES
     src/UI/SchemesUi/xlsxbutton.h src/UI/SchemesUi/xlsxbutton.cpp src/UI/SchemesUi/xlsxbutton.ui
     src/main.cpp
     assets/icon.rc
+    _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
 )
 
 include_directories("src")
+include_directories("_deps/libxlsxwriter-src")
 
 
 qt_add_executable(ikoOSKAR
@@ -73,6 +76,7 @@ target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Sql
+    Qt6::Network
     xlsxwriter
 )
 

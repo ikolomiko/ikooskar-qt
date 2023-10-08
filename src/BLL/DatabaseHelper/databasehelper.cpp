@@ -600,6 +600,7 @@ namespace BLL {
     {
         delete dal;
         delete studentCache;
+        instance = nullptr;
     }
 
 } // namespace BLL
