@@ -1,6 +1,7 @@
 #include "nsresultsui.h"
 #include "ui_nsresultsui.h"
 #include "xlsxbutton.h"
+#include <QFile>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -13,10 +14,14 @@ namespace UI {
         ui->lblName->setText(examName);
         ui->lblDate->setText(examDate);
 
-        auto btnLeft = new XlsxButton("Oturma Planları", pathHallLayouts);
-        auto btnRight = new XlsxButton("Sınıf Karma Listeleri", pathClassLists);
-        ui->frmLeft->layout()->addWidget(btnLeft);
-        ui->frmRight->layout()->addWidget(btnRight);
+        if (QFile::exists(pathHallLayouts)) {
+            auto btnLeft = new XlsxButton("Oturma Planları", pathHallLayouts);
+            ui->frmLeft->layout()->addWidget(btnLeft);
+        }
+        if (QFile::exists(pathClassLists)) {
+            auto btnRight = new XlsxButton("Sınıf Karma Listeleri", pathClassLists);
+            ui->frmRight->layout()->addWidget(btnRight);
+        }
 
         if (isHistorical) {
             ui->frmHeader->deleteLater();
