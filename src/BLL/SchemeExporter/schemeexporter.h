@@ -14,7 +14,6 @@ namespace BLL {
         Q_OBJECT
 
     private:
-        QString pathClassLists, pathHallLayouts;
         Scheme scheme;
 
         void noDesk(lxw_workbook* workbook, lxw_worksheet* sheet, int xRow, int xCol);

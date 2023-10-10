@@ -129,13 +129,11 @@ namespace BLL {
         : scheme(scheme)
     {
         QDir().mkpath(scheme.path());
-        pathClassLists = QDir::toNativeSeparators(scheme.path() + "/Sınıf Karma Listeleri.xlsx");
-        pathHallLayouts = QDir::toNativeSeparators(scheme.path() + "/Oturma Planları.xlsx");
     }
 
     void SchemeExporter::exportClassLists()
     {
-        auto bPath = pathClassLists.toLocal8Bit();
+        auto bPath = scheme.classListPath().toLocal8Bit();
         char* path = bPath.data();
         lxw_workbook* workbook = workbook_new(path);
 
@@ -255,7 +253,7 @@ namespace BLL {
 
     void SchemeExporter::exportHallLayouts()
     {
-        auto bPath = pathHallLayouts.toLocal8Bit();
+        auto bPath = scheme.hallLayoutPath().toLocal8Bit();
         char* path = bPath.data();
         lxw_workbook* workbook = workbook_new(path);
 
@@ -446,7 +444,7 @@ namespace BLL {
     {
         exportClassLists();
         exportHallLayouts();
-        emit exportFinished(pathClassLists, pathHallLayouts);
+        emit exportFinished(scheme.classListPath(), scheme.hallLayoutPath());
     }
 
 } // namespace BLL
