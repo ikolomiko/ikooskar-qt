@@ -15,16 +15,37 @@ namespace UI {
         name = new QString("Sınav Düzenleri");
         historyProvider = new BLL::HistoryProvider();
 
-        auto history = historyProvider->getHistory();
+        lblEmptyHistory = new QLabel("Daha önce oluşturulmuş sınav düzeni bulunamadı");
+        lblEmptyHistory->setAlignment(Qt::AlignCenter);
+        lblEmptyHistory->setObjectName("lblDescription");
 
+        verticalSpacer = nullptr;
+
+        setupHistoryUi();
+    }
+
+    void SchemesUi::setupHistoryUi()
+    {
+        // Clear the history root
+        for (const auto& widget : historyWidgets) {
+            ui->historyRoot->layout()->removeWidget(widget);
+            widget->deleteLater();
+        }
+        historyWidgets.clear();
+        if (verticalSpacer != nullptr) {
+            ui->historyRoot->layout()->removeItem(verticalSpacer);
+            delete verticalSpacer;
+            verticalSpacer = nullptr;
+        }
+
+        // Show label if history is empty
+        auto history = historyProvider->getHistory();
         if (history.empty()) {
+            ui->historyRoot->layout()->addWidget(lblEmptyHistory);
             return;
         }
 
         // History is not empty
-        ui->historyRoot->layout()->removeWidget(ui->lblDescription);
-        ui->lblDescription->deleteLater();
-
         for (auto it = history.end(); it != history.begin(); it--) {
             auto month = std::prev(it).key();
             const auto& examList = history[month];
@@ -34,13 +55,18 @@ namespace UI {
 
             auto monthHeader = new MonthHeaderWidget(month);
             ui->historyRoot->layout()->addWidget(monthHeader);
+            historyWidgets.append(monthHeader);
 
             for (const auto& exam : examList) {
                 auto examWidget = new ExamWidget(exam, 100);
                 ui->historyRoot->layout()->addWidget(examWidget);
+                historyWidgets.append(examWidget);
             }
         }
-        ui->historyRoot->layout()->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
+        if (verticalSpacer == nullptr) {
+            verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        }
+        ui->historyRoot->layout()->addItem(verticalSpacer);
     }
 
     SchemesUi::~SchemesUi()
@@ -66,11 +92,11 @@ namespace UI {
     void SchemesUi::on_btnNewScheme_clicked()
     {
         NewSchemeDialog dialog(this);
-        if (dialog.exec() == QDialog::Accepted) {
-            // refresh history ui
-            // refresh description
-            // if mode==demo, decrement remainings by one
-        }
+        dialog.exec();
+
+        historyProvider->refresh();
+        setupHistoryUi();
+        emit descriptionUpdated(*getDescription());
     }
 
 } // namespace UI
