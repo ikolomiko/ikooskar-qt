@@ -1,5 +1,3 @@
-## A more complete documentation of ikoOSKAR-Qt is now out! Check it out from [here!](https://ikolomiko.github.io/ikooskar-qt/annotated.html)
-
 # Table of Contents
 * [What is ikoOSKAR](#what-is-ikooskar)
 * [ikoOSKAR-Qt](#ikooskar-qt)
@@ -26,15 +24,13 @@ desk number) for each class / section, respectively
 * Prevent students from cheating in exams
 * Easily manage the student database
 * View and manipulate each class / section
-* Add hundreds of new students to the database at once; either grouped by their
-classes / sections, or not grouped by any criteria at all
+* Add hundreds of new students to the database at once; just select the spreadsheet file exported from e-okul
 * Add, edit or remove individual students
 * Update all students' grade informations at the end of each academic year, with
 just one click.
   - This action also assumes that every 12th grade student have graduated and 
 proceeds to delete every 12th grade student from the database 
-* View and reprint older schemes
-* Search and filter older schemes by date or by exam name
+* View and edit older schemes, grouped by date
 
 &nbsp;
 
@@ -76,7 +72,7 @@ with the configurations in [this file](/Doxyfile), using
 This project consists of 4 layers:
 
 1. Data Access Layer (DAL for short): This is the layer which interacts with raw
- data; such as the database, the filesystem and the CloudAuth API
+ data; such as the database, the filesystem and the [CloudAuth API](https://github.com/ikolomiko/ikooskar-cloudauth)
 2. Business Logic Layer (BLL for short): This is the layer which contains the 
 program logic and interacts between the UI and the DAL
 3. User Interface Layer (UI for short) (aka Presentation Layer): This is the 
@@ -104,7 +100,8 @@ the corresponding file/folder.
 | [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
 | -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
-| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
+| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [ExamWidget](/src/UI/SchemesUi/examwidget.cpp) <sup>[[1]](#license)</sup>, [MonthHeaderWidget](/src/UI/SchemesUi/monthheaderwidget.cpp) 
+| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[2]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainPage](/src/UI/MainPage)
 | LocalAuth		| LocalAuthHelper 	| -
@@ -131,4 +128,6 @@ the corresponding file/folder.
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
 
-[1] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
+[1] [qt-collapsible-section](https://github.com/MichaelVoelkel/qt-collapsible-section), the code `ikoOSKAR::UI::ExamWidget` based on, is licensed under the [GNU Lesser General Public License version 3](https://github.com/MichaelVoelkel/qt-collapsible-section/blob/master/LICENSE).
+
+[2] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
