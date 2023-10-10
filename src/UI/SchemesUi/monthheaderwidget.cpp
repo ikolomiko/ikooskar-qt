@@ -6,8 +6,10 @@ namespace UI {
     MonthHeaderWidget::MonthHeaderWidget(QDate date)
     {
         headerLine = new QFrame();
-        label = new QLabel(date.toString("MMMM yyyy"));
+        label = new QLabel(QLocale().toString(date, "MMMM yyyy"));
         layout = new QHBoxLayout();
+
+        label->setStyleSheet("font-size: 14pt;");
 
         headerLine->setFrameShape(QFrame::HLine);
         headerLine->setFrameShadow(QFrame::Sunken);

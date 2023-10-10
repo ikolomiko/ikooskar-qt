@@ -47,7 +47,7 @@ namespace UI {
         arrowRight = QIcon(pixmapArrow);
         arrowDown = QIcon(pixmapArrow.transformed(rotation));
 
-        btnToggle->setStyleSheet("border: none; font-size: 17pt;");
+        btnToggle->setStyleSheet("border: none; font-size: 14pt;");
         btnToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnToggle->setIconSize({ 30, 30 });
         btnToggle->setIcon(QIcon(":/option-bullet.png"));
@@ -81,7 +81,7 @@ namespace UI {
         toggleAnimation->addAnimation(new QPropertyAnimation(contentArea, "maximumHeight"));
 
         mainLayout->setVerticalSpacing(0);
-        mainLayout->setContentsMargins(9, 5, 9, 5);
+        mainLayout->setContentsMargins(9, 0, 9, 0);
 
         int row = 0;
         mainLayout->addWidget(btnToggle, row, 0, 1, 3, Qt::AlignLeft);
@@ -109,9 +109,11 @@ namespace UI {
         if (expanded) {
             setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
             btnToggle->setText("  " + exam.name + "\n  " + exam.date.toString("dd/MM/yyyy"));
+            mainLayout->setContentsMargins(9, 5, 9, 5);
         } else {
             setFrameStyle(0);
             btnToggle->setText(" " + exam.name + "  -  " + exam.date.toString("dd/MM/yyyy"));
+            mainLayout->setContentsMargins(9, 0, 9, 0);
         }
     }
 
