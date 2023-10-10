@@ -33,7 +33,7 @@ namespace BLL {
             for (const auto& examName : examNames) {
                 Shared::Scheme exam;
                 exam.name = examName;
-                exam.date = QDate::fromString(dateString, "dd.MM.yyyy");
+                exam.date = date;
                 if (QFile::exists(exam.classListPath()) || QFile::exists(exam.hallLayoutPath())) {
                     list.append(exam);
                 }
