@@ -53,6 +53,7 @@ set(PROJECT_SOURCES
     src/main.cpp
     assets/icon.rc
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
+    src/UI/SchemesUi/monthheaderwidget.h src/UI/SchemesUi/monthheaderwidget.cpp
 )
 
 include_directories("src")
