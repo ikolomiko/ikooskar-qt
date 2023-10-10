@@ -193,7 +193,8 @@ namespace BLL {
                 for (int col = 2; col < 5; col++) {
                     worksheet_write_string(sheet, 1, col, "", format2);
                 }
-                auto bTxtDate = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                auto dateStr = scheme.date.toString("dd/MM/yyyy");
+                auto bTxtDate = ("Sınav Tarihi: " + dateStr).toUtf8();
                 char* txtDate = bTxtDate.data();
                 worksheet_write_string(sheet, 1, 2, txtDate, format2);
             }
@@ -294,7 +295,8 @@ namespace BLL {
                 format_set_bg_color(format, GRAY);
                 worksheet_merge_range(sheet, 1, 0, 1, 5, txt, format);
 
-                auto bTxt2 = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                auto dateStr = scheme.date.toString("dd/MM/yyyy");
+                auto bTxt2 = ("Sınav Tarihi: " + dateStr).toUtf8();
                 char* txt2 = bTxt2.data();
                 lxw_format* format2 = workbook_add_format(workbook);
                 format_set_bold(format2);

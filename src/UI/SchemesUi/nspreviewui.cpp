@@ -15,7 +15,7 @@ namespace UI {
         // Exam info label
         QString txt = ui->lblExamInfo->text();
         txt = txt.replace("<x>", preview.examName);
-        txt = txt.replace("<y>", preview.examDate);
+        txt = txt.replace("<y>", preview.examDate.toString("dd/MM/yyyy"));
         ui->lblExamInfo->setText(txt);
 
         // Attending classes label (header)

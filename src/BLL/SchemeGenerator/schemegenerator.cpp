@@ -128,7 +128,7 @@ namespace BLL {
 
     void SchemeGenerator::setDate(const QDate& date)
     {
-        examDate = date.toString("dd.MM.yyyy");
+        examDate = date;
     }
 
     bool SchemeGenerator::setName(const QString& name)

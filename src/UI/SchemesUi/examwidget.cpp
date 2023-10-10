@@ -51,7 +51,7 @@ namespace UI {
         btnToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnToggle->setIconSize({ 30, 30 });
         btnToggle->setIcon(QIcon(":/option-bullet.png"));
-        btnToggle->setText(" " + exam.name + "  -  " + exam.date);
+        btnToggle->setText(" " + exam.name + "  -  " + exam.date.toString("dd/MM/yyyy"));
         btnToggle->setCheckable(true);
         btnToggle->setChecked(false);
         btnToggle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -108,10 +108,10 @@ namespace UI {
 
         if (expanded) {
             setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-            btnToggle->setText("  " + exam.name + "\n  " + exam.date);
+            btnToggle->setText("  " + exam.name + "\n  " + exam.date.toString("dd/MM/yyyy"));
         } else {
             setFrameStyle(0);
-            btnToggle->setText(" " + exam.name + "  -  " + exam.date);
+            btnToggle->setText(" " + exam.name + "  -  " + exam.date.toString("dd/MM/yyyy"));
         }
     }
 
