@@ -27,10 +27,15 @@ namespace UI {
 
         for (auto it = history.end(); it != history.begin(); it--) {
             auto month = std::prev(it).key();
+            const auto& examList = history[month];
+            if (examList.empty()) {
+                continue;
+            }
+
             auto monthHeader = new MonthHeaderWidget(month);
             ui->historyRoot->layout()->addWidget(monthHeader);
 
-            for (const auto& exam : history[month]) {
+            for (const auto& exam : examList) {
                 auto examWidget = new ExamWidget(exam, 100);
                 ui->historyRoot->layout()->addWidget(examWidget);
             }
@@ -53,10 +58,9 @@ namespace UI {
 
     const QString* SchemesUi::getDescription()
     {
-        int termYear = historyProvider->getCurrentTermYear();
-        int historyCount = historyProvider->getHistoryCount(termYear);
-        return new QString(QString::number(termYear) + "-" + QString::number(termYear + 1) + " döneminde toplam "
-            + QString::number(historyCount) + " adet sınav düzeni oluşturdunuz");
+        QString historyCount = QString::number(historyProvider->getHistoryCountForCurrentTerm());
+        QString termString = historyProvider->getCurrentTermString();
+        return new QString(termString + " döneminde toplam " + historyCount + " adet sınav düzeni oluşturdunuz");
     }
 
     void SchemesUi::on_btnNewScheme_clicked()

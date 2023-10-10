@@ -10,11 +10,20 @@ namespace ikoOSKAR {
 namespace BLL {
 
     class HistoryProvider {
+    private:
+        QMap<QDate, QList<Shared::Scheme>> history;
+        int currentTermStartYear;
+        int historyCountForCurrentTerm;
+
+        void populateHistory();
+
     public:
         HistoryProvider();
         QMap<QDate, QList<Shared::Scheme>> getHistory();
-        int getCurrentTermYear();
-        int getHistoryCount(int termYear);
+        QString getCurrentTermString();
+        int getHistoryCount(int termStartYear);
+        int getHistoryCountForCurrentTerm();
+        void refresh();
     };
 
 } // namespace BLL
