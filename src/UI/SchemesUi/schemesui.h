@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_SCHEMESUI_H
 #define IKOOSKAR_UI_SCHEMESUI_H
 
+#include "BLL/HistoryProvider/historyprovider.h"
 #include "UI/Common/module.h"
 #include <QWidget>
 
@@ -24,8 +25,10 @@ namespace UI {
         void on_btnNewScheme_clicked();
 
     private:
+        BLL::HistoryProvider* historyProvider;
         Ui::SchemesUi* ui;
         inline static SchemesUi* instance;
+
         explicit SchemesUi(QWidget* parent = nullptr);
     };
 

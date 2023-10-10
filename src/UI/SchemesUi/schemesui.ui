@@ -17,6 +17,9 @@
    <property name="spacing">
     <number>3</number>
    </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QFrame" name="frmNewScheme">
      <property name="frameShape">
@@ -113,24 +116,12 @@
         <x>0</x>
         <y>0</y>
         <width>957</width>
-        <height>437</height>
+        <height>446</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
        <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
+        <number>19</number>
        </property>
        <item>
         <widget class="QLabel" name="lblDescription">

@@ -1,4 +1,6 @@
 #include "schemesui.h"
+#include "examwidget.h"
+#include "monthheaderwidget.h"
 #include "newschemedialog.h"
 #include "ui_schemesui.h"
 
@@ -11,6 +13,29 @@ namespace UI {
     {
         ui->setupUi(this);
         name = new QString("Sınav Düzenleri");
+        historyProvider = new BLL::HistoryProvider();
+
+        auto history = historyProvider->getHistory();
+
+        if (history.empty()) {
+            return;
+        }
+
+        // History is not empty
+        ui->historyRoot->layout()->removeWidget(ui->lblDescription);
+        ui->lblDescription->deleteLater();
+
+        for (auto it = history.end(); it != history.begin(); it--) {
+            auto month = std::prev(it).key();
+            auto monthHeader = new MonthHeaderWidget(month);
+            ui->historyRoot->layout()->addWidget(monthHeader);
+
+            for (const auto& exam : history[month]) {
+                auto examWidget = new ExamWidget(exam, 100);
+                ui->historyRoot->layout()->addWidget(examWidget);
+            }
+        }
+        ui->historyRoot->layout()->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
     }
 
     SchemesUi::~SchemesUi()
@@ -28,7 +53,10 @@ namespace UI {
 
     const QString* SchemesUi::getDescription()
     {
-        return new QString("2023-2024 döneminde toplam x adet sınav düzeni oluşturdunuz");
+        int termYear = historyProvider->getCurrentTermYear();
+        int historyCount = historyProvider->getHistoryCount(termYear);
+        return new QString(QString::number(termYear) + "-" + QString::number(termYear + 1) + " döneminde toplam "
+            + QString::number(historyCount) + " adet sınav düzeni oluşturdunuz");
     }
 
     void SchemesUi::on_btnNewScheme_clicked()
@@ -36,6 +64,7 @@ namespace UI {
         NewSchemeDialog dialog(this);
         if (dialog.exec() == QDialog::Accepted) {
             // refresh history ui
+            // refresh description
             // if mode==demo, decrement remainings by one
         }
     }
