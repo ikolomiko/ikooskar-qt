@@ -50,9 +50,12 @@ set(PROJECT_SOURCES
     src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui    
     src/UI/SchemesUi/nsresultsui.h src/UI/SchemesUi/nsresultsui.cpp src/UI/SchemesUi/nsresultsui.ui
     src/UI/SchemesUi/xlsxbutton.h src/UI/SchemesUi/xlsxbutton.cpp src/UI/SchemesUi/xlsxbutton.ui
+    src/UI/SchemesUi/examwidget.h src/UI/SchemesUi/examwidget.cpp
     src/main.cpp
     assets/icon.rc
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
+    src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
+    src/UI/SchemesUi/monthheaderwidget.h src/UI/SchemesUi/monthheaderwidget.cpp
 )
 
 include_directories("src")

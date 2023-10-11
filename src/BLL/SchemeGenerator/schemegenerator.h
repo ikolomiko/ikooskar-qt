@@ -22,7 +22,7 @@ namespace BLL {
         public:
             Preview(QList<int> grades);
             QString examName;
-            QString examDate;
+            QDate examDate;
             QList<QString> attendingClassNames;
             QList<QString> examHallNames;
             int nGrades;
@@ -34,7 +34,7 @@ namespace BLL {
 
     private:
         QString examName;
-        QString examDate;
+        QDate examDate;
         QList<QString> attendingClassNames;
         QList<ExamStudent*>* attendingStudents;
         QHash<int, QList<ExamStudent*>*> studentsByGrade;

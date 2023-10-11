@@ -14,18 +14,33 @@ namespace Shared {
     class Scheme {
     public:
         QString name;
-        QString date;
+        QDate date;
         QList<QPair<QString, QList<ExamStudent>>> classLists; // [ { className, [ExamStudent] } ]
         QList<Hall> hallLayouts; // [Hall]
 
-        QString path()
+        QString path() const
         {
-            return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + date + "/" + name;
+            return rootPath() + date.toString("dd.MM.yyyy") + "/" + name;
+        }
+
+        const QString classListPath() const
+        {
+            return path() + "/Sınıf Karma Listeleri.xlsx";
+        }
+
+        const QString hallLayoutPath() const
+        {
+            return path() + "/Oturma Planları.xlsx";
         }
 
         static QString path(const QString& examName, const QDate& examDate)
         {
-            return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/" + examDate.toString("dd.MM.yyyy") + "/" + examName;
+            return rootPath() + examDate.toString("dd.MM.yyyy") + "/" + examName;
+        }
+
+        static QString rootPath()
+        {
+            return QSettings().value("PATH_DOCS_ROOT").toString() + "/Sınav Düzenleri/";
         }
     };
 

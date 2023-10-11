@@ -1,7 +1,9 @@
 #ifndef IKOOSKAR_UI_SCHEMESUI_H
 #define IKOOSKAR_UI_SCHEMESUI_H
 
+#include "BLL/HistoryProvider/historyprovider.h"
 #include "UI/Common/module.h"
+#include <QLayoutItem>
 #include <QWidget>
 
 namespace ikoOSKAR {
@@ -24,9 +26,15 @@ namespace UI {
         void on_btnNewScheme_clicked();
 
     private:
+        BLL::HistoryProvider* historyProvider;
         Ui::SchemesUi* ui;
         inline static SchemesUi* instance;
+        QList<QWidget*> historyWidgets;
+        QLayoutItem* verticalSpacer;
+        QLabel* lblEmptyHistory;
+
         explicit SchemesUi(QWidget* parent = nullptr);
+        void setupHistoryUi();
     };
 
 } // namespace UI

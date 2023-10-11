@@ -129,13 +129,11 @@ namespace BLL {
         : scheme(scheme)
     {
         QDir().mkpath(scheme.path());
-        pathClassLists = QDir::toNativeSeparators(scheme.path() + "/Sınıf Karma Listeleri.xlsx");
-        pathHallLayouts = QDir::toNativeSeparators(scheme.path() + "/Oturma Planları.xlsx");
     }
 
     void SchemeExporter::exportClassLists()
     {
-        auto bPath = pathClassLists.toLocal8Bit();
+        auto bPath = scheme.classListPath().toLocal8Bit();
         char* path = bPath.data();
         lxw_workbook* workbook = workbook_new(path);
 
@@ -195,7 +193,8 @@ namespace BLL {
                 for (int col = 2; col < 5; col++) {
                     worksheet_write_string(sheet, 1, col, "", format2);
                 }
-                auto bTxtDate = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                auto dateStr = scheme.date.toString("dd/MM/yyyy");
+                auto bTxtDate = ("Sınav Tarihi: " + dateStr).toUtf8();
                 char* txtDate = bTxtDate.data();
                 worksheet_write_string(sheet, 1, 2, txtDate, format2);
             }
@@ -255,7 +254,7 @@ namespace BLL {
 
     void SchemeExporter::exportHallLayouts()
     {
-        auto bPath = pathHallLayouts.toLocal8Bit();
+        auto bPath = scheme.hallLayoutPath().toLocal8Bit();
         char* path = bPath.data();
         lxw_workbook* workbook = workbook_new(path);
 
@@ -296,7 +295,8 @@ namespace BLL {
                 format_set_bg_color(format, GRAY);
                 worksheet_merge_range(sheet, 1, 0, 1, 5, txt, format);
 
-                auto bTxt2 = ("Sınav Tarihi: " + scheme.date).toUtf8();
+                auto dateStr = scheme.date.toString("dd/MM/yyyy");
+                auto bTxt2 = ("Sınav Tarihi: " + dateStr).toUtf8();
                 char* txt2 = bTxt2.data();
                 lxw_format* format2 = workbook_add_format(workbook);
                 format_set_bold(format2);
@@ -446,7 +446,7 @@ namespace BLL {
     {
         exportClassLists();
         exportHallLayouts();
-        emit exportFinished(pathClassLists, pathHallLayouts);
+        emit exportFinished(scheme.classListPath(), scheme.hallLayoutPath());
     }
 
 } // namespace BLL
