@@ -106,8 +106,8 @@ the corresponding file/folder.
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | LocalAuth		| LocalAuthHelper 	| -
 | CloudAuth		| CloudAuthHelper 	| -
-| - 			| Authenticator 	| AuthenticatorPage
-| -				| - 				| SplashPage
+| - 			| Authenticator 	| AuthenticatorWindow
+| -				| - 				| SplashWindow
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
 | -	            | -                 | [WelcomeUi](/src/UI/WelcomeUi)
 | -				| -					| [Module](/src/UI/Common)
