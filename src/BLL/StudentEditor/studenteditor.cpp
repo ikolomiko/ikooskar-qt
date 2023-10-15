@@ -54,14 +54,8 @@ namespace BLL {
         bool isIdValid = original.id == id ? true : checkId(id);
         if (isIdValid && checkName(firstName) && checkName(lastName)) {
             int oldId = original.id;
-
-            original.id = id;
-            original.firstName = firstName;
-            original.lastName = lastName;
-            original.grade = grade;
-            original.section = section;
-
-            db->Update(original, oldId);
+            Student s = { id, firstName, lastName, grade, section };
+            db->Update(s, oldId);
             return true;
         }
         return false;
