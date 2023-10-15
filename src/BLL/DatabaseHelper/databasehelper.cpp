@@ -179,7 +179,12 @@ namespace BLL {
             if (oldId != s.id)
                 studentCache->remove(oldId);
             studentCache->insert(s.id, newStudent);
-            ResizeClassroom(newStudent->grade, newStudent->section);
+
+            if (old->grade != newStudent->grade || old->section != newStudent->section) {
+                // Resize both the old and the new classroom
+                ResizeClassroom(old->grade, old->section);
+                ResizeClassroom(newStudent->grade, newStudent->section);
+            }
         } else {
             // A student with the given id exists but the update request is not successful
             emit error(errorMsg);
