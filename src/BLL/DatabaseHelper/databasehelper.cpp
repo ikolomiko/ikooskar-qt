@@ -231,6 +231,9 @@ namespace BLL {
      */
     void DatabaseHelper::Delete(int id)
     {
+        int grade = studentCache->value(id)->grade;
+        QString section = studentCache->value(id)->section;
+
         QString errorMsg = "BLL.Delete() fonksiyonunda bir hata oluştu, öğrenci silinemedi";
 
         if (!IdExists(id)) {
@@ -241,6 +244,7 @@ namespace BLL {
         } else if (dal->Delete(id, errorMsg)) {
             // A student with the given id exists and its deletion is successful
             studentCache->remove(id);
+            ResizeClassroom(grade, section);
         } else {
             // A student with the given id exists but its deletion is not successful
             emit error(errorMsg);
@@ -377,7 +381,7 @@ namespace BLL {
     {
         auto uniqueClassnames = new QSet<QString>();
 
-        for (auto const& s : *studentCache)
+        for (auto const& s : std::as_const(*studentCache))
             uniqueClassnames->insert(QString().number(s->grade) + "-" + s->section);
 
         // Sorts the elements in 'sortedClassnames' by their lengths first,
@@ -397,7 +401,7 @@ namespace BLL {
     QList<Student*>* DatabaseHelper::GetStudentsByClassName(int grade, const QString& section)
     {
         QList<Student*>* result = new QList<Student*>();
-        for (const auto& s : *studentCache) {
+        for (const auto& s : std::as_const(*studentCache)) {
             if (s->grade == grade && s->section == section) {
                 result->append(s);
             }
@@ -455,12 +459,15 @@ namespace BLL {
         int grade = pair.first;
         QString section = pair.second;
         QList<int> idsToDelete;
-        for (const auto& s : *studentCache)
+        for (const auto& s : std::as_const(*studentCache))
             if (s->grade == grade && s->section == section)
                 idsToDelete.append(s->id);
 
         for (const auto& id : idsToDelete)
             Delete(id);
+
+        // Delete the class-hall
+        Delete(className);
     }
 
     QPair<int, QString> DatabaseHelper::ParseClassName(const QString& className)
@@ -536,6 +543,56 @@ namespace BLL {
         Update(h, h.name);
     }
 
+    void DatabaseHelper::RemoveDesk(Hall& hall, int desksToRemove)
+    {
+        if (desksToRemove > hall.capacity) {
+            // Illegal operation
+            return;
+        }
+
+        Hall::Layout layout = hall.layout;
+        int lastRowIdx = layout.rowCount - 1;
+        int desksRemoved = 0;
+        for (int rowIdx = lastRowIdx; rowIdx >= 0; rowIdx--) {
+            for (int colIdx = 5; colIdx >= 0; colIdx--) {
+                auto desk = layout.desks[rowIdx][colIdx];
+                if (desk->exists) {
+                    desk->exists = false;
+                    desksRemoved++;
+                }
+
+                if (desksRemoved >= desksToRemove) {
+                    break;
+                }
+            }
+
+            if (desksRemoved >= desksToRemove) {
+                break;
+            }
+        }
+
+        for (int rowIdx = lastRowIdx; rowIdx >= 0; rowIdx--) {
+            bool deskExistsInRow = false;
+            for (int colIdx = 5; colIdx >= 0; colIdx--) {
+                auto desk = layout.desks[rowIdx][colIdx];
+                if (desk->exists) {
+                    deskExistsInRow = true;
+                    break;
+                }
+            }
+
+            if (deskExistsInRow) {
+                break;
+            } else {
+                layout.rowCount--;
+            }
+        }
+        hall.capacity -= desksRemoved;
+
+        hall.layout = layout;
+        Update(hall, hall.name);
+    }
+
     void DatabaseHelper::ResizeClassroom(int grade, const QString& section)
     {
         // Create new classroom (hall) if no such exam hall exists
@@ -545,11 +602,13 @@ namespace BLL {
             auto hall = new Hall(hallname, classPopulation);
             Add(*hall);
         } else {
-            // If such classroom (hall) exists, make sure its capacity >= class population
-            // Add new desks if necessary
+            // If such classroom (hall) exists, make sure its capacity == class population
+            // Add or remove desks accordingly.
             Hall* hall = GetHallByName(hallname);
             if (hall->capacity < classPopulation) {
                 AddDesk(*hall, classPopulation - hall->capacity);
+            } else if (hall->capacity > classPopulation) {
+                RemoveDesk(*hall, hall->capacity - classPopulation);
             }
         }
     }

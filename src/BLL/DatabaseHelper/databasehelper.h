@@ -65,6 +65,7 @@ namespace BLL {
         int GetNumberOfStudents();
         void DeleteEntireClass(const QString& className);
         void AddDesk(Hall&, int n);
+        void RemoveDesk(Hall&, int n);
         void ResizeClassroom(int grade, const QString& section);
         void ResizeAllClassrooms();
         ~DatabaseHelper();
