@@ -1,37 +1,37 @@
-#include "multiimportui.h"
+#include "multiimportdialog.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "BLL/MultiImportHelper/multiimporthelper.h"
 #include "UI/Common/spinner.h"
 #include "UI/ErrorUi/errorui.h"
-#include "UI/MultiImportUi/miclasspickerui.h"
-#include "UI/MultiImportUi/mifilepickerui.h"
-#include "UI/MultiImportUi/mipreviewui.h"
-#include "ui_multiimportui.h"
+#include "UI/MultiImportDialog/miclasspickerui.h"
+#include "UI/MultiImportDialog/mifilepickerui.h"
+#include "UI/MultiImportDialog/mipreviewui.h"
+#include "ui_multiimportdialog.h"
 #include <QThreadPool>
 
 namespace ikoOSKAR {
 namespace UI {
 
-    MultiImportUi::MultiImportUi(QWidget* parent)
+    MultiImportDialog::MultiImportDialog(QWidget* parent)
         : QDialog(parent)
-        , ui(new Ui::MultiImportUi)
+        , ui(new Ui::MultiImportDialog)
     {
         ui->setupUi(this);
         page = FILE_PICKER;
         parsedStudents = nullptr;
 
         auto fp = new MIFilePickerUi();
-        connect(fp, &MIFilePickerUi::pickedXlsFile, this, &MultiImportUi::handleXlsPath);
+        connect(fp, &MIFilePickerUi::pickedXlsFile, this, &MultiImportDialog::handleXlsPath);
         ui->root->addWidget(fp);
     }
 
-    MultiImportUi::~MultiImportUi()
+    MultiImportDialog::~MultiImportDialog()
     {
         delete parsedStudents;
         delete ui;
     }
 
-    void MultiImportUi::prevPage()
+    void MultiImportDialog::prevPage()
     {
         if (page == FILE_PICKER) {
             // Illegal state, no way to end up here
@@ -52,7 +52,7 @@ namespace UI {
         }
     }
 
-    void MultiImportUi::nextPage()
+    void MultiImportDialog::nextPage()
     {
         switch (page) {
         case FILE_PICKER: {
@@ -71,22 +71,22 @@ namespace UI {
             spinner->deleteLater();
 
             auto classPicker = new MIClassPickerUi(parsedStudents->size(), this);
-            connect(classPicker->btnPrev, &QPushButton::clicked, this, &MultiImportUi::prevPage);
-            connect(classPicker, &MIClassPickerUi::selectedGradeAndSection, this, &MultiImportUi::handleGradeAndSection);
+            connect(classPicker->btnPrev, &QPushButton::clicked, this, &MultiImportDialog::prevPage);
+            connect(classPicker, &MIClassPickerUi::selectedGradeAndSection, this, &MultiImportDialog::handleGradeAndSection);
             ui->root->addWidget(classPicker);
             ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case CLASS_PICKER: {
             auto preview = new MIPreviewUi(parsedStudents, this);
-            connect(preview->btnPrev, &QPushButton::clicked, this, &MultiImportUi::prevPage);
-            connect(preview->btnConfirm, &QPushButton::clicked, this, &MultiImportUi::handleConfirmation);
+            connect(preview->btnPrev, &QPushButton::clicked, this, &MultiImportDialog::prevPage);
+            connect(preview->btnConfirm, &QPushButton::clicked, this, &MultiImportDialog::handleConfirmation);
             ui->root->addWidget(preview);
             ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
             break;
         }
         case PREVIEW:
-            // Close the MultiImportUi dialog with the accepted signal
+            // Close the MultiImportDialog dialog with the accepted signal
             accept();
             return;
         }
@@ -95,7 +95,7 @@ namespace UI {
         page = (PageState)((int)(page) + 1);
     }
 
-    void MultiImportUi::handleXlsPath(QString* xlsFilePath)
+    void MultiImportDialog::handleXlsPath(QString* xlsFilePath)
     {
         if (xlsFilePath == nullptr) {
             return;
@@ -106,14 +106,14 @@ namespace UI {
 
         // Set up the xls parser
         auto parser = new BLL::MultiImportHelper(*xlsFilePath);
-        connect(parser, &BLL::MultiImportHelper::error, this, &MultiImportUi::handleError);
+        connect(parser, &BLL::MultiImportHelper::error, this, &MultiImportDialog::handleError);
 
         // Parse the xls file in another thread
-        connect(parser, &BLL::MultiImportHelper::parsingFinished, this, &MultiImportUi::handleParsedXls);
+        connect(parser, &BLL::MultiImportHelper::parsingFinished, this, &MultiImportDialog::handleParsedXls);
         QThreadPool::globalInstance()->start(parser);
     }
 
-    void MultiImportUi::handleParsedXls(QList<Student*>* parsedStudents)
+    void MultiImportDialog::handleParsedXls(QList<Student*>* parsedStudents)
     {
         delete this->parsedStudents;
         this->parsedStudents = parsedStudents;
@@ -129,7 +129,7 @@ namespace UI {
         nextPage(); // Spinner -> ClassPicker
     }
 
-    void MultiImportUi::handleGradeAndSection(int grade, const QString& section)
+    void MultiImportDialog::handleGradeAndSection(int grade, const QString& section)
     {
         // Apply the selected grade and section for all parsed students
         for (auto student : *parsedStudents) {
@@ -140,7 +140,7 @@ namespace UI {
         nextPage(); // ClassPicker -> Preview
     }
 
-    void MultiImportUi::handleConfirmation()
+    void MultiImportDialog::handleConfirmation()
     {
         // Add all students to the database
         auto db = BLL::DatabaseHelper::getInstance();
@@ -163,7 +163,7 @@ namespace UI {
         nextPage(); // Preview -> [dialog closed]
     }
 
-    void MultiImportUi::handleError(const QString& errorMessage)
+    void MultiImportDialog::handleError(const QString& errorMessage)
     {
         const QString errorTitle = "Excel'den Öğrenci Eklerken Hata Oluştu";
         ErrorUi(errorTitle).displayMessage(errorMessage);

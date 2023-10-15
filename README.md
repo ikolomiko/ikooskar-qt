@@ -97,11 +97,11 @@ the corresponding file/folder.
 |DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabasePage](/src/UI/DatabasePage)
-| [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportUi](/src/UI/MultiImportUi)
+| [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportDialog](/src/UI/MultiImportDialog)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
 | -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
-| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [ExamWidget](/src/UI/SchemesUi/examwidget.cpp) <sup>[[1]](#license)</sup>, [MonthHeaderWidget](/src/UI/SchemesUi/monthheaderwidget.cpp) 
-| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[2]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
+| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
+| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [ExamWidget](/src/UI/SchemesUi/examwidget.cpp) <sup>[[2]](#license)</sup>, [MonthHeaderWidget](/src/UI/SchemesUi/monthheaderwidget.cpp) 
 | -				| AboutHelper 		| AboutUi
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | LocalAuth		| LocalAuthHelper 	| -
@@ -128,6 +128,6 @@ the corresponding file/folder.
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
 
-[1] [qt-collapsible-section](https://github.com/MichaelVoelkel/qt-collapsible-section), the code `ikoOSKAR::UI::ExamWidget` based on, is licensed under the [GNU Lesser General Public License version 3](https://github.com/MichaelVoelkel/qt-collapsible-section/blob/master/LICENSE).
+[1] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
 
-[2] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
+[2] [qt-collapsible-section](https://github.com/MichaelVoelkel/qt-collapsible-section), the code `ikoOSKAR::UI::ExamWidget` based on, is licensed under the [GNU Lesser General Public License version 3](https://github.com/MichaelVoelkel/qt-collapsible-section/blob/master/LICENSE).

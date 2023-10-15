@@ -36,10 +36,10 @@ set(PROJECT_SOURCES
     src/UI/DatabasePage/databasepage.cpp src/UI/DatabasePage/databasepage.h src/UI/DatabasePage/databasepage.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
     src/UI/MainWindow/mainwindow.cpp src/UI/MainWindow/mainwindow.h src/UI/MainWindow/mainwindow.ui
-    src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui
-    src/UI/MultiImportUi/miclasspickerui.h src/UI/MultiImportUi/miclasspickerui.cpp src/UI/MultiImportUi/miclasspickerui.ui
-    src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui
-    src/UI/MultiImportUi/mipreviewui.h src/UI/MultiImportUi/mipreviewui.cpp src/UI/MultiImportUi/mipreviewui.ui
+    src/UI/MultiImportDialog/multiimportdialog.cpp src/UI/MultiImportDialog/multiimportdialog.h src/UI/MultiImportDialog/multiimportdialog.ui
+    src/UI/MultiImportDialog/miclasspickerui.h src/UI/MultiImportDialog/miclasspickerui.cpp src/UI/MultiImportDialog/miclasspickerui.ui
+    src/UI/MultiImportDialog/mifilepickerui.h src/UI/MultiImportDialog/mifilepickerui.cpp src/UI/MultiImportDialog/mifilepickerui.ui
+    src/UI/MultiImportDialog/mipreviewui.h src/UI/MultiImportDialog/mipreviewui.cpp src/UI/MultiImportDialog/mipreviewui.ui
     src/UI/SchemesUi/newschemedialog.h src/UI/SchemesUi/newschemedialog.cpp src/UI/SchemesUi/newschemedialog.ui
     src/UI/SchemesUi/nsclasspickerui.h src/UI/SchemesUi/nsclasspickerui.cpp src/UI/SchemesUi/nsclasspickerui.ui
     src/UI/SchemesUi/nsexaminfoui.h src/UI/SchemesUi/nsexaminfoui.cpp src/UI/SchemesUi/nsexaminfoui.ui

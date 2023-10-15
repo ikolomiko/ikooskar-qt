@@ -101,7 +101,7 @@ namespace BLL {
      */
     void DatabaseHelper::AddAll(QList<Student*>& students)
     {
-        // Assuming this method was called by MultiImportUi,
+        // Assuming this method was called by MultiImportDialog,
         // duplicates were already checked by MultiImportHelper.
 
         if (students.isEmpty()) {

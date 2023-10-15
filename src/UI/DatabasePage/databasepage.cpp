@@ -1,5 +1,5 @@
 #include "databasepage.h"
-#include "UI/MultiImportUi/multiimportui.h"
+#include "UI/MultiImportDialog/multiimportdialog.h"
 #include "UI/StudentEditorUi/studenteditorui.h"
 #include "qheaderview.h"
 #include "ui_databasepage.h"
@@ -61,7 +61,7 @@ namespace UI {
 
     void DatabasePage::actionAddMulti_clicked()
     {
-        MultiImportUi dialog(this);
+        MultiImportDialog dialog(this);
         if (dialog.exec() != QDialog::Rejected) {
             refresh();
         }

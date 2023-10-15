@@ -1,5 +1,5 @@
-#ifndef IKOOSKAR_UI_MULTIIMPORTUI_H
-#define IKOOSKAR_UI_MULTIIMPORTUI_H
+#ifndef IKOOSKAR_UI_MULTIIMPORTDIALOG_H
+#define IKOOSKAR_UI_MULTIIMPORTDIALOG_H
 
 #include "Shared/student.h"
 #include <QDialog>
@@ -10,15 +10,15 @@ namespace UI {
     using namespace Shared;
 
     namespace Ui {
-        class MultiImportUi;
+        class MultiImportDialog;
     }
 
-    class MultiImportUi : public QDialog {
+    class MultiImportDialog : public QDialog {
         Q_OBJECT
 
     public:
-        explicit MultiImportUi(QWidget* parent = nullptr);
-        ~MultiImportUi();
+        explicit MultiImportDialog(QWidget* parent = nullptr);
+        ~MultiImportDialog();
 
     private slots:
         void handleXlsPath(QString* xlsFilePath);
@@ -35,7 +35,7 @@ namespace UI {
             PREVIEW
         };
 
-        Ui::MultiImportUi* ui;
+        Ui::MultiImportDialog* ui;
         PageState page;
         QList<Student*>* parsedStudents;
 
@@ -45,4 +45,4 @@ namespace UI {
 
 } // namespace UI
 } // namespace ikoOSKAR
-#endif // IKOOSKAR_UI_MULTIIMPORTUI_H
+#endif // IKOOSKAR_UI_MULTIIMPORTDIALOG_H
