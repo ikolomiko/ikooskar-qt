@@ -1,5 +1,5 @@
 #include "mipreviewui.h"
-#include "UI/DatabaseUi/databaseui.h"
+#include "UI/DatabasePage/databasepage.h"
 #include "ui_mipreviewui.h"
 
 namespace ikoOSKAR {
@@ -19,7 +19,7 @@ namespace UI {
         placeholder.replace("<s>", students->at(0)->section);
         ui->lblDescription->setText(placeholder);
 
-        ui->frame->layout()->addWidget(new DatabaseUi::ClassTable(students));
+        ui->frame->layout()->addWidget(new DatabasePage::ClassTable(students));
     }
 
     MIPreviewUi::~MIPreviewUi()

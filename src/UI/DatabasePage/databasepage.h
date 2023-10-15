@@ -1,5 +1,5 @@
-#ifndef IKOOSKAR_UI_DATABASEUI_H
-#define IKOOSKAR_UI_DATABASEUI_H
+#ifndef IKOOSKAR_UI_DATABASEPAGE_H
+#define IKOOSKAR_UI_DATABASEPAGE_H
 
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "UI/Common/module.h"
@@ -9,10 +9,10 @@
 namespace ikoOSKAR {
 namespace UI {
     namespace Ui {
-        class DatabaseUi;
+        class DatabasePage;
     }
 
-    class DatabaseUi : public Common::Module {
+    class DatabasePage : public Common::Module {
         Q_OBJECT
 
     public:
@@ -21,10 +21,10 @@ namespace UI {
             ClassTable(QList<Student*>* students);
         };
 
-        static DatabaseUi* getInstance();
+        static DatabasePage* getInstance();
         const QString* getName();
         const QString* getDescription();
-        ~DatabaseUi();
+        ~DatabasePage();
 
     public slots:
         void actionAddSingle_clicked();
@@ -46,11 +46,11 @@ namespace UI {
         void refresh();
         void createButtonMenus();
         void createTabWidget();
-        Ui::DatabaseUi* ui;
+        Ui::DatabasePage* ui;
         ikoOSKAR::BLL::DatabaseHelper* bll;
-        inline static DatabaseUi* instance;
-        explicit DatabaseUi(QWidget* parent = nullptr);
+        inline static DatabasePage* instance;
+        explicit DatabasePage(QWidget* parent = nullptr);
     };
 } // namespace UI
 } // namespace ikoOSKAR
-#endif // IKOOSKAR_UI_DATABASEUI_H
+#endif // IKOOSKAR_UI_DATABASEPAGE_H

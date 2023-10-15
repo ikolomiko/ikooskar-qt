@@ -33,7 +33,7 @@ set(PROJECT_SOURCES
     src/UI/Common/module.cpp src/UI/Common/module.h
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
-    src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
+    src/UI/DatabasePage/databasepage.cpp src/UI/DatabasePage/databasepage.h src/UI/DatabasePage/databasepage.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
     src/UI/MainWindow/mainwindow.cpp src/UI/MainWindow/mainwindow.h src/UI/MainWindow/mainwindow.ui
     src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui

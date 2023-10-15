@@ -1,8 +1,8 @@
-#include "databaseui.h"
+#include "databasepage.h"
 #include "UI/MultiImportUi/multiimportui.h"
 #include "UI/StudentEditorUi/studenteditorui.h"
 #include "qheaderview.h"
-#include "ui_databaseui.h"
+#include "ui_databasepage.h"
 
 #include "UI/ErrorUi/errorui.h"
 #include <QLabel>
@@ -11,27 +11,27 @@
 
 namespace ikoOSKAR {
 namespace UI {
-    DatabaseUi::DatabaseUi(QWidget* parent)
+    DatabasePage::DatabasePage(QWidget* parent)
         : Common::Module(parent)
-        , ui(new Ui::DatabaseUi)
+        , ui(new Ui::DatabasePage)
     {
         name = new QString("Öğrenci İşlemleri");
         ui->setupUi(this);
 
         bll = BLL::DatabaseHelper::getInstance();
-        connect(bll, &BLL::DatabaseHelper::error, this, &DatabaseUi::handleError);
+        connect(bll, &BLL::DatabaseHelper::error, this, &DatabasePage::handleError);
 
         createButtonMenus();
         createTabWidget();
     }
 
-    DatabaseUi::~DatabaseUi()
+    DatabasePage::~DatabasePage()
     {
         delete ui;
         delete bll;
     }
 
-    const QString* DatabaseUi::getDescription()
+    const QString* DatabasePage::getDescription()
     {
         int nStudents = bll->GetNumberOfStudents();
         QString desc("Okul mevcudu: " + QString::number(nStudents));
@@ -43,15 +43,15 @@ namespace UI {
         return new QString(desc + "  ♦  " + currentClass + " sınıf mevcudu: " + QString::number(classPopulation));
     }
 
-    DatabaseUi* DatabaseUi::getInstance()
+    DatabasePage* DatabasePage::getInstance()
     {
         if (instance == nullptr) {
-            instance = new DatabaseUi();
+            instance = new DatabasePage();
         }
         return instance;
     }
 
-    void DatabaseUi::actionAddSingle_clicked()
+    void DatabasePage::actionAddSingle_clicked()
     {
         StudentEditorUi dialog(StudentEditorUi::ADD, this);
         if (dialog.exec() != QDialog::Rejected) {
@@ -59,7 +59,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::actionAddMulti_clicked()
+    void DatabasePage::actionAddMulti_clicked()
     {
         MultiImportUi dialog(this);
         if (dialog.exec() != QDialog::Rejected) {
@@ -67,7 +67,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::on_btnEdit_clicked()
+    void DatabasePage::on_btnEdit_clicked()
     {
         auto* tableWidget = (QTableWidget*)ui->tabWidget->currentWidget();
         if (tableWidget == nullptr) {
@@ -82,7 +82,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::on_btnDelete_clicked()
+    void DatabasePage::on_btnDelete_clicked()
     {
         auto* tableWidget = (QTableWidget*)ui->tabWidget->currentWidget();
         if (tableWidget == nullptr) {
@@ -102,7 +102,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::actionEoty_clicked()
+    void DatabasePage::actionEoty_clicked()
     {
         QString text = "Yıl sonu işlemleri kapsamında bütün öğrenciler bir sonraki sınıfa aktarılacak, "
                        "12. sınıflar ise veri tabanından SİLİNECEKTİR.\nTamam düğmesine tıkladığınız an "
@@ -114,7 +114,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::actionRemoveClass_clicked()
+    void DatabasePage::actionRemoveClass_clicked()
     {
         QString currentClass = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
         QString text = currentClass + " sınıfındaki bütün öğrenciler veri tabanından silinecektir. "
@@ -127,24 +127,24 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::handleError(const QString& errorMessage)
+    void DatabasePage::handleError(const QString& errorMessage)
     {
         const QString errorTitle = "Öğrenci İşlemlerinde Hata Oluştu";
         ErrorUi(errorTitle).displayMessage(errorMessage);
     }
 
-    void DatabaseUi::createButtonMenus()
+    void DatabasePage::createButtonMenus()
     {
         QIcon icon(":/option-bullet.png");
 
         QMenu* menuAdd = new QMenu();
         QAction* addSingle = new QAction("Öğrenci Bilgilerini Elle Gir");
         addSingle->setIcon(icon);
-        connect(addSingle, &QAction::triggered, this, &DatabaseUi::actionAddSingle_clicked);
+        connect(addSingle, &QAction::triggered, this, &DatabasePage::actionAddSingle_clicked);
 
         QAction* addMulti = new QAction("Öğrenci Bilgilerini Excel Dosyasından Çek");
         addMulti->setIcon(icon);
-        connect(addMulti, &QAction::triggered, this, &DatabaseUi::actionAddMulti_clicked);
+        connect(addMulti, &QAction::triggered, this, &DatabasePage::actionAddMulti_clicked);
 
         menuAdd->addAction(addSingle);
         menuAdd->addAction(addMulti);
@@ -153,18 +153,18 @@ namespace UI {
         QMenu* menuMore = new QMenu();
         QAction* eotyAction = new QAction("Yıl sonu işlemlerini yap");
         eotyAction->setIcon(icon);
-        connect(eotyAction, &QAction::triggered, this, &DatabaseUi::actionEoty_clicked);
+        connect(eotyAction, &QAction::triggered, this, &DatabasePage::actionEoty_clicked);
 
         QAction* removeClassAction = new QAction("Bu sınıftaki bütün öğrencileri sil");
         removeClassAction->setIcon(icon);
-        connect(removeClassAction, &QAction::triggered, this, &DatabaseUi::actionRemoveClass_clicked);
+        connect(removeClassAction, &QAction::triggered, this, &DatabasePage::actionRemoveClass_clicked);
 
         menuMore->addAction(eotyAction);
         menuMore->addAction(removeClassAction);
         ui->btnMore->setMenu(menuMore);
     }
 
-    DatabaseUi::ClassTable::ClassTable(QList<Student*>* students)
+    DatabasePage::ClassTable::ClassTable(QList<Student*>* students)
     {
         setEditTriggers(QAbstractItemView::NoEditTriggers);
         setAlternatingRowColors(false);
@@ -199,7 +199,7 @@ namespace UI {
         }
     }
 
-    void DatabaseUi::createTabWidget()
+    void DatabasePage::createTabWidget()
     {
         auto* classNames = bll->GetClassNames();
         auto* tabWidget = ui->tabWidget;
@@ -226,7 +226,7 @@ namespace UI {
         });
     }
 
-    void DatabaseUi::refresh()
+    void DatabasePage::refresh()
     {
         int index = ui->tabWidget->currentIndex();
         createTabWidget();

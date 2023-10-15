@@ -2,7 +2,7 @@
 #include "BLL/UpgradeAssistant/upgradeassistant.h"
 #include "UI/AboutUi/aboutui.h"
 #include "UI/Common/spinner.h"
-#include "UI/DatabaseUi/databaseui.h"
+#include "UI/DatabasePage/databasepage.h"
 #include "UI/ErrorUi/errorui.h"
 #include "UI/SchemesUi/schemesui.h"
 #include "UI/WelcomeUi/welcomeui.h"
@@ -50,7 +50,7 @@ namespace UI {
     void MainWindow::initSubpages()
     {
         QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
-        Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
+        Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabasePage::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
 
         for (int i = 0; i < 4; i++) {
             const auto& btn = buttons[i];
