@@ -1,4 +1,4 @@
-#include "mainpage.h"
+#include "mainwindow.h"
 #include "BLL/UpgradeAssistant/upgradeassistant.h"
 #include "UI/AboutUi/aboutui.h"
 #include "UI/Common/spinner.h"
@@ -6,22 +6,22 @@
 #include "UI/ErrorUi/errorui.h"
 #include "UI/SchemesUi/schemesui.h"
 #include "UI/WelcomeUi/welcomeui.h"
-#include "ui_mainpage.h"
+#include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QThreadPool>
 
 namespace ikoOSKAR {
 namespace UI {
-    enum MainPage::Subpage : int {
+    enum MainWindow::Subpage : int {
         HOME,
         DATABASE,
         SCHEMES,
         ABOUT
     };
 
-    MainPage::MainPage(QWidget* parent)
+    MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent)
-        , ui(new Ui::MainPage)
+        , ui(new Ui::MainWindow)
     {
         ui->setupUi(this);
 
@@ -37,7 +37,7 @@ namespace UI {
             ui->frameHeaderbar->hide();
             ui->stackedWidget->addWidget(spinner);
 
-            connect(assistant, &BLL::UpgradeAssistant::upgradeFinished, this, &MainPage::handleFinishedUpgrade);
+            connect(assistant, &BLL::UpgradeAssistant::upgradeFinished, this, &MainWindow::handleFinishedUpgrade);
             connect(assistant, &BLL::UpgradeAssistant::error, [](const QString& message) {
                 ErrorUi("Güncelleme Hatası").displayMessage(message);
             });
@@ -47,7 +47,7 @@ namespace UI {
         }
     }
 
-    void MainPage::initSubpages()
+    void MainWindow::initSubpages()
     {
         QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
         Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabaseUi::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
@@ -61,23 +61,23 @@ namespace UI {
 
         for (int i = 0; i < 4; i++) {
             ui->stackedWidget->addWidget(modules[i]);
-            connect(modules[i], &Common::Module::descriptionUpdated, this, &MainPage::setDescription);
+            connect(modules[i], &Common::Module::descriptionUpdated, this, &MainWindow::setDescription);
         }
 
         changePage(HOME, buttons[HOME]->icon());
     }
 
-    MainPage::~MainPage()
+    MainWindow::~MainWindow()
     {
         delete ui;
     }
 
-    void MainPage::setDescription(const QString& description)
+    void MainWindow::setDescription(const QString& description)
     {
         ui->lblDescription->setText(description);
     }
 
-    void MainPage::handleFinishedUpgrade(int nStudents)
+    void MainWindow::handleFinishedUpgrade(int nStudents)
     {
         auto* spinner = (Common::Spinner*)ui->stackedWidget->currentWidget();
         ui->stackedWidget->removeWidget(spinner);
@@ -92,7 +92,7 @@ namespace UI {
         }
     }
 
-    void MainPage::changePage(Subpage index, QIcon icon)
+    void MainWindow::changePage(Subpage index, QIcon icon)
     {
         auto module = (Common::Module*)ui->stackedWidget->widget(index);
 

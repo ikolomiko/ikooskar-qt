@@ -1,4 +1,4 @@
-#include "UI/MainPage/mainpage.h"
+#include "UI/MainWindow/mainwindow.h"
 
 #include <QApplication>
 #include <QFile>
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     styles.open(QFile::ReadOnly);
     app.setStyleSheet(QLatin1String(styles.readAll()));
 
-    ikoOSKAR::UI::MainPage w;
+    ikoOSKAR::UI::MainWindow w;
     w.show();
     return app.exec();
 }

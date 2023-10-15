@@ -35,7 +35,7 @@ set(PROJECT_SOURCES
     src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
     src/UI/DatabaseUi/databaseui.cpp src/UI/DatabaseUi/databaseui.h src/UI/DatabaseUi/databaseui.ui
     src/UI/ErrorUi/errorui.cpp src/UI/ErrorUi/errorui.h
-    src/UI/MainPage/mainpage.cpp src/UI/MainPage/mainpage.h src/UI/MainPage/mainpage.ui
+    src/UI/MainWindow/mainwindow.cpp src/UI/MainWindow/mainwindow.h src/UI/MainWindow/mainwindow.ui
     src/UI/MultiImportUi/multiimportui.cpp src/UI/MultiImportUi/multiimportui.h src/UI/MultiImportUi/multiimportui.ui
     src/UI/MultiImportUi/miclasspickerui.h src/UI/MultiImportUi/miclasspickerui.cpp src/UI/MultiImportUi/miclasspickerui.ui
     src/UI/MultiImportUi/mifilepickerui.h src/UI/MultiImportUi/mifilepickerui.cpp src/UI/MultiImportUi/mifilepickerui.ui

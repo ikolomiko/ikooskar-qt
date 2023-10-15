@@ -103,7 +103,7 @@ the corresponding file/folder.
 | -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [ExamWidget](/src/UI/SchemesUi/examwidget.cpp) <sup>[[1]](#license)</sup>, [MonthHeaderWidget](/src/UI/SchemesUi/monthheaderwidget.cpp) 
 | [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[2]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
 | -				| AboutHelper 		| AboutUi
-| - 			| - 				| [MainPage](/src/UI/MainPage)
+| - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | LocalAuth		| LocalAuthHelper 	| -
 | CloudAuth		| CloudAuthHelper 	| -
 | - 			| Authenticator 	| AuthenticatorPage

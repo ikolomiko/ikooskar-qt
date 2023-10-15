@@ -1,5 +1,5 @@
-#ifndef IKOOSKAR_UI_MAINPAGE_H
-#define IKOOSKAR_UI_MAINPAGE_H
+#ifndef IKOOSKAR_UI_MAINWINDOW_H
+#define IKOOSKAR_UI_MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -8,15 +8,15 @@ namespace ikoOSKAR {
 namespace UI {
 
     namespace Ui {
-        class MainPage;
+        class MainWindow;
     }
 
-    class MainPage : public QMainWindow {
+    class MainWindow : public QMainWindow {
         Q_OBJECT
 
     public:
-        explicit MainPage(QWidget* parent = nullptr);
-        ~MainPage();
+        explicit MainWindow(QWidget* parent = nullptr);
+        ~MainWindow();
 
     public slots:
         void setDescription(const QString& description);
@@ -24,11 +24,11 @@ namespace UI {
 
     private:
         enum Subpage : int;
-        Ui::MainPage* ui;
+        Ui::MainWindow* ui;
         void initSubpages();
         void changePage(Subpage index, QIcon icon);
     };
 
 } // namespace UI
 } // namespace ikoOSKAR
-#endif // IKOOSKAR_UI_MAINPAGE_H
+#endif // IKOOSKAR_UI_MAINWINDOW_H
