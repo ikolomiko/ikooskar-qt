@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ikoOSKAR::UI::StudentEditorUi</class>
- <widget class="QDialog" name="ikoOSKAR::UI::StudentEditorUi">
+ <class>ikoOSKAR::UI::StudentEditorDialog</class>
+ <widget class="QDialog" name="ikoOSKAR::UI::StudentEditorDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -273,7 +273,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ikoOSKAR::UI::StudentEditorUi</receiver>
+   <receiver>ikoOSKAR::UI::StudentEditorDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -289,7 +289,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ikoOSKAR::UI::StudentEditorUi</receiver>
+   <receiver>ikoOSKAR::UI::StudentEditorDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

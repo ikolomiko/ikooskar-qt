@@ -1,14 +1,14 @@
-#include "nsresultsui.h"
-#include "ui_nsresultsui.h"
+#include "innerexamwidget.h"
+#include "ui_innerexamwidget.h"
 #include "xlsxbutton.h"
 #include <QFile>
 
 namespace ikoOSKAR {
 namespace UI {
 
-    NSResultsUi::NSResultsUi(const QString& examName, const QString& examDate, const QString& pathClassLists, const QString& pathHallLayouts, QWidget* parent, bool isHistorical)
+    InnerExamWidget::InnerExamWidget(const QString& examName, const QString& examDate, const QString& pathClassLists, const QString& pathHallLayouts, QWidget* parent, bool isHistorical)
         : QWidget(parent)
-        , ui(new Ui::NSResultsUi)
+        , ui(new Ui::InnerExamWidget)
     {
         ui->setupUi(this);
         ui->lblName->setText(examName);
@@ -35,7 +35,7 @@ namespace UI {
         }
     }
 
-    NSResultsUi::~NSResultsUi()
+    InnerExamWidget::~InnerExamWidget()
     {
         delete ui;
     }

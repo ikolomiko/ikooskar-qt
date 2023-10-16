@@ -19,7 +19,7 @@
 */
 
 #include "examwidget.h"
-#include "nsresultsui.h"
+#include "innerexamwidget.h"
 #include <QApplication>
 #include <QDesktopServices>
 #include <QPropertyAnimation>
@@ -90,7 +90,7 @@ namespace UI {
         setLayout(mainLayout);
 
         auto* vLayout = new QVBoxLayout();
-        NSResultsUi* res = new NSResultsUi("", "", exam.classListPath(), exam.hallLayoutPath(), this, true);
+        InnerExamWidget* res = new InnerExamWidget("", "", exam.classListPath(), exam.hallLayoutPath(), this, true);
         vLayout->setContentsMargins(0, 0, 0, 0);
         vLayout->setSpacing(0);
         vLayout->addWidget(res);

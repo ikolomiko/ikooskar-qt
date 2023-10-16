@@ -29,8 +29,8 @@ set(PROJECT_SOURCES
     src/Shared/pattern.h src/Shared/pattern.cpp
     src/Shared/scheme.h
     src/Shared/student.h
-    src/UI/AboutUi/aboutui.cpp src/UI/AboutUi/aboutui.h src/UI/AboutUi/aboutui.ui
-    src/UI/Common/module.cpp src/UI/Common/module.h
+    src/UI/AboutPage/aboutpage.cpp src/UI/AboutPage/aboutpage.h src/UI/AboutPage/aboutpage.ui
+    src/UI/Common/page.h
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
     src/UI/DatabasePage/databasepage.cpp src/UI/DatabasePage/databasepage.h src/UI/DatabasePage/databasepage.ui
@@ -40,22 +40,22 @@ set(PROJECT_SOURCES
     src/UI/MultiImportDialog/miclasspickerui.h src/UI/MultiImportDialog/miclasspickerui.cpp src/UI/MultiImportDialog/miclasspickerui.ui
     src/UI/MultiImportDialog/mifilepickerui.h src/UI/MultiImportDialog/mifilepickerui.cpp src/UI/MultiImportDialog/mifilepickerui.ui
     src/UI/MultiImportDialog/mipreviewui.h src/UI/MultiImportDialog/mipreviewui.cpp src/UI/MultiImportDialog/mipreviewui.ui
-    src/UI/SchemesUi/newschemedialog.h src/UI/SchemesUi/newschemedialog.cpp src/UI/SchemesUi/newschemedialog.ui
-    src/UI/SchemesUi/nsclasspickerui.h src/UI/SchemesUi/nsclasspickerui.cpp src/UI/SchemesUi/nsclasspickerui.ui
-    src/UI/SchemesUi/nsexaminfoui.h src/UI/SchemesUi/nsexaminfoui.cpp src/UI/SchemesUi/nsexaminfoui.ui
-    src/UI/SchemesUi/nshallpickerui.h src/UI/SchemesUi/nshallpickerui.cpp src/UI/SchemesUi/nshallpickerui.ui
-    src/UI/SchemesUi/nspreviewui.h src/UI/SchemesUi/nspreviewui.cpp src/UI/SchemesUi/nspreviewui.ui
-    src/UI/SchemesUi/schemesui.cpp src/UI/SchemesUi/schemesui.h src/UI/SchemesUi/schemesui.ui
-    src/UI/StudentEditorUi/studenteditorui.cpp src/UI/StudentEditorUi/studenteditorui.h src/UI/StudentEditorUi/studenteditorui.ui
-    src/UI/WelcomeUi/welcomeui.cpp src/UI/WelcomeUi/welcomeui.h src/UI/WelcomeUi/welcomeui.ui    
-    src/UI/SchemesUi/nsresultsui.h src/UI/SchemesUi/nsresultsui.cpp src/UI/SchemesUi/nsresultsui.ui
-    src/UI/SchemesUi/xlsxbutton.h src/UI/SchemesUi/xlsxbutton.cpp src/UI/SchemesUi/xlsxbutton.ui
-    src/UI/SchemesUi/examwidget.h src/UI/SchemesUi/examwidget.cpp
+    src/UI/NewSchemeDialog/newschemedialog.h src/UI/NewSchemeDialog/newschemedialog.cpp src/UI/NewSchemeDialog/newschemedialog.ui
+    src/UI/NewSchemeDialog/nsclasspickerui.h src/UI/NewSchemeDialog/nsclasspickerui.cpp src/UI/NewSchemeDialog/nsclasspickerui.ui
+    src/UI/NewSchemeDialog/nsexaminfoui.h src/UI/NewSchemeDialog/nsexaminfoui.cpp src/UI/NewSchemeDialog/nsexaminfoui.ui
+    src/UI/NewSchemeDialog/nshallpickerui.h src/UI/NewSchemeDialog/nshallpickerui.cpp src/UI/NewSchemeDialog/nshallpickerui.ui
+    src/UI/NewSchemeDialog/nspreviewui.h src/UI/NewSchemeDialog/nspreviewui.cpp src/UI/NewSchemeDialog/nspreviewui.ui
+    src/UI/SchemesPage/innerexamwidget.h src/UI/SchemesPage/innerexamwidget.cpp src/UI/SchemesPage/innerexamwidget.ui
+    src/UI/SchemesPage/schemespage.cpp src/UI/SchemesPage/schemespage.h src/UI/SchemesPage/schemespage.ui
+    src/UI/StudentEditorDialog/studenteditordialog.cpp src/UI/StudentEditorDialog/studenteditordialog.h src/UI/StudentEditorDialog/studenteditordialog.ui
+    src/UI/WelcomePage/welcomepage.cpp src/UI/WelcomePage/welcomepage.h src/UI/WelcomePage/welcomepage.ui    
+    src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
+    src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
     assets/icon.rc
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
     src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
-    src/UI/SchemesUi/monthheaderwidget.h src/UI/SchemesUi/monthheaderwidget.cpp
+    src/UI/SchemesPage/monthheaderwidget.h src/UI/SchemesPage/monthheaderwidget.cpp
 )
 
 include_directories("src")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ikoOSKAR::UI::SchemesUi</class>
- <widget class="QWidget" name="ikoOSKAR::UI::SchemesUi">
+ <class>ikoOSKAR::UI::SchemesPage</class>
+ <widget class="QWidget" name="ikoOSKAR::UI::SchemesPage">
   <property name="geometry">
    <rect>
     <x>0</x>

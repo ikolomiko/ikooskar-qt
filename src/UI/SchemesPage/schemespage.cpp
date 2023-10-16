@@ -1,15 +1,15 @@
-#include "schemesui.h"
+#include "schemespage.h"
+#include "UI/NewSchemeDialog/newschemedialog.h"
 #include "examwidget.h"
 #include "monthheaderwidget.h"
-#include "newschemedialog.h"
-#include "ui_schemesui.h"
+#include "ui_schemespage.h"
 
 namespace ikoOSKAR {
 namespace UI {
 
-    SchemesUi::SchemesUi(QWidget* parent)
-        : Common::Module(parent)
-        , ui(new Ui::SchemesUi)
+    SchemesPage::SchemesPage(QWidget* parent)
+        : Common::Page(parent)
+        , ui(new Ui::SchemesPage)
     {
         ui->setupUi(this);
         name = new QString("Sınav Düzenleri");
@@ -24,7 +24,7 @@ namespace UI {
         setupHistoryUi();
     }
 
-    void SchemesUi::setupHistoryUi()
+    void SchemesPage::setupHistoryUi()
     {
         // Clear the history root
         for (const auto& widget : historyWidgets) {
@@ -69,27 +69,27 @@ namespace UI {
         ui->historyRoot->layout()->addItem(verticalSpacer);
     }
 
-    SchemesUi::~SchemesUi()
+    SchemesPage::~SchemesPage()
     {
         delete ui;
     }
 
-    SchemesUi* SchemesUi::getInstance()
+    SchemesPage* SchemesPage::getInstance()
     {
         if (instance == nullptr) {
-            instance = new SchemesUi();
+            instance = new SchemesPage();
         }
         return instance;
     }
 
-    const QString* SchemesUi::getDescription()
+    const QString* SchemesPage::getDescription()
     {
         QString historyCount = QString::number(historyProvider->getHistoryCountForCurrentTerm());
         QString termString = historyProvider->getCurrentTermString();
         return new QString(termString + " döneminde toplam " + historyCount + " adet sınav düzeni oluşturdunuz");
     }
 
-    void SchemesUi::on_btnNewScheme_clicked()
+    void SchemesPage::on_btnNewScheme_clicked()
     {
         NewSchemeDialog dialog(this);
         dialog.exec();

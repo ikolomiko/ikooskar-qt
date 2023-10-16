@@ -1,6 +1,6 @@
 #include "databasepage.h"
 #include "UI/MultiImportDialog/multiimportdialog.h"
-#include "UI/StudentEditorUi/studenteditorui.h"
+#include "UI/StudentEditorDialog/studenteditordialog.h"
 #include "qheaderview.h"
 #include "ui_databasepage.h"
 
@@ -12,7 +12,7 @@
 namespace ikoOSKAR {
 namespace UI {
     DatabasePage::DatabasePage(QWidget* parent)
-        : Common::Module(parent)
+        : Common::Page(parent)
         , ui(new Ui::DatabasePage)
     {
         name = new QString("Öğrenci İşlemleri");
@@ -53,7 +53,7 @@ namespace UI {
 
     void DatabasePage::actionAddSingle_clicked()
     {
-        StudentEditorUi dialog(StudentEditorUi::ADD, this);
+        StudentEditorDialog dialog(StudentEditorDialog::ADD, this);
         if (dialog.exec() != QDialog::Rejected) {
             refresh();
         }
@@ -76,7 +76,7 @@ namespace UI {
         }
         int selectedId = tableWidget->selectedItems().at(0)->text().toInt();
         auto* student = bll->GetStudentById(selectedId);
-        StudentEditorUi dialog(StudentEditorUi::EDIT, this, student);
+        StudentEditorDialog dialog(StudentEditorDialog::EDIT, this, student);
         if (dialog.exec() != QDialog::Rejected) {
             refresh();
         }

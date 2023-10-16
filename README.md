@@ -98,19 +98,19 @@ the corresponding file/folder.
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabasePage](/src/UI/DatabasePage)
 | [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportDialog](/src/UI/MultiImportDialog)
-| -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorUi](/src/UI/StudentEditorUi)
-| -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [SchemesUi](/src/UI/SchemesUi)
+| -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorDialog](/src/UI/StudentEditorDialog)
+| -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [NewSchemeDialog](/src/UI/NewSchemeDialog)
 | [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
-| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [ExamWidget](/src/UI/SchemesUi/examwidget.cpp) <sup>[[2]](#license)</sup>, [MonthHeaderWidget](/src/UI/SchemesUi/monthheaderwidget.cpp) 
-| -				| AboutHelper 		| AboutUi
+| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [SchemesPage](/src/UI/SchemesPage) <sup>[[2]](#license)</sup>
+| -				| AboutHelper 		| AboutPage
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | LocalAuth		| LocalAuthHelper 	| -
 | CloudAuth		| CloudAuthHelper 	| -
 | - 			| Authenticator 	| AuthenticatorWindow
 | -				| - 				| SplashWindow
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
-| -	            | -                 | [WelcomeUi](/src/UI/WelcomeUi)
-| -				| -					| [Module](/src/UI/Common)
+| -	            | -                 | [WelcomePage](/src/UI/WelcomePage)
+| -				| -					| [Page](/src/UI/Common/page.h)
 
 
 |Shared	|

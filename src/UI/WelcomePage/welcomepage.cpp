@@ -1,30 +1,30 @@
-#include "welcomeui.h"
-#include "ui_welcomeui.h"
+#include "welcomepage.h"
+#include "ui_welcomepage.h"
 
 namespace ikoOSKAR {
 namespace UI {
-    WelcomeUi::WelcomeUi(QWidget* parent)
-        : Common::Module(parent)
-        , ui(new Ui::WelcomeUi)
+    WelcomePage::WelcomePage(QWidget* parent)
+        : Common::Page(parent)
+        , ui(new Ui::WelcomePage)
     {
         ui->setupUi(this);
         name = new QString("Ana Sayfa");
     }
 
-    WelcomeUi::~WelcomeUi()
+    WelcomePage::~WelcomePage()
     {
         delete ui;
     }
 
-    WelcomeUi* WelcomeUi::getInstance()
+    WelcomePage* WelcomePage::getInstance()
     {
         if (instance == nullptr) {
-            instance = new WelcomeUi();
+            instance = new WelcomePage();
         }
         return instance;
     }
 
-    const QString* WelcomeUi::getDescription()
+    const QString* WelcomePage::getDescription()
     {
         return new QString("Ana sayfadasınız");
     }

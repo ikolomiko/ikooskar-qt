@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "BLL/UpgradeAssistant/upgradeassistant.h"
-#include "UI/AboutUi/aboutui.h"
+#include "UI/AboutPage/aboutpage.h"
 #include "UI/Common/spinner.h"
 #include "UI/DatabasePage/databasepage.h"
 #include "UI/ErrorUi/errorui.h"
-#include "UI/SchemesUi/schemesui.h"
-#include "UI/WelcomeUi/welcomeui.h"
+#include "UI/SchemesPage/schemespage.h"
+#include "UI/WelcomePage/welcomepage.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QThreadPool>
@@ -50,7 +50,7 @@ namespace UI {
     void MainWindow::initSubpages()
     {
         QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
-        Common::Module* modules[4] = { WelcomeUi::getInstance(), DatabasePage::getInstance(), SchemesUi::getInstance(), AboutUi::getInstance() };
+        Common::Page* pages[4] = { WelcomePage::getInstance(), DatabasePage::getInstance(), SchemesPage::getInstance(), AboutPage::getInstance() };
 
         for (int i = 0; i < 4; i++) {
             const auto& btn = buttons[i];
@@ -60,8 +60,8 @@ namespace UI {
         }
 
         for (int i = 0; i < 4; i++) {
-            ui->stackedWidget->addWidget(modules[i]);
-            connect(modules[i], &Common::Module::descriptionUpdated, this, &MainWindow::setDescription);
+            ui->stackedWidget->addWidget(pages[i]);
+            connect(pages[i], &Common::Page::descriptionUpdated, this, &MainWindow::setDescription);
         }
 
         changePage(HOME, buttons[HOME]->icon());
@@ -94,10 +94,10 @@ namespace UI {
 
     void MainWindow::changePage(Subpage index, QIcon icon)
     {
-        auto module = (Common::Module*)ui->stackedWidget->widget(index);
+        auto page = (Common::Page*)ui->stackedWidget->widget(index);
 
-        ui->lblModuleName->setText(*module->getName());
-        ui->lblDescription->setText(*module->getDescription());
+        ui->lblPageName->setText(*page->getName());
+        ui->lblDescription->setText(*page->getDescription());
         ui->btnCurrentPage->setIcon(icon);
         ui->stackedWidget->setCurrentIndex(index);
     }

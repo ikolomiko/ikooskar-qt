@@ -1,14 +1,14 @@
-#include "studenteditorui.h"
+#include "studenteditordialog.h"
 #include "BLL/StudentEditor/studenteditor.h"
 #include "UI/ErrorUi/errorui.h"
-#include "ui_studenteditorui.h"
+#include "ui_studenteditordialog.h"
 
 namespace ikoOSKAR {
 namespace UI {
 
-    StudentEditorUi::StudentEditorUi(EditorMode mode, QWidget* parent, Shared::Student* student)
+    StudentEditorDialog::StudentEditorDialog(EditorMode mode, QWidget* parent, Shared::Student* student)
         : QDialog(parent)
-        , ui(new Ui::StudentEditorUi)
+        , ui(new Ui::StudentEditorDialog)
         , student(student)
         , mode(mode)
     {
@@ -31,18 +31,18 @@ namespace UI {
         }
     }
 
-    StudentEditorUi::~StudentEditorUi()
+    StudentEditorDialog::~StudentEditorDialog()
     {
         delete ui;
     }
 
-    void StudentEditorUi::handleError(const QString& errorMessage)
+    void StudentEditorDialog::handleError(const QString& errorMessage)
     {
         const QString errorTitle = mode == ADD ? "Öğrenci Eklemede Hata Oluştu" : "Öğrenci Bilgisi Düzenlemede Hata Oluştu";
         ErrorUi(errorTitle).displayMessage(errorMessage);
     }
 
-    void StudentEditorUi::done(int r)
+    void StudentEditorDialog::done(int r)
     {
         // Reject and return if the cancel button was clicked
         if (QDialog::Rejected == r) {
@@ -52,7 +52,7 @@ namespace UI {
 
         // Proceed if the clicked button was the save button
         BLL::StudentEditor bll;
-        connect(&bll, &BLL::StudentEditor::error, this, &StudentEditorUi::handleError);
+        connect(&bll, &BLL::StudentEditor::error, this, &StudentEditorDialog::handleError);
 
         int id = ui->spnId->value();
         QString firstName = ui->lnFirstName->text();

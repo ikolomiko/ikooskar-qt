@@ -2,7 +2,7 @@
 #define IKOOSKAR_UI_DATABASEPAGE_H
 
 #include "BLL/DatabaseHelper/databasehelper.h"
-#include "UI/Common/module.h"
+#include "UI/Common/page.h"
 #include <QTableWidget>
 #include <QWidget>
 
@@ -12,7 +12,7 @@ namespace UI {
         class DatabasePage;
     }
 
-    class DatabasePage : public Common::Module {
+    class DatabasePage : public Common::Page {
         Q_OBJECT
 
     public:

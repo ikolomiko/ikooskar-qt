@@ -1,8 +1,8 @@
-#ifndef IKOOSKAR_UI_SCHEMESUI_H
-#define IKOOSKAR_UI_SCHEMESUI_H
+#ifndef IKOOSKAR_UI_SCHEMESPAGE_H
+#define IKOOSKAR_UI_SCHEMESPAGE_H
 
 #include "BLL/HistoryProvider/historyprovider.h"
-#include "UI/Common/module.h"
+#include "UI/Common/page.h"
 #include <QLayoutItem>
 #include <QWidget>
 
@@ -10,33 +10,33 @@ namespace ikoOSKAR {
 namespace UI {
 
     namespace Ui {
-        class SchemesUi;
+        class SchemesPage;
     }
 
-    class SchemesUi : public Common::Module {
+    class SchemesPage : public Common::Page {
         Q_OBJECT
 
     public:
-        static SchemesUi* getInstance();
+        static SchemesPage* getInstance();
         const QString* getName();
         const QString* getDescription();
-        ~SchemesUi();
+        ~SchemesPage();
 
     private slots:
         void on_btnNewScheme_clicked();
 
     private:
         BLL::HistoryProvider* historyProvider;
-        Ui::SchemesUi* ui;
-        inline static SchemesUi* instance;
+        Ui::SchemesPage* ui;
+        inline static SchemesPage* instance;
         QList<QWidget*> historyWidgets;
         QLayoutItem* verticalSpacer;
         QLabel* lblEmptyHistory;
 
-        explicit SchemesUi(QWidget* parent = nullptr);
+        explicit SchemesPage(QWidget* parent = nullptr);
         void setupHistoryUi();
     };
 
 } // namespace UI
 } // namespace ikoOSKAR
-#endif // IKOOSKAR_UI_SCHEMESUI_H
+#endif // IKOOSKAR_UI_SCHEMESPAGE_H

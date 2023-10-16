@@ -2,11 +2,11 @@
 #include "BLL/SchemeExporter/schemeexporter.h"
 #include "UI/Common/spinner.h"
 #include "UI/ErrorUi/errorui.h"
+#include "UI/SchemesPage/innerexamwidget.h"
 #include "nsclasspickerui.h"
 #include "nsexaminfoui.h"
 #include "nshallpickerui.h"
 #include "nspreviewui.h"
-#include "nsresultsui.h"
 #include "ui_newschemedialog.h"
 #include <QDesktopServices>
 #include <QUrl>
@@ -161,7 +161,7 @@ namespace UI {
             spinner->stop();
             spinner->deleteLater();
 
-            auto results = new NSResultsUi(examName, examDate.toString("dd/MM/yyyy"), pathClassLists, pathHallLayouts);
+            auto results = new InnerExamWidget(examName, examDate.toString("dd/MM/yyyy"), pathClassLists, pathHallLayouts);
             ui->root->addWidget(results);
             ui->root->setCurrentIndex(ui->root->currentIndex() + 1);
 
