@@ -14,13 +14,20 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
 
 set(PROJECT_SOURCES
+    assets/icon.rc
+    src/app.h src/app.cpp
+    src/BLL/Authenticator/authenticator.h src/BLL/Authenticator/authenticator.cpp
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
-    src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
+    src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
     src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
+    src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
     src/BLL/SchemeExporter/schemeexporter.h src/BLL/SchemeExporter/schemeexporter.cpp
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
     src/BLL/UpgradeAssistant/upgradeassistant.h src/BLL/UpgradeAssistant/upgradeassistant.cpp
+    src/DAL/CloudAuth/cloudauth.h src/DAL/CloudAuth/cloudauth.cpp
+    src/DAL/CloudAuth/cloudauthresponse.h
     src/DAL/Database/database.cpp src/DAL/Database/database.h
+    src/DAL/LocalAuth/localauth.h src/DAL/LocalAuth/localauth.cpp
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
     src/Shared/desk.h
     src/Shared/deskcoordinates.h
@@ -30,6 +37,8 @@ set(PROJECT_SOURCES
     src/Shared/scheme.h
     src/Shared/student.h
     src/UI/AboutPage/aboutpage.cpp src/UI/AboutPage/aboutpage.h src/UI/AboutPage/aboutpage.ui
+    src/UI/AuthenticatorWindow/authenticatorwindow.h src/UI/AuthenticatorWindow/authenticatorwindow.cpp src/UI/AuthenticatorWindow/authenticatorwindow.ui
+    src/UI/Common/contactwidget.h src/UI/Common/contactwidget.cpp src/UI/Common/contactwidget.ui
     src/UI/Common/page.h
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
@@ -46,16 +55,14 @@ set(PROJECT_SOURCES
     src/UI/NewSchemeDialog/nshallpickerui.h src/UI/NewSchemeDialog/nshallpickerui.cpp src/UI/NewSchemeDialog/nshallpickerui.ui
     src/UI/NewSchemeDialog/nspreviewui.h src/UI/NewSchemeDialog/nspreviewui.cpp src/UI/NewSchemeDialog/nspreviewui.ui
     src/UI/SchemesPage/innerexamwidget.h src/UI/SchemesPage/innerexamwidget.cpp src/UI/SchemesPage/innerexamwidget.ui
+    src/UI/SchemesPage/monthheaderwidget.h src/UI/SchemesPage/monthheaderwidget.cpp
     src/UI/SchemesPage/schemespage.cpp src/UI/SchemesPage/schemespage.h src/UI/SchemesPage/schemespage.ui
     src/UI/StudentEditorDialog/studenteditordialog.cpp src/UI/StudentEditorDialog/studenteditordialog.h src/UI/StudentEditorDialog/studenteditordialog.ui
     src/UI/WelcomePage/welcomepage.cpp src/UI/WelcomePage/welcomepage.h src/UI/WelcomePage/welcomepage.ui    
     src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
-    assets/icon.rc
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
-    src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
-    src/UI/SchemesPage/monthheaderwidget.h src/UI/SchemesPage/monthheaderwidget.cpp
 )
 
 include_directories("src")
@@ -101,6 +108,7 @@ set(resources_resource_files
     "assets/banner.png"
     "assets/check.png"
     "assets/edit.png"
+    "assets/email.png"
     "assets/folder.png"
     "assets/help.png"
     "assets/history.png"
@@ -114,8 +122,10 @@ set(resources_resource_files
     "assets/remove.png"
     "assets/scheme.png"
     "assets/spinner.gif"
+    "assets/splash.png"
     "assets/students.png"
     "assets/styles.qss"
+    "assets/web.png"
     "assets/xlsx.png"
     "assets/xls2csv.vbs"
 )
