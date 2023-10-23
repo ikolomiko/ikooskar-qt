@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
     src/BLL/SchemeExporter/schemeexporter.h src/BLL/SchemeExporter/schemeexporter.cpp
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
     src/BLL/UpgradeAssistant/upgradeassistant.h src/BLL/UpgradeAssistant/upgradeassistant.cpp
+    src/DAL/CloudAuth/cloudauth.h src/DAL/CloudAuth/cloudauth.cpp
+    src/DAL/CloudAuth/cloudauthresponse.h
     src/DAL/Database/database.cpp src/DAL/Database/database.h
     src/DAL/LocalAuth/localauth.h src/DAL/LocalAuth/localauth.cpp
     src/DAL/MultiImport/multiimport.h src/DAL/MultiImport/multiimport.cpp
