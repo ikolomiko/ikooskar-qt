@@ -26,5 +26,8 @@
         <file>scheme.png</file>
         <file>folder.png</file>
         <file>xlsx.png</file>
+        <file>splash.png</file>
+        <file>email.png</file>
+        <file>web.png</file>
     </qresource>
 </RCC>

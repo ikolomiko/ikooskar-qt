@@ -101,6 +101,7 @@ set(resources_resource_files
     "assets/banner.png"
     "assets/check.png"
     "assets/edit.png"
+    "assets/email.png"
     "assets/folder.png"
     "assets/help.png"
     "assets/history.png"
@@ -114,8 +115,10 @@ set(resources_resource_files
     "assets/remove.png"
     "assets/scheme.png"
     "assets/spinner.gif"
+    "assets/splash.png"
     "assets/students.png"
     "assets/styles.qss"
+    "assets/web.png"
     "assets/xlsx.png"
     "assets/xls2csv.vbs"
 )
