@@ -14,10 +14,13 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
 
 set(PROJECT_SOURCES
+    assets/icon.rc
+    src/app.h src/app.cpp
     src/BLL/Authenticator/authenticator.h src/BLL/Authenticator/authenticator.cpp
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
-    src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
+    src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
     src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
+    src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
     src/BLL/SchemeExporter/schemeexporter.h src/BLL/SchemeExporter/schemeexporter.cpp
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
     src/BLL/UpgradeAssistant/upgradeassistant.h src/BLL/UpgradeAssistant/upgradeassistant.cpp
@@ -52,16 +55,14 @@ set(PROJECT_SOURCES
     src/UI/NewSchemeDialog/nshallpickerui.h src/UI/NewSchemeDialog/nshallpickerui.cpp src/UI/NewSchemeDialog/nshallpickerui.ui
     src/UI/NewSchemeDialog/nspreviewui.h src/UI/NewSchemeDialog/nspreviewui.cpp src/UI/NewSchemeDialog/nspreviewui.ui
     src/UI/SchemesPage/innerexamwidget.h src/UI/SchemesPage/innerexamwidget.cpp src/UI/SchemesPage/innerexamwidget.ui
+    src/UI/SchemesPage/monthheaderwidget.h src/UI/SchemesPage/monthheaderwidget.cpp
     src/UI/SchemesPage/schemespage.cpp src/UI/SchemesPage/schemespage.h src/UI/SchemesPage/schemespage.ui
     src/UI/StudentEditorDialog/studenteditordialog.cpp src/UI/StudentEditorDialog/studenteditordialog.h src/UI/StudentEditorDialog/studenteditordialog.ui
     src/UI/WelcomePage/welcomepage.cpp src/UI/WelcomePage/welcomepage.h src/UI/WelcomePage/welcomepage.ui    
     src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
-    assets/icon.rc
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
-    src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
-    src/UI/SchemesPage/monthheaderwidget.h src/UI/SchemesPage/monthheaderwidget.cpp
 )
 
 include_directories("src")
