@@ -61,7 +61,11 @@ namespace UI {
 
         for (int i = 0; i < 4; i++) {
             ui->stackedWidget->addWidget(pages[i]);
-            connect(pages[i], &Common::Page::descriptionUpdated, this, &MainWindow::setDescription);
+            connect(pages[i], &Common::Page::descriptionUpdated, this, [=](const QString& description) {
+                if (i == ui->stackedWidget->currentIndex()) {
+                    setDescription(description);
+                }
+            });
         }
 
         changePage(HOME, buttons[HOME]->icon());
