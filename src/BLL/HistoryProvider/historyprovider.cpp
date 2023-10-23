@@ -1,5 +1,7 @@
 #include "historyprovider.h"
 #include <QDir>
+#include <QtConcurrent/QtConcurrentRun>
+
 #define SEPTEMBER (9)
 
 namespace ikoOSKAR {
@@ -7,7 +9,6 @@ namespace BLL {
 
     HistoryProvider::HistoryProvider()
     {
-        refresh();
         if (QDate::currentDate().month() < SEPTEMBER) {
             currentTermStartYear = QDate::currentDate().year() - 1;
         } else {
@@ -44,11 +45,8 @@ namespace BLL {
                 std::sort(list.begin(), list.end(), [](const auto& a, const auto& b) { return a.date > b.date; });
             }
         }
-    }
 
-    QMap<QDate, QList<Shared::Scheme>> HistoryProvider::getHistory()
-    {
-        return history;
+        emit historyReady(history);
     }
 
     QString HistoryProvider::getCurrentTermString()
@@ -79,7 +77,7 @@ namespace BLL {
 
     int HistoryProvider::getHistoryCountForCurrentTerm()
     {
-        if (historyCountForCurrentTerm == -1) {
+        if (historyCountForCurrentTerm == 0) {
             historyCountForCurrentTerm = getHistoryCount(currentTermStartYear);
         }
         return historyCountForCurrentTerm;
@@ -87,8 +85,12 @@ namespace BLL {
 
     void HistoryProvider::refresh()
     {
-        historyCountForCurrentTerm = -1;
-        populateHistory();
+        historyCountForCurrentTerm = 0;
+        QtConcurrent::run([&]() {
+            populateHistory();
+        }).then([&]() {
+            getHistoryCountForCurrentTerm();
+        });
     }
 
 } // namespace BLL
