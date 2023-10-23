@@ -104,11 +104,11 @@ namespace DAL {
                 // If MS Excel is not installed, return nullptr
                 return nullptr;
             } else {
-                // If it is found, that means our xls2csv.vbs script can work fine.
-                // Create the script and return the name of the script interpreter: wscript.exe
+                // If it is found, that means our xls2csv.ps1 script can work fine.
+                // Create the script and return the name of the script interpreter: powershell.exe
                 delete excelPath;
-                QFile::copy(":/xls2csv.vbs", tempDir->filePath("xls2csv.vbs"));
-                return new QString("wscript.exe");
+                QFile::copy(":/xls2csv.ps1", tempDir->filePath("xls2csv.ps1"));
+                return new QString("powershell.exe");
             }
         } else { // officeSuite == LibreOffice
             // Return the path of the LibreOffice executable (soffice.exe)
@@ -128,7 +128,10 @@ namespace DAL {
     QStringList* MultiImport::msOfficeArgs()
     {
         return new QStringList({
-            tempDir->filePath("xls2csv.vbs"),
+            "-ExecutionPolicy",
+            "Bypass", // lol
+            "-File",
+            tempDir->filePath("xls2csv.ps1"),
             tempDir->filePath("file.xls"),
             tempDir->filePath("file.csv"),
         });
