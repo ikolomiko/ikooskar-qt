@@ -34,7 +34,8 @@ namespace UI {
         QLabel* lblEmptyHistory;
 
         explicit SchemesPage(QWidget* parent = nullptr);
-        void setupHistoryUi();
+        void setupHistoryUi(const History& history);
+        void refreshHistory();
     };
 
 } // namespace UI
