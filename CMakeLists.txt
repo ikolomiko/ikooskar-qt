@@ -34,6 +34,7 @@ set(PROJECT_SOURCES
     src/Shared/scheme.h
     src/Shared/student.h
     src/UI/AboutPage/aboutpage.cpp src/UI/AboutPage/aboutpage.h src/UI/AboutPage/aboutpage.ui
+    src/UI/Common/contactwidget.h src/UI/Common/contactwidget.cpp src/UI/Common/contactwidget.ui
     src/UI/Common/page.h
     src/UI/Common/spinner.h src/UI/Common/spinner.cpp src/UI/Common/spinner.ui
     src/UI/Common/twobuttonnav.h src/UI/Common/twobuttonnav.cpp
