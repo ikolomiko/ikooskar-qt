@@ -21,7 +21,7 @@ namespace DAL {
         QString* getProgramPathWindows(const QString& programName);
         QStringList* libreOfficeArgs();
         QStringList* msOfficeArgs();
-        QStringList csvSplit(const QString& line);
+        QStringList csvSplit(const QString& line, const QChar& sep);
         QStringList trimStringList(const QStringList& list);
 
     public:

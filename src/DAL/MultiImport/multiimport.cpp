@@ -148,7 +148,7 @@ namespace DAL {
         }
     }
 
-    QStringList MultiImport::csvSplit(const QString& line)
+    QStringList MultiImport::csvSplit(const QString& line, const QChar& sep)
     {
         enum State {
             Normal,
@@ -163,7 +163,7 @@ namespace DAL {
             const QChar current = line.at(i);
 
             if (state == Normal) {
-                if (current == ',') {
+                if (current == sep) {
                     tokens.append(value.trimmed());
                     value.clear();
                 } else if (current == '"') {
@@ -231,12 +231,21 @@ namespace DAL {
     {
         const auto lines = new QList<QStringList>();
 
+        bool firstLine = true;
+        QChar sep = ',';
         QFile csvFile(*getCsvPath());
         if (csvFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&csvFile);
             while (!in.atEnd()) {
                 QString line = in.readLine().trimmed();
-                const auto& tokens = csvSplit(line);
+                if (firstLine) {
+                    if (line.contains(';')) {
+                        sep = ';';
+                    }
+                    firstLine = false;
+                }
+
+                const auto& tokens = csvSplit(line, sep);
                 const auto& trimmed = trimStringList(tokens);
                 lines->append(trimmed);
             }
