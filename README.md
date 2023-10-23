@@ -104,10 +104,7 @@ the corresponding file/folder.
 | -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [SchemesPage](/src/UI/SchemesPage) <sup>[[2]](#license)</sup>
 | -				| AboutHelper 		| AboutPage
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
-| LocalAuth		| LocalAuthHelper 	| -
-| CloudAuth		| CloudAuthHelper 	| -
-| - 			| Authenticator 	| AuthenticatorWindow
-| -				| - 				| SplashWindow
+| [LocalAuth](/src/DAL/LocalAuth), [CloudAuth](/src/DAL/CloudAuth) 			| [Authenticator](/src/BLL/Authenticator) 	| [AuthenticatorWindow](/src/UI/AuthenticatorWindow)
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
 | -	            | -                 | [WelcomePage](/src/UI/WelcomePage)
 | -				| -					| [Page](/src/UI/Common/page.h)

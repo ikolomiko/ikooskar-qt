@@ -14,6 +14,7 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
 
 set(PROJECT_SOURCES
+    src/BLL/Authenticator/authenticator.h src/BLL/Authenticator/authenticator.cpp
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
     src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
