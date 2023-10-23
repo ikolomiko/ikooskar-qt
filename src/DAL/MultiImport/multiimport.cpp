@@ -104,11 +104,11 @@ namespace DAL {
                 // If MS Excel is not installed, return nullptr
                 return nullptr;
             } else {
-                // If it is found, that means our xls2csv.vbs script can work fine.
-                // Create the script and return the name of the script interpreter: wscript.exe
+                // If it is found, that means our xls2csv.ps1 script can work fine.
+                // Create the script and return the name of the script interpreter: powershell.exe
                 delete excelPath;
-                QFile::copy(":/xls2csv.vbs", tempDir->filePath("xls2csv.vbs"));
-                return new QString("wscript.exe");
+                QFile::copy(":/xls2csv.ps1", tempDir->filePath("xls2csv.ps1"));
+                return new QString("powershell.exe");
             }
         } else { // officeSuite == LibreOffice
             // Return the path of the LibreOffice executable (soffice.exe)
@@ -128,7 +128,10 @@ namespace DAL {
     QStringList* MultiImport::msOfficeArgs()
     {
         return new QStringList({
-            tempDir->filePath("xls2csv.vbs"),
+            "-ExecutionPolicy",
+            "Bypass", // lol
+            "-File",
+            tempDir->filePath("xls2csv.ps1"),
             tempDir->filePath("file.xls"),
             tempDir->filePath("file.csv"),
         });
@@ -148,7 +151,7 @@ namespace DAL {
         }
     }
 
-    QStringList MultiImport::csvSplit(const QString& line)
+    QStringList MultiImport::csvSplit(const QString& line, const QChar& sep)
     {
         enum State {
             Normal,
@@ -163,7 +166,7 @@ namespace DAL {
             const QChar current = line.at(i);
 
             if (state == Normal) {
-                if (current == ',') {
+                if (current == sep) {
                     tokens.append(value.trimmed());
                     value.clear();
                 } else if (current == '"') {
@@ -231,12 +234,21 @@ namespace DAL {
     {
         const auto lines = new QList<QStringList>();
 
+        bool firstLine = true;
+        QChar sep = ',';
         QFile csvFile(*getCsvPath());
         if (csvFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&csvFile);
             while (!in.atEnd()) {
                 QString line = in.readLine().trimmed();
-                const auto& tokens = csvSplit(line);
+                if (firstLine) {
+                    if (line.contains(';')) {
+                        sep = ';';
+                    }
+                    firstLine = false;
+                }
+
+                const auto& tokens = csvSplit(line, sep);
                 const auto& trimmed = trimStringList(tokens);
                 lines->append(trimmed);
             }

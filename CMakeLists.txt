@@ -127,7 +127,7 @@ set(resources_resource_files
     "assets/styles.qss"
     "assets/web.png"
     "assets/xlsx.png"
-    "assets/xls2csv.vbs"
+    "assets/xls2csv.ps1"
 )
 
 qt6_add_resources(ikoOSKAR "resources"
