@@ -1,4 +1,5 @@
 #include "schemespage.h"
+#include "UI/Common/spinner.h"
 #include "UI/NewSchemeDialog/newschemedialog.h"
 #include "examwidget.h"
 #include "monthheaderwidget.h"
@@ -13,18 +14,19 @@ namespace UI {
     {
         ui->setupUi(this);
         name = new QString("Sınav Düzenleri");
+
         historyProvider = new BLL::HistoryProvider();
+        connect(historyProvider, &BLL::HistoryProvider::historyReady, this, &SchemesPage::setupHistoryUi);
+        refreshHistory();
 
         lblEmptyHistory = new QLabel("Daha önce oluşturulmuş sınav düzeni bulunamadı");
         lblEmptyHistory->setAlignment(Qt::AlignCenter);
         lblEmptyHistory->setObjectName("lblDescription");
 
         verticalSpacer = nullptr;
-
-        setupHistoryUi();
     }
 
-    void SchemesPage::setupHistoryUi()
+    void SchemesPage::setupHistoryUi(const History& history)
     {
         // Clear the history root
         for (const auto& widget : historyWidgets) {
@@ -39,7 +41,6 @@ namespace UI {
         }
 
         // Show label if history is empty
-        auto history = historyProvider->getHistory();
         if (history.empty()) {
             ui->historyRoot->layout()->addWidget(lblEmptyHistory);
             return;
@@ -67,6 +68,26 @@ namespace UI {
             verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
         }
         ui->historyRoot->layout()->addItem(verticalSpacer);
+
+        emit descriptionUpdated(*getDescription());
+    }
+
+    void SchemesPage::refreshHistory()
+    {
+        // Clear the history root
+        for (const auto& widget : historyWidgets) {
+            ui->historyRoot->layout()->removeWidget(widget);
+            widget->deleteLater();
+        }
+        historyWidgets.clear();
+
+        auto spinner = new Common::Spinner();
+        spinner->setTitle("Önceki sınav düzenleri yükleniyor");
+        historyWidgets.append(spinner);
+        ui->historyRoot->layout()->addWidget(spinner);
+        spinner->start();
+
+        historyProvider->refresh();
     }
 
     SchemesPage::~SchemesPage()
@@ -94,9 +115,7 @@ namespace UI {
         NewSchemeDialog dialog(this);
         dialog.exec();
 
-        historyProvider->refresh();
-        setupHistoryUi();
-        emit descriptionUpdated(*getDescription());
+        refreshHistory();
     }
 
 } // namespace UI

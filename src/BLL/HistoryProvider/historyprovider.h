@@ -6,12 +6,14 @@
 #include <QList>
 #include <QMap>
 
+using History = QMap<QDate, QList<ikoOSKAR::Shared::Scheme>>;
+
 namespace ikoOSKAR {
 namespace BLL {
-
-    class HistoryProvider {
+    class HistoryProvider : public QObject {
+        Q_OBJECT
     private:
-        QMap<QDate, QList<Shared::Scheme>> history;
+        History history;
         int currentTermStartYear;
         int historyCountForCurrentTerm;
 
@@ -19,11 +21,13 @@ namespace BLL {
 
     public:
         HistoryProvider();
-        QMap<QDate, QList<Shared::Scheme>> getHistory();
         QString getCurrentTermString();
         int getHistoryCount(int termStartYear);
         int getHistoryCountForCurrentTerm();
         void refresh();
+
+    signals:
+        void historyReady(const History& history);
     };
 
 } // namespace BLL
