@@ -82,9 +82,44 @@ namespace BLL {
 
         // Proper signal gets sent in synchronizeDemo()
         bool isSignupSuccessful = synchronizeDemo();
-        if (isSignupSuccessful) {
-            localAuth.setSerial("");
-            localAuth.setDemo(true);
+        localAuth.setSerial("");
+        localAuth.setDemo(isSignupSuccessful);
+    }
+
+    int Authenticator::getDemoRemainings()
+    {
+        return localAuth.getDemoRemainings();
+    }
+
+    void Authenticator::decreaseDemoRemainingsByOne()
+    {
+        int current = localAuth.getDemoRemainings();
+        localAuth.setDemoRemainings(current - 1);
+        synchronizeDemo();
+        emit demoUpdated(localAuth.getDemoRemainings());
+    }
+
+    bool Authenticator::isDemo()
+    {
+        return localAuth.isDemo();
+    }
+
+    QString Authenticator::getSerial()
+    {
+        return localAuth.getSerial();
+    }
+
+    const LicenseStatus Authenticator::getLicenseStatus()
+    {
+        if (isDemo()) {
+            int remainings = getDemoRemainings();
+            if (remainings > 0) {
+                return LicenseStatus::Demo;
+            } else {
+                return LicenseStatus::EndOfDemo;
+            }
+        } else {
+            return LicenseStatus::Activated;
         }
     }
 

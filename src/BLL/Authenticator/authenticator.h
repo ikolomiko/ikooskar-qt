@@ -3,6 +3,7 @@
 
 #include "DAL/CloudAuth/cloudauth.h"
 #include "DAL/LocalAuth/localauth.h"
+#include "licensestatus.h"
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -19,6 +20,11 @@ namespace BLL {
         void login();
         void signupLicensed(QString serial);
         void signupDemo();
+        int getDemoRemainings();
+        void decreaseDemoRemainingsByOne();
+        bool isDemo();
+        QString getSerial();
+        const LicenseStatus getLicenseStatus();
 
     private:
         inline static Authenticator* instance = nullptr;
@@ -30,6 +36,7 @@ namespace BLL {
     signals:
         void success(const QString& message = "");
         void error(const QString& errorMessage = "");
+        void demoUpdated(int updatedRemainings);
     };
 
 } // namespace BLL
