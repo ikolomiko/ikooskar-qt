@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_ABOUTPAGE_H
 #define IKOOSKAR_UI_ABOUTPAGE_H
 
+#include "BLL/Authenticator/authenticator.h"
 #include "UI/Common/page.h"
 #include <QWidget>
 
@@ -23,7 +24,10 @@ namespace UI {
     private:
         Ui::AboutPage* ui;
         inline static AboutPage* instance;
+        BLL::Authenticator* authenticator;
+
         explicit AboutPage(QWidget* parent = nullptr);
+        void refreshLicenseStatus();
     };
 
 } // namespace UI
