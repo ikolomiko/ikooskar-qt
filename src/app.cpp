@@ -24,7 +24,8 @@ App::App(int argc, char* argv[])
     styles.close();
 
     splash = new QSplashScreen(QPixmap(":/splash.png"));
-    splash->showMessage("iko Ortak Sınav Karma Sistemi v4", Qt::AlignBottom | Qt::AlignLeft);
+    QString splashText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+    splash->showMessage(splashText, Qt::AlignBottom | Qt::AlignLeft);
     splash->show();
 
     authenticator = BLL::Authenticator::getInstance();
