@@ -8,15 +8,16 @@
 namespace ikoOSKAR {
 namespace UI {
 
-    AuthenticatorWindow::AuthenticatorWindow(BLL::Authenticator* auth, QWidget* parent)
+    AuthenticatorWindow::AuthenticatorWindow(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::AuthenticatorWindow)
-        , authenticator(auth)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
 
         ui->lblBanner->setPixmap(QPixmap(":/banner.png").scaled(300, 60, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
-        statusBar()->showMessage("iko Ortak Sınav Karma Sistemi v4.0");
+        QString statusText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+        statusBar()->showMessage(statusText);
         statusBar()->setStyleSheet("margin: 3px");
         statusBar()->setSizeGripEnabled(false);
 

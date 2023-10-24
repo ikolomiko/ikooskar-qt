@@ -1,5 +1,7 @@
 #include "aboutpage.h"
+#include "UI/Common/contactwidget.h"
 #include "ui_aboutpage.h"
+#include <QSettings>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -7,9 +9,47 @@ namespace UI {
     AboutPage::AboutPage(QWidget* parent)
         : Common::Page(parent)
         , ui(new Ui::AboutPage)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
         name = new QString("Yardım ve İletişim");
+
+        ui->lblIcon->setPixmap(QPixmap(":/Icon-WhiteBGx128.png").scaled(128, 128, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+
+        QString fullName = QString("%1 - %2").arg(QCoreApplication::applicationName(), QSettings().value("PRETTY_NAME").toString());
+        ui->lblName->setText(fullName);
+        ui->lblVersion->setText("v" + QCoreApplication::applicationVersion());
+
+        auto website = new Common::ContactWidget(
+            QPixmap(":/web.png"),
+            "ikooskar.com.tr",
+            "https://ikooskar.com.tr");
+        auto email = new Common::ContactWidget(
+            QPixmap(":/email.png"),
+            "ikolomiko@gmail.com",
+            "mailto:ikolomiko@gmail.com");
+        ui->contactCards->layout()->addWidget(website);
+        ui->contactCards->layout()->addWidget(email);
+
+        refreshLicenseStatus();
+
+        connect(authenticator, &BLL::Authenticator::demoUpdated, this, &AboutPage::refreshLicenseStatus);
+    }
+
+    void AboutPage::refreshLicenseStatus()
+    {
+        auto status = authenticator->getLicenseStatus();
+        if (status == BLL::LicenseStatus::Activated) {
+            ui->lblSerial->setText("Lisans Anahtarı: ");
+            ui->txtSerial->setText(authenticator->getSerial());
+        } else { // Demo or EndOfDemo
+            int remainings = authenticator->getDemoRemainings();
+            ui->lblSerial->setText("Kalan Deneme Hakları: ");
+            ui->txtSerial->setText(QString::number(remainings));
+        }
+
+        ui->imgLicenseStatus->setPixmap(status.image());
+        ui->lblLicenseStatus->setText(status.text);
     }
 
     AboutPage::~AboutPage()
@@ -27,7 +67,8 @@ namespace UI {
 
     const QString* AboutPage::getDescription()
     {
-        return new QString("Lisans bilgisi: lorem ipsum");
+        auto status = authenticator->getLicenseStatus();
+        return new QString("Lisans durumu: " + status.text);
     }
 
 } // namespace UI

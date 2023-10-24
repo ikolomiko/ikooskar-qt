@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 #define IKOOSKAR_UI_NEWSCHEMEDIALOG_H
 
+#include "BLL/Authenticator/authenticator.h"
 #include "BLL/SchemeGenerator/schemegenerator.h"
 #include "UI/Common/twobuttonnav.h"
 #include <QDate>
@@ -36,6 +37,7 @@ namespace UI {
         QString examName;
         QDate examDate;
         QString pathClassLists, pathHallLayouts;
+        BLL::Authenticator* authenticator;
 
         void prevPage();
         void nextPage();

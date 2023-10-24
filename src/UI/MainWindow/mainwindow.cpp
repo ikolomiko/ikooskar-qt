@@ -8,6 +8,7 @@
 #include "UI/WelcomePage/welcomepage.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QStatusBar>
 #include <QThreadPool>
 
 namespace ikoOSKAR {
@@ -22,6 +23,7 @@ namespace UI {
     MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::MainWindow)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
 
@@ -69,6 +71,9 @@ namespace UI {
         }
 
         changePage(HOME, buttons[HOME]->icon());
+
+        refreshDemoStatus();
+        connect(authenticator, &BLL::Authenticator::demoUpdated, this, &MainWindow::refreshDemoStatus);
     }
 
     MainWindow::~MainWindow()
@@ -104,6 +109,19 @@ namespace UI {
         ui->lblDescription->setText(*page->getDescription());
         ui->btnCurrentPage->setIcon(icon);
         ui->stackedWidget->setCurrentIndex(index);
+    }
+
+    void MainWindow::refreshDemoStatus()
+    {
+        auto status = authenticator->getLicenseStatus();
+        if (status == BLL::LicenseStatus::Activated) {
+            return;
+        } else if (status == BLL::LicenseStatus::Demo) {
+            status.text += ". " + QString::number(authenticator->getDemoRemainings()) + " adet ücretsiz deneme hakkınız kaldı.";
+        }
+
+        statusBar()->showMessage(status.text);
+        statusBar()->setStyleSheet(status.style);
     }
 
 } // namespace UI

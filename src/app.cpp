@@ -24,10 +24,11 @@ App::App(int argc, char* argv[])
     styles.close();
 
     splash = new QSplashScreen(QPixmap(":/splash.png"));
-    splash->showMessage("iko Ortak Sınav Karma Sistemi v4", Qt::AlignBottom | Qt::AlignLeft);
+    QString splashText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+    splash->showMessage(splashText, Qt::AlignBottom | Qt::AlignLeft);
     splash->show();
 
-    authenticator = new BLL::Authenticator();
+    authenticator = BLL::Authenticator::getInstance();
     connect(authenticator, &BLL::Authenticator::success, this, &App::handleAuthSuccess);
     connect(authenticator, &BLL::Authenticator::error, this, &App::handleAuthError);
 
@@ -41,12 +42,11 @@ void App::handleAuthSuccess(const QString& message)
     // Success message is ignored on logins
     (void)message;
 
+    authenticator->disconnect();
+
     auto mainWindow = new UI::MainWindow();
     mainWindow->show();
     splash->finish(mainWindow);
-
-    disconnect(authenticator, &ikoOSKAR::BLL::Authenticator::success, this, &App::handleAuthSuccess);
-    disconnect(authenticator, &ikoOSKAR::BLL::Authenticator::error, this, &App::handleAuthError);
 }
 
 void App::handleAuthError(const QString& errorMessage)
@@ -57,7 +57,7 @@ void App::handleAuthError(const QString& errorMessage)
         UI::ErrorUi(errorTitle).displayMessage(errorMessage);
     }
 
-    auto authWindow = new UI::AuthenticatorWindow(authenticator);
+    auto authWindow = new UI::AuthenticatorWindow();
     connect(authWindow, &UI::AuthenticatorWindow::restartApp, this, &App::handleRestart);
     authWindow->show();
     splash->finish(authWindow);

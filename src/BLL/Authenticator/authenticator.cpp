@@ -2,6 +2,15 @@
 
 namespace ikoOSKAR {
 namespace BLL {
+    Authenticator::Authenticator() { }
+
+    Authenticator* Authenticator::getInstance()
+    {
+        if (instance == nullptr) {
+            instance = new Authenticator();
+        }
+        return instance;
+    }
 
     void Authenticator::login()
     {
@@ -11,7 +20,13 @@ namespace BLL {
                 // Proper signal gets sent in synchronizeDemo()
                 synchronizeDemo();
             } else {
-                emit success();
+                if (localAuth.getDemoRemainings() > 0) {
+                    emit success();
+                } else {
+                    emit error("Ücretsiz deneme haklarınız tükenmiştir. Eğer ikoOSKAR'dan memnun kaldıysanız "
+                               "ve programı kullanmaya devam etmek istiyorsanız lütfen ikolomiko@gmail.com "
+                               "e-posta adresinden iletişime geçip bir lisans anahtarı satın alınız.");
+                }
             }
             return;
         }
@@ -73,9 +88,44 @@ namespace BLL {
 
         // Proper signal gets sent in synchronizeDemo()
         bool isSignupSuccessful = synchronizeDemo();
-        if (isSignupSuccessful) {
-            localAuth.setSerial("");
-            localAuth.setDemo(true);
+        localAuth.setSerial("");
+        localAuth.setDemo(isSignupSuccessful);
+    }
+
+    int Authenticator::getDemoRemainings()
+    {
+        return localAuth.getDemoRemainings();
+    }
+
+    void Authenticator::decreaseDemoRemainingsByOne()
+    {
+        int current = localAuth.getDemoRemainings();
+        localAuth.setDemoRemainings(current - 1);
+        synchronizeDemo();
+        emit demoUpdated();
+    }
+
+    bool Authenticator::isDemo()
+    {
+        return localAuth.isDemo();
+    }
+
+    QString Authenticator::getSerial()
+    {
+        return localAuth.getSerial();
+    }
+
+    const LicenseStatus Authenticator::getLicenseStatus()
+    {
+        if (isDemo()) {
+            int remainings = getDemoRemainings();
+            if (remainings > 0) {
+                return LicenseStatus::Demo;
+            } else {
+                return LicenseStatus::EndOfDemo;
+            }
+        } else {
+            return LicenseStatus::Activated;
         }
     }
 
