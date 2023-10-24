@@ -20,7 +20,13 @@ namespace BLL {
                 // Proper signal gets sent in synchronizeDemo()
                 synchronizeDemo();
             } else {
-                emit success();
+                if (localAuth.getDemoRemainings() > 0) {
+                    emit success();
+                } else {
+                    emit error("Ücretsiz deneme haklarınız tükenmiştir. Eğer ikoOSKAR'dan memnun kaldıysanız "
+                               "ve programı kullanmaya devam etmek istiyorsanız lütfen ikolomiko@gmail.com "
+                               "e-posta adresinden iletişime geçip bir lisans anahtarı satın alınız.");
+                }
             }
             return;
         }
