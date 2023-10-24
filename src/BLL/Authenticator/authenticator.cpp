@@ -2,6 +2,15 @@
 
 namespace ikoOSKAR {
 namespace BLL {
+    Authenticator::Authenticator() { }
+
+    Authenticator* Authenticator::getInstance()
+    {
+        if (instance == nullptr) {
+            instance = new Authenticator();
+        }
+        return instance;
+    }
 
     void Authenticator::login()
     {

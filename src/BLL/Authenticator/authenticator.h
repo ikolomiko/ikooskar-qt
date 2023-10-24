@@ -15,11 +15,15 @@ namespace BLL {
         LocalAuth localAuth;
 
     public:
+        static Authenticator* getInstance();
         void login();
         void signupLicensed(QString serial);
         void signupDemo();
 
     private:
+        inline static Authenticator* instance = nullptr;
+
+        Authenticator();
         bool synchronizeLicense(const QString& serial);
         bool synchronizeDemo();
 
