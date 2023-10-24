@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_SCHEMESPAGE_H
 #define IKOOSKAR_UI_SCHEMESPAGE_H
 
+#include "BLL/Authenticator/authenticator.h"
 #include "BLL/HistoryProvider/historyprovider.h"
 #include "UI/Common/page.h"
 #include <QLayoutItem>
@@ -32,6 +33,7 @@ namespace UI {
         QList<QWidget*> historyWidgets;
         QLayoutItem* verticalSpacer;
         QLabel* lblEmptyHistory;
+        BLL::Authenticator* authenticator;
 
         explicit SchemesPage(QWidget* parent = nullptr);
         void setupHistoryUi(const History& history);

@@ -20,6 +20,7 @@ namespace UI {
         , ui(new Ui::NewSchemeDialog)
         , nav(new Common::TwoButtonNav)
         , bll(new BLL::SchemeGenerator)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
         ui->verticalLayout->addWidget(nav);

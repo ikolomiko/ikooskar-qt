@@ -1,6 +1,7 @@
 #ifndef IKOOSKAR_UI_MAINWINDOW_H
 #define IKOOSKAR_UI_MAINWINDOW_H
 
+#include "BLL/Authenticator/authenticator.h"
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -25,6 +26,8 @@ namespace UI {
     private:
         enum Subpage : int;
         Ui::MainWindow* ui;
+        BLL::Authenticator* authenticator;
+
         void initSubpages();
         void changePage(Subpage index, QIcon icon);
     };

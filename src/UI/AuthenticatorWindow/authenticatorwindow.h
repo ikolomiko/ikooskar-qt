@@ -15,7 +15,7 @@ namespace UI {
         Q_OBJECT
 
     public:
-        explicit AuthenticatorWindow(BLL::Authenticator* auth, QWidget* parent = nullptr);
+        explicit AuthenticatorWindow(QWidget* parent = nullptr);
         ~AuthenticatorWindow();
 
     private slots:

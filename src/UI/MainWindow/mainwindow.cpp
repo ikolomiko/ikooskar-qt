@@ -22,6 +22,7 @@ namespace UI {
     MainWindow::MainWindow(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::MainWindow)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
 

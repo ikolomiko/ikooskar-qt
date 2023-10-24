@@ -11,6 +11,7 @@ namespace UI {
     SchemesPage::SchemesPage(QWidget* parent)
         : Common::Page(parent)
         , ui(new Ui::SchemesPage)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
         name = new QString("Sınav Düzenleri");

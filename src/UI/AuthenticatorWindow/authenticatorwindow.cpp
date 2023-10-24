@@ -8,10 +8,10 @@
 namespace ikoOSKAR {
 namespace UI {
 
-    AuthenticatorWindow::AuthenticatorWindow(BLL::Authenticator* auth, QWidget* parent)
+    AuthenticatorWindow::AuthenticatorWindow(QWidget* parent)
         : QMainWindow(parent)
         , ui(new Ui::AuthenticatorWindow)
-        , authenticator(auth)
+        , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
 
