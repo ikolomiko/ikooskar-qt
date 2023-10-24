@@ -16,7 +16,8 @@ namespace UI {
         ui->setupUi(this);
 
         ui->lblBanner->setPixmap(QPixmap(":/banner.png").scaled(300, 60, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
-        statusBar()->showMessage("iko Ortak Sınav Karma Sistemi v4.0");
+        QString statusText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+        statusBar()->showMessage(statusText);
         statusBar()->setStyleSheet("margin: 3px");
         statusBar()->setSizeGripEnabled(false);
 
