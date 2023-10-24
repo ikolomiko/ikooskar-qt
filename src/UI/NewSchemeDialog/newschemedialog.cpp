@@ -147,12 +147,15 @@ namespace UI {
             QtConcurrent::run([&]() {
                 return bll->generate();
             }).then([&](Shared::Scheme scheme) {
-                BLL::SchemeExporter exporter(scheme);
-                connect(&exporter, &BLL::SchemeExporter::exportFinished, this, &UI::NewSchemeDialog::onExportFinished);
-                exporter.exportAll();
+                  BLL::SchemeExporter exporter(scheme);
+                  connect(&exporter, &BLL::SchemeExporter::exportFinished, this, &UI::NewSchemeDialog::onExportFinished);
+                  exporter.exportAll();
+              }).then([&]() {
+                if (authenticator->isDemo()) {
+                    authenticator->decreaseDemoRemainingsByOne();
+                }
             });
 
-            // TODO // if demo, decrease demo.remainingBalance by one
             break;
         }
         case SPINNER: {
