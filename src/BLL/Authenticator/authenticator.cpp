@@ -96,7 +96,7 @@ namespace BLL {
         int current = localAuth.getDemoRemainings();
         localAuth.setDemoRemainings(current - 1);
         synchronizeDemo();
-        emit demoUpdated(localAuth.getDemoRemainings());
+        emit demoUpdated();
     }
 
     bool Authenticator::isDemo()
