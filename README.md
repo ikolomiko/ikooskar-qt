@@ -102,7 +102,7 @@ the corresponding file/folder.
 | -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [NewSchemeDialog](/src/UI/NewSchemeDialog)
 | [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
 | -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [SchemesPage](/src/UI/SchemesPage) <sup>[[2]](#license)</sup>
-| -				| AboutHelper 		| AboutPage
+| -				| [Authenticator](/src/BLL/Authenticator) 	| [AboutPage](/src/UI/AboutPage)
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | [LocalAuth](/src/DAL/LocalAuth), [CloudAuth](/src/DAL/CloudAuth) 			| [Authenticator](/src/BLL/Authenticator) 	| [AuthenticatorWindow](/src/UI/AuthenticatorWindow)
 | -       		| -         		| [ErrorUi](/src/UI/ErrorUi)
