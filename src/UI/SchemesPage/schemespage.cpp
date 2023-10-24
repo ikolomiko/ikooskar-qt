@@ -1,5 +1,6 @@
 #include "schemespage.h"
 #include "UI/Common/spinner.h"
+#include "UI/ErrorUi/errorui.h"
 #include "UI/NewSchemeDialog/newschemedialog.h"
 #include "examwidget.h"
 #include "monthheaderwidget.h"
@@ -117,6 +118,13 @@ namespace UI {
         dialog.exec();
 
         refreshHistory();
+        if (authenticator->getLicenseStatus() == BLL::LicenseStatus::EndOfDemo) {
+            ui->btnNewScheme->setEnabled(false);
+            ErrorUi("Deneme Haklarınız Tükendi")
+                .displayMessage("Ücretsiz deneme haklarınız tükenmiştir. Programı kullanmaya"
+                                " devam etmek istiyorsanız lütfen ikolomiko@gmail.com e-posta"
+                                " adresinden iletişime geçerek bir lisans anahtarı satın alınız.");
+        }
     }
 
 } // namespace UI
