@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(ikoOSKAR VERSION 1.0 LANGUAGES CXX C)
 
-include(FetchContent)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -64,25 +62,19 @@ set(PROJECT_SOURCES
     src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
-    _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
+    _deps/libxlsxwriter/third_party/minizip/ioapi.c _deps/libxlsxwriter/third_party/minizip/unzip.c
     deps/freexl/freexl.c deps/freexl/freexl_xlsx.c
 )
 
 include_directories("src")
-include_directories("_deps/libxlsxwriter-src")
+include_directories("_deps/libxlsxwriter")
 
+add_subdirectory("_deps/libxlsxwriter")
 
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-
-FetchContent_Declare(
-  libxlsxwriter
-  GIT_REPOSITORY https://github.com/jmcnamara/libxlsxwriter.git
-  GIT_TAG        4aaca54c4188aaedca7d01a28f0c9d11f99d4cb2
-)
-FetchContent_MakeAvailable(libxlsxwriter)
 
 target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Widgets
