@@ -54,14 +54,17 @@ with the configurations in [this file](/Doxyfile), using
 * Qt Creator (optional but highly recommended)
 * Qt Framework >= 6.2
 * Compiler: GCC (for Linux), MinGW-w64 (for Windows)
-  - For cross compiling from Linux to Windows, we use
-[this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
-(with `x86_64-w64-mingw32.static-cmake` package).
-  You won't need this if your host OS is Windows.
+  - `x86_64-w64-mingw32.static-cmake` package is required for cross compiling
+from Linux to Windows. The package is available on [MXE](https://mxe.cc) and
+required by [this cross-compiling script](/scripts/compile4win32.sh).
 * libexpat
 * CMake
 * Ninja (optional)
 * Code formatter (optional): `clang-format`
+* NSIS >= 3.0, for creating installers for Windows
+  - `x86_64-w64-mingw32.static-makensis` package is required when creating
+Windows installers from Linux. The package is available on [MXE](https://mxe.cc) 
+and required by [this cross-compiling script](/scripts/compile4win32.sh).
 
 ## Dependencies for the end user
 * Internet connection for the first activation
