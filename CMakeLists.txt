@@ -146,6 +146,11 @@ install(TARGETS ikoOSKAR
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+if (UNIX)
+    install(FILES ikoOSKAR.desktop DESTINATION share/applications)
+    install(FILES assets/Icon-WhiteBGx128.png DESTINATION share/icons/hicolor/128x128/apps/ RENAME ikoOSKAR.png)
+endif()
+
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(ikoOSKAR)
 endif()
