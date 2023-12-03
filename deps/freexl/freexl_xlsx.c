@@ -84,7 +84,7 @@ extern const char *locale_charset (void);
 #include "freexl.h"
 #include "freexl_internals.h"
 
-#include "_deps/libxlsxwriter-src/third_party/minizip/unzip.h"
+#include "deps/libxlsxwriter/third_party/minizip/unzip.h"
 
 #ifdef _WIN32
 #define strcasecmp	_stricmp

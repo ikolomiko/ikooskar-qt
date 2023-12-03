@@ -1,7 +1,7 @@
 #include "upgradeassistant.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "DAL/Database/database.h"
-#include "_deps/libxlsxwriter/third_party/minizip/unzip.h"
+#include "deps/libxlsxwriter/third_party/minizip/unzip.h"
 #include <QCheckBox>
 #include <QDirIterator>
 #include <QHttpMultiPart>

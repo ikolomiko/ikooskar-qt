@@ -62,14 +62,14 @@ set(PROJECT_SOURCES
     src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
-    _deps/libxlsxwriter/third_party/minizip/ioapi.c _deps/libxlsxwriter/third_party/minizip/unzip.c
+    deps/libxlsxwriter/third_party/minizip/ioapi.c deps/libxlsxwriter/third_party/minizip/unzip.c
     deps/freexl/freexl.c deps/freexl/freexl_xlsx.c
 )
 
 include_directories("src")
-include_directories("_deps/libxlsxwriter")
+include_directories("deps/libxlsxwriter")
 
-add_subdirectory("_deps/libxlsxwriter")
+add_subdirectory("deps/libxlsxwriter")
 
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
@@ -124,7 +124,6 @@ set(resources_resource_files
     "assets/styles.qss"
     "assets/web.png"
     "assets/xlsx.png"
-
 )
 
 qt6_add_resources(ikoOSKAR "resources"
