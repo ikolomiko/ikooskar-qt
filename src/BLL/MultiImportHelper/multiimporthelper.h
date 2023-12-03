@@ -4,6 +4,7 @@
 #include "DAL/MultiImport/multiimport.h"
 #include "Shared/student.h"
 #include <QList>
+#include <QObject>
 #include <QRunnable>
 
 namespace ikoOSKAR {
@@ -16,9 +17,6 @@ namespace BLL {
         ikoOSKAR::DAL::MultiImport* dal;
 
         QString xlsFilePath;
-
-        QString* convertToCsv();
-        QList<Student*>* parseCsv();
         QList<Student*>* parseXls();
 
         bool matchesHeaderRow(const QStringList& line);
