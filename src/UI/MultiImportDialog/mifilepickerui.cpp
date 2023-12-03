@@ -24,7 +24,7 @@ namespace UI {
     {
         QFileDialog dialog(this);
         dialog.setFileMode(QFileDialog::ExistingFile);
-        dialog.setNameFilter("E-Okul Excel - Sadece Veri (*.XLS *.xls)");
+        dialog.setNameFilters({ "E-Okul Excel - Sadece Veri (*.XLS *.xls)", "Elle Oluşturulmuş Excel Dosyası (*.XLSX *.xlsx)" });
         dialog.setViewMode(QFileDialog::Detail);
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
 
