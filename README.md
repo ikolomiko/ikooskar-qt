@@ -10,10 +10,10 @@
 &nbsp;
 
 # What is ikoOSKAR
-ikoOSKAR (iko Ortak Sınav Karma Sistemi) allows you to easily manage
+ikoOSKAR (**iko** **O**rtak **S**ınav **Kar**ma Sistemi) allows you to easily manage
 your school's student placement schemes for exams. This program is especially
 targeted for high schools. Check out 
-[the official website for ikoOSKAR!](https://ikooskar.web.app) (still WIP)
+[the official website for ikoOSKAR!](https://ikooskar.com.tr) (still WIP)
 
 With ikoOSKAR you can:
 
@@ -24,7 +24,8 @@ desk number) for each class / section, respectively
 * Prevent students from cheating in exams
 * Easily manage the student database
 * View and manipulate each class / section
-* Add hundreds of new students to the database at once; just select the spreadsheet file exported from e-okul
+* Add hundreds of new students to the database at once; just select the 
+spreadsheet file exported from e-okul or create your own xlsx file.
 * Add, edit or remove individual students
 * Update all students' grade informations at the end of each academic year, with
 just one click.
@@ -42,7 +43,7 @@ no installers or pre-compiled binaries available.
 C++17 and Qt Framework 6.x are being used for this reimplementation, which makes the
 program cross-platform and also more efficient.
 
-The code formatter of our choice is `clang-format` with `-style=webkit` styling 
+The code formatter of choice is `clang-format` with `-style=webkit` styling 
 option.
 
 `doxygen` is being used for the auto-generated and auto-deployed documentations, 
@@ -52,19 +53,19 @@ with the configurations in [this file](/Doxyfile), using
 ## Dependencies for development
 * Qt Creator (optional but highly recommended)
 * Qt Framework >= 6.2
-* Compiler: GCC (for Linux), MinGW (for Windows)
+* Compiler: GCC (for Linux), MinGW-w64 (for Windows)
   - For cross compiling from Linux to Windows, we use
 [this script](/scripts/compile4win32.sh) which utilizes [MXE](https://mxe.cc/) 
 (with `x86_64-w64-mingw32.static-cmake` package).
   You won't need this if your host OS is Windows.
+* libexpat
 * CMake
 * Ninja (optional)
 * Code formatter (optional): `clang-format`
 
 ## Dependencies for the end user
 * Internet connection for the first activation
-* For Windows users: either Microsoft Office or LibreOffice
-* For Linux users: LibreOffice
+* Any program that can open .xlsx files (e.g. LibreOffice, Gnumeric, WPS Office, MS Office)
 
 &nbsp;
 
@@ -97,11 +98,11 @@ the corresponding file/folder.
 |DAL			|BLL				|UI
 ----------------|-------------------|-----------------------
 | [Database](/src/DAL/Database) | [DatabaseHelper](/src/BLL/DatabaseHelper) | [DatabasePage](/src/UI/DatabasePage)
-| [MultiImport](/src/DAL/MultiImport)	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportDialog](/src/UI/MultiImportDialog)
+| [MultiImport](/src/DAL/MultiImport) <sup>[[1]](#license)</sup>	| [MultiImportHelper](/src/BLL/MultiImportHelper)	| [MultiImportDialog](/src/UI/MultiImportDialog)
 | -				| [StudentEditor](/src/BLL/StudentEditor) | [StudentEditorDialog](/src/UI/StudentEditorDialog)
 | -				| [SchemeGenerator](/src/BLL/SchemeGenerator)	| [NewSchemeDialog](/src/UI/NewSchemeDialog)
-| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[1]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
-| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [SchemesPage](/src/UI/SchemesPage) <sup>[[2]](#license)</sup>
+| [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) <sup>[[2]](#license)</sup>	| [SchemeExporter](/src/BLL/SchemeExporter)	| -
+| -				| [HistoryProvider](/src/BLL/HistoryProvider)	| [SchemesPage](/src/UI/SchemesPage) <sup>[[3]](#license)</sup>
 | -				| [Authenticator](/src/BLL/Authenticator) 	| [AboutPage](/src/UI/AboutPage)
 | - 			| - 				| [MainWindow](/src/UI/MainWindow)
 | [LocalAuth](/src/DAL/LocalAuth), [CloudAuth](/src/DAL/CloudAuth) 			| [Authenticator](/src/BLL/Authenticator) 	| [AuthenticatorWindow](/src/UI/AuthenticatorWindow)
@@ -125,6 +126,9 @@ the corresponding file/folder.
 # License
 ikoOSKAR-Qt is licensed under the [GNU General Public License version 3](/LICENSE) or later.
 
-[1] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
+[1] [FreeXL](https://www.gaia-gis.it/fossil/freexl/home), the library used by `ikoOSKAR::DAL::MultiImport` to parse XLS and XLSX files, is licensed under the [MPL tri-license](http://www.mozilla.org/MPL/boilerplate-1.1/mpl-tri-license-html) terms.
+The GPL v2.0+ is chosen for this project.
 
-[2] [qt-collapsible-section](https://github.com/MichaelVoelkel/qt-collapsible-section), the code `ikoOSKAR::UI::ExamWidget` based on, is licensed under the [GNU Lesser General Public License version 3](https://github.com/MichaelVoelkel/qt-collapsible-section/blob/master/LICENSE).
+[2] [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter), the library used by `ikoOSKAR::BLL::SchemeExporter`, is licensed under a [FreeBSD License](https://github.com/jmcnamara/libxlsxwriter/blob/main/License.txt).
+
+[3] [qt-collapsible-section](https://github.com/MichaelVoelkel/qt-collapsible-section), the code `ikoOSKAR::UI::ExamWidget` based on, is licensed under the [GNU Lesser General Public License version 3](https://github.com/MichaelVoelkel/qt-collapsible-section/blob/master/LICENSE).
