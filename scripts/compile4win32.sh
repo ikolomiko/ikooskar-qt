@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+
 SECONDS=0
 cd "$(dirname "$0")/.."
 rm -rf build
