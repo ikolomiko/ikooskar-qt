@@ -33,7 +33,7 @@ namespace DAL {
     bool CloudAuth::isOnline()
     {
         QUrl url = baseUrl;
-        url.setPath("/v4/ip");
+        url.setPath("/api/v4/ip");
         auto response = sendRequest(url);
         return response.statusCode == 200;
     }
@@ -41,7 +41,7 @@ namespace DAL {
     CloudAuthResponse CloudAuth::setDemoRemainings(int remainings)
     {
         QUrl url = baseUrl;
-        url.setPath("/v4/demo");
+        url.setPath("/api/v4/demo");
         QUrlQuery urlQuery;
         urlQuery.addQueryItem("mac", getMacAddress());
         urlQuery.addQueryItem("remainings", QString::number(remainings));
@@ -54,7 +54,7 @@ namespace DAL {
     CloudAuthResponse CloudAuth::activateLicense(const QString& serial)
     {
         QUrl url = baseUrl;
-        url.setPath("/v4/license");
+        url.setPath("/api/v4/license");
         QUrlQuery urlQuery;
         urlQuery.addQueryItem("mac", getMacAddress());
         urlQuery.addQueryItem("serial", serial.trimmed());

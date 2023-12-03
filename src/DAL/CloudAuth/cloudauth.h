@@ -11,7 +11,7 @@ namespace DAL {
 
     class CloudAuth {
     private:
-        const QUrl baseUrl = { "https://api.ikooskar.com.tr" };
+        const QUrl baseUrl = { "http://ikooskar.com.tr" };
 
         QString getMacAddress();
         CloudAuthResponse sendRequest(QUrl url);
