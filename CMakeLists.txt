@@ -12,6 +12,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
+find_package(EXPAT REQUIRED)
 
 set(PROJECT_SOURCES
     assets/icon.rc
@@ -64,6 +65,7 @@ set(PROJECT_SOURCES
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
     _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
+    deps/freexl/freexl.c deps/freexl/freexl_xlsx.c
 )
 
 include_directories("src")
@@ -89,12 +91,14 @@ target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Sql
     Qt6::Network
     xlsxwriter
+    ${EXPAT_LIBRARIES}
 )
 
 target_compile_options(ikoOSKAR PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:
     -Wall
     -Werror
-    -Wextra
+    -Wextra>
 )
 
 
@@ -128,7 +132,7 @@ set(resources_resource_files
     "assets/styles.qss"
     "assets/web.png"
     "assets/xlsx.png"
-    "assets/xls2csv.ps1"
+
 )
 
 qt6_add_resources(ikoOSKAR "resources"

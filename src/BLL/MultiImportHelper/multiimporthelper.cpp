@@ -6,9 +6,9 @@ namespace ikoOSKAR {
 namespace BLL {
 
     MultiImportHelper::MultiImportHelper(const QString& xlsFilePath)
-        : xlsFilePath(xlsFilePath)
+        : dal(new ikoOSKAR::DAL::MultiImport)
+        , xlsFilePath(xlsFilePath)
     {
-        dal = new ikoOSKAR::DAL::MultiImport();
     }
 
     void MultiImportHelper::run()
@@ -17,49 +17,14 @@ namespace BLL {
         emit parsingFinished(result);
     }
 
-    QList<Student*>* MultiImportHelper::parseXls()
-    {
-        QString* csvFilePath = convertToCsv();
-        if (csvFilePath == nullptr || !QFile::exists(*csvFilePath)) {
-            emit error("Hata: Excel dosyası okunamadı!");
-            return nullptr;
-        }
-
-        return parseCsv();
-    }
-
-    QString* MultiImportHelper::convertToCsv()
-    {
-        dal->importXlsFile(xlsFilePath);
-        DAL::OfficeSuite officeSuite = DAL::LibreOffice;
-
-        QString* csvConverterPath = dal->getCsvConverterPath(officeSuite);
-        if (csvConverterPath == nullptr) {
-            officeSuite = DAL::MsOffice;
-            csvConverterPath = dal->getCsvConverterPath(officeSuite);
-            if (csvConverterPath == nullptr) {
-                emit error("Hata: Yüklü Office programı bulunamadı! Lütfen LibreOffice ya da Microsoft Office yükleyin.");
-                return nullptr;
-            }
-        }
-
-        QStringList* csvConverterArgs = dal->getCsvConverterArgs();
-
-        QProcess convert;
-        convert.start(*csvConverterPath, *csvConverterArgs);
-        convert.waitForFinished();
-
-        return dal->getCsvPath();
-    }
-
     bool MultiImportHelper::matchesHeaderRow(const QStringList& line)
     {
         const QStringList headerRow = { "S.No", "Öğrenci No", "Adı", "Soyadı", "Cinsiyeti" };
-        if (line.size() != headerRow.size()) {
+        if (line.size() < headerRow.size()) {
             return false;
         }
 
-        for (int i = 0; i < line.size(); i++) {
+        for (int i = 0; i < headerRow.size(); i++) {
             if (line[i] != headerRow[i]) {
                 return false;
             }
@@ -70,23 +35,31 @@ namespace BLL {
 
     bool MultiImportHelper::matchesSectionFooter(const QStringList& line)
     {
-        if (line.size() != 6) {
-            return false;
-        }
         return line.at(0).contains("Öğrenci Sayısı");
     }
 
     bool MultiImportHelper::matchesFileFooter(const QList<QStringList>& lines)
     {
-        // There must be at least 3 rows (1 header row, 1 section footer row and 1 file footer row)
+        // There must be at least 3 rows (1 header row, 1 section footer row and 1 (or 2) file footer row(s))
         // and the last row must have 3 non-empty cells
         const int& nLines = lines.size();
-        return nLines >= 3 && lines.at(nLines - 1).size() == 3;
+        return nLines >= 3 and (lines.at(nLines - 1).size() == 3 or lines.at(nLines - 2).size() == 3);
     }
 
-    QList<Student*>* MultiImportHelper::parseCsv()
+    QList<Student*>* MultiImportHelper::parseXls()
     {
-        const auto& lines = dal->getTrimmedCsvLines();
+        bool isFileReadable = dal->importXlsFile(xlsFilePath);
+        if (!isFileReadable) {
+            emit error("Hata: Excel dosyası okunamadı! Dosya yok ya da okuma izni yok.");
+            return nullptr;
+        }
+
+        const auto& lines = dal->getTrimmedLines();
+        if (lines == nullptr) {
+            emit error("Hata: Excel dosyası okunamadı! Dosya arızalı.");
+            return nullptr;
+        }
+
         const int& nLines = lines->size();
         if (nLines < 2) {
             // The first row is treated as headers row,
@@ -95,13 +68,33 @@ namespace BLL {
             return nullptr;
         }
 
+        int startingLine = 0;
+        for (int i = 0; i < lines->count(); i++) {
+            if (matchesHeaderRow(lines->at(i))) {
+                startingLine = i;
+                break;
+            }
+        }
+
+        int endingLine = nLines - 1;
+        for (int i = nLines - 1; i > 0; i--) {
+            if (matchesSectionFooter(lines->at(i))) {
+                endingLine = i;
+                break;
+            }
+        }
+
         auto students = QMap<int, Student*>();
 
-        bool isStandardFormat = matchesHeaderRow(lines->at(0))
-            && matchesSectionFooter(lines->at(nLines - 2))
+        bool isStandardFormat = matchesHeaderRow(lines->at(startingLine))
+            && matchesSectionFooter(lines->at(endingLine))
             && matchesFileFooter(*lines);
 
-        for (int i = 1; i < nLines; i++) {
+        if (isStandardFormat) {
+            startingLine++;
+        }
+
+        for (int i = startingLine; i <= endingLine; i++) {
             const auto& line = lines->at(i);
 
             if (line.size() == 0) {
@@ -111,7 +104,7 @@ namespace BLL {
 
             if (isStandardFormat) {
                 if (matchesSectionFooter(line)) {
-                    if (i == nLines - 2) {
+                    if (i == endingLine) {
                         // Hit the end of the file
                         break;
                     } else {
