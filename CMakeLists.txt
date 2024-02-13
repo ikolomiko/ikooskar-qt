@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+#set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
@@ -69,7 +69,7 @@ set(PROJECT_SOURCES
 include_directories("src")
 include_directories("deps/libxlsxwriter")
 
-add_subdirectory("deps/libxlsxwriter")
+add_subdirectory("deps/libxlsxwriter" EXCLUDE_FROM_ALL)
 
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
