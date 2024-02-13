@@ -14,6 +14,7 @@ private:
     BLL::Authenticator* authenticator;
     QSplashScreen* splash;
 
+    QPalette fusionLight();
     void handleAuthSuccess(const QString& message);
     void handleAuthError(const QString& errorMessage);
     void handleRestart();
