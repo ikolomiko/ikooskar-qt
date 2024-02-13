@@ -7,12 +7,17 @@
 #include <QProcess>
 #include <QTranslator>
 #include <QtConcurrent/QtConcurrentRun>
+#include <QFontDatabase>
+#include <QStyleFactory>
+#include <QPalette>
 
 namespace ikoOSKAR {
 
 App::App(int argc, char* argv[])
     : QApplication(argc, argv)
 {
+    setApplicationDisplayName("ikoOSKAR - iko Ortak Sınav Karma Sistemi");
+
     auto translator = new QTranslator();
     if (translator->load(":/qtbase_tr.qm")) {
         installTranslator(translator);
@@ -26,7 +31,7 @@ App::App(int argc, char* argv[])
     styles.close();
 
     splash = new QSplashScreen(QPixmap(":/splash.png"));
-    QString splashText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+    QString splashText = QString("%1 v%2").arg(applicationDisplayName(), applicationVersion());
     splash->showMessage(splashText, Qt::AlignBottom | Qt::AlignLeft);
     splash->show();
 

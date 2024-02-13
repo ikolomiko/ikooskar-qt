@@ -2,6 +2,7 @@
 #include "UI/Common/contactwidget.h"
 #include "ui_aboutpage.h"
 #include <QSettings>
+#include "app.h"
 
 namespace ikoOSKAR {
 namespace UI {
@@ -16,9 +17,8 @@ namespace UI {
 
         ui->lblIcon->setPixmap(QPixmap(":/Icon-WhiteBGx128.png").scaled(128, 128, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
 
-        QString fullName = QString("%1 - %2").arg(QCoreApplication::applicationName(), QSettings().value("PRETTY_NAME").toString());
-        ui->lblName->setText(fullName);
-        ui->lblVersion->setText("v" + QCoreApplication::applicationVersion());
+        ui->lblName->setText(ikoOSKAR::App::applicationDisplayName());
+        ui->lblVersion->setText("v" + ikoOSKAR::App::applicationVersion());
 
         auto website = new Common::ContactWidget(
             QPixmap(":/web.png"),

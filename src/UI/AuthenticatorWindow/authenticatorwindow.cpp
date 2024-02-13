@@ -4,6 +4,7 @@
 #include "ui_authenticatorwindow.h"
 #include <QStatusBar>
 #include <QtConcurrent/QtConcurrentRun>
+#include "app.h"
 
 namespace ikoOSKAR {
 namespace UI {
@@ -16,7 +17,7 @@ namespace UI {
         ui->setupUi(this);
 
         ui->lblBanner->setPixmap(QPixmap(":/banner.png").scaled(300, 60, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
-        QString statusText = QString("%1 v%2").arg(QSettings().value("PRETTY_NAME").toString(), QCoreApplication::applicationVersion());
+        QString statusText = QString("%1 v%2").arg(ikoOSKAR::App::applicationDisplayName(), ikoOSKAR::App::applicationVersion());
         statusBar()->showMessage(statusText);
         statusBar()->setStyleSheet("margin: 3px");
         statusBar()->setSizeGripEnabled(false);
