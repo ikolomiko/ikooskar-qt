@@ -18,6 +18,8 @@ App::App(int argc, char* argv[])
         installTranslator(translator);
     }
 
+    QFontDatabase::addApplicationFont(":/NotoSans.ttf");
+
     QFile styles(":/styles.qss");
     styles.open(QFile::ReadOnly);
     setStyleSheet(styles.readAll());

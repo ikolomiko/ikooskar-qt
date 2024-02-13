@@ -28,5 +28,6 @@
         <file>splash.png</file>
         <file>email.png</file>
         <file>web.png</file>
+        <file>NotoSans.ttf</file>
     </qresource>
 </RCC>
