@@ -1,6 +1,7 @@
 #include "upgradeassistant.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
 #include "DAL/Database/database.h"
+#include "app.h"
 #include "deps/libxlsxwriter/third_party/minizip/unzip.h"
 #include <QCheckBox>
 #include <QDirIterator>
@@ -10,8 +11,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QSettings>
-#include <QStandardPaths>
 
 namespace ikoOSKAR {
 namespace BLL {
@@ -130,7 +129,7 @@ namespace BLL {
 
     QString UpgradeAssistant::saveTemp(const QByteArray& bytes, const QString& name)
     {
-        const QString tempPath = QSettings().value("PATH_DOCS_ROOT").toString() + "/.tmp";
+        const QString tempPath = ikoOSKAR::App::PATH_DOCS_ROOT + "/.tmp";
         if (tempDir == nullptr) {
             tempDir = new QTemporaryDir(tempPath);
         }
