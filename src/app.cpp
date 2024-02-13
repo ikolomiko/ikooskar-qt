@@ -82,9 +82,11 @@ QPalette App::fusionLight()
     fusionPalette.setBrush(QPalette::Active, QPalette::Highlight, highlight);
     fusionPalette.setBrush(QPalette::Inactive, QPalette::Highlight, highlight);
     fusionPalette.setBrush(QPalette::Disabled, QPalette::Highlight, disabledHighlight);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     fusionPalette.setBrush(QPalette::Active, QPalette::Accent, highlight);
     fusionPalette.setBrush(QPalette::Inactive, QPalette::Accent, highlight);
     fusionPalette.setBrush(QPalette::Disabled, QPalette::Accent, disabledHighlight);
+#endif
     fusionPalette.setBrush(QPalette::PlaceholderText, placeholder);
 
     return fusionPalette;
