@@ -216,9 +216,9 @@ namespace UI {
             tabWidget->insertTab(i, tableWidget, className);
         }
 
-        ui->btnDelete->setDisabled(classNames->empty());
-        ui->btnEdit->setDisabled(classNames->empty());
-        ui->btnMore->setDisabled(classNames->empty());
+        ui->btnDelete->setVisible(!classNames->empty());
+        ui->btnEdit->setVisible(!classNames->empty());
+        ui->btnMore->setVisible(!classNames->empty());
 
         // Enable the signal back
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
