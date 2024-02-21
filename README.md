@@ -37,8 +37,7 @@ proceeds to delete every 12th grade student from the database
 
 # ikoOSKAR-Qt
 This project is a reimplementation of ikoOSKAR which was originally written in 
-C# and .Net Framework. Note that this project is still WIP and currently there's
-no installers or pre-compiled binaries available.
+C# and .Net Framework.
 
 C++17 and Qt Framework 6.x are being used for this reimplementation, which makes the
 program cross-platform and also more efficient.
