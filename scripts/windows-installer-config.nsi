@@ -11,7 +11,7 @@ RequestExecutionLevel admin
 !define MUI_UNICON "../assets/multires.ico"
 
 # Set the installer name used in Modern UI
-Name "ikoOSKAR v4"
+Name "ikoOSKAR v4.1.0"
 
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "../assets/nsis-header.bmp"
@@ -37,8 +37,8 @@ CreateShortCut "$DESKTOP\ikoOSKAR.lnk" "$INSTDIR\ikoOSKAR.exe"
 # Create a Start Menu shortcut
 CreateShortCut "$SMPROGRAMS\ikoOSKAR.lnk" "$INSTDIR\ikoOSKAR.exe"
 
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "DisplayName" "ikoOSKAR v4"
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "DisplayVersion" "v4"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "DisplayName" "ikoOSKAR"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "DisplayVersion" "v4.1.0"
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "NoModify" 1
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "NoRemove" 0
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\ikoOSKAR" "NoRepair" 0
