@@ -4,6 +4,7 @@
 #include "BLL/Authenticator/authenticator.h"
 #include <QApplication>
 #include <QSplashScreen>
+#include <QStandardPaths>
 
 namespace ikoOSKAR {
 
@@ -13,12 +14,14 @@ private:
     BLL::Authenticator* authenticator;
     QSplashScreen* splash;
 
+    QPalette fusionLight();
     void handleAuthSuccess(const QString& message);
     void handleAuthError(const QString& errorMessage);
     void handleRestart();
 
 public:
     App(int argc, char* argv[]);
+    const static inline QString PATH_DOCS_ROOT = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ikoOSKAR";
 };
 
 } // namespace ikoOSKAR

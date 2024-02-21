@@ -6,6 +6,7 @@
 #include "UI/ErrorUi/errorui.h"
 #include "UI/SchemesPage/schemespage.h"
 #include "UI/WelcomePage/welcomepage.h"
+#include "app.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QStatusBar>
@@ -26,7 +27,7 @@ namespace UI {
         , authenticator(BLL::Authenticator::getInstance())
     {
         ui->setupUi(this);
-
+        setWindowTitle(ikoOSKAR::App::applicationDisplayName());
 #ifdef QT_DEBUG
         setWindowTitle(windowTitle() + " DEBUG");
 #endif

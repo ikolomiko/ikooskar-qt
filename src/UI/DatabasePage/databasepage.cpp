@@ -148,7 +148,16 @@ namespace UI {
 
         menuAdd->addAction(addSingle);
         menuAdd->addAction(addMulti);
-        ui->btnAdd->setMenu(menuAdd);
+
+        //ui->btnAdd->setMenu(menuAdd);
+        connect(ui->btnAdd, &QPushButton::pressed, this, [=](){
+            ui->btnAdd->setDown(true);
+            QPoint popupPos = ui->frmButtons->mapToGlobal(ui->btnAdd->geometry().bottomLeft());
+            menuAdd->exec(popupPos);
+        });
+        connect(menuAdd, &QMenu::aboutToHide, this, [&]() {
+            ui->btnAdd->setDown(false);
+        });
 
         QMenu* menuMore = new QMenu();
         QAction* eotyAction = new QAction("Yıl sonu işlemlerini yap");
@@ -161,7 +170,16 @@ namespace UI {
 
         menuMore->addAction(eotyAction);
         menuMore->addAction(removeClassAction);
-        ui->btnMore->setMenu(menuMore);
+        //ui->btnMore->setMenu(menuMore);
+
+        connect(ui->btnMore, &QPushButton::pressed, this, [=](){
+            ui->btnMore->setDown(true);
+            QPoint popupPos = ui->frmButtons->mapToGlobal(ui->btnMore->geometry().bottomLeft());
+            menuMore->exec(popupPos);
+        });
+        connect(menuMore, &QMenu::aboutToHide, this, [&]() {
+            ui->btnMore->setDown(false);
+        });
     }
 
     DatabasePage::ClassTable::ClassTable(QList<Student*>* students)
@@ -216,9 +234,9 @@ namespace UI {
             tabWidget->insertTab(i, tableWidget, className);
         }
 
-        ui->btnDelete->setDisabled(classNames->empty());
-        ui->btnEdit->setDisabled(classNames->empty());
-        ui->btnMore->setDisabled(classNames->empty());
+        ui->btnDelete->setVisible(!classNames->empty());
+        ui->btnEdit->setVisible(!classNames->empty());
+        ui->btnMore->setVisible(!classNames->empty());
 
         // Enable the signal back
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {

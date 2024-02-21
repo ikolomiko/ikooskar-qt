@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 project(ikoOSKAR VERSION 1.0 LANGUAGES CXX C)
 
-include(FetchContent)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+#set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
@@ -64,25 +62,19 @@ set(PROJECT_SOURCES
     src/UI/SchemesPage/xlsxbutton.h src/UI/SchemesPage/xlsxbutton.cpp src/UI/SchemesPage/xlsxbutton.ui
     src/UI/SchemesPage/examwidget.h src/UI/SchemesPage/examwidget.cpp
     src/main.cpp
-    _deps/libxlsxwriter-src/third_party/minizip/ioapi.c _deps/libxlsxwriter-src/third_party/minizip/unzip.c
+    deps/libxlsxwriter/third_party/minizip/ioapi.c deps/libxlsxwriter/third_party/minizip/unzip.c
     deps/freexl/freexl.c deps/freexl/freexl_xlsx.c
 )
 
 include_directories("src")
-include_directories("_deps/libxlsxwriter-src")
+include_directories("deps/libxlsxwriter")
 
+add_subdirectory("deps/libxlsxwriter" EXCLUDE_FROM_ALL)
 
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-
-FetchContent_Declare(
-  libxlsxwriter
-  GIT_REPOSITORY https://github.com/jmcnamara/libxlsxwriter.git
-  GIT_TAG        4aaca54c4188aaedca7d01a28f0c9d11f99d4cb2
-)
-FetchContent_MakeAvailable(libxlsxwriter)
 
 target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Widgets
@@ -132,7 +124,7 @@ set(resources_resource_files
     "assets/styles.qss"
     "assets/web.png"
     "assets/xlsx.png"
-
+    "assets/NotoSans.ttf"
 )
 
 qt6_add_resources(ikoOSKAR "resources"
@@ -153,6 +145,11 @@ install(TARGETS ikoOSKAR
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+if (UNIX)
+    install(FILES ikoOSKAR.desktop DESTINATION share/applications)
+    install(FILES assets/Icon-WhiteBGx128.png DESTINATION share/icons/hicolor/128x128/apps/ RENAME ikoOSKAR.png)
+endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(ikoOSKAR)

@@ -16,9 +16,6 @@
     <height>0</height>
    </size>
   </property>
-  <property name="windowTitle">
-   <string>ikoOSKAR</string>
-  </property>
   <property name="windowIcon">
    <iconset>
     <normaloff>:/Icon-WhiteBGx128.png</normaloff>:/Icon-WhiteBGx128.png</iconset>
