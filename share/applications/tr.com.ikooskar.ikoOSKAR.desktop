@@ -2,6 +2,6 @@
 Type=Application
 Name=ikoOSKAR
 Comment=ikoOSKAR Ortak Sınav Karma Sistemi
-Icon=ikoOSKAR
+Icon=tr.com.ikooskar.ikoOSKAR
 Exec=ikoOSKAR
 Categories=Education;X-GNOME-Other;

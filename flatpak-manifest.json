@@ -5,8 +5,6 @@
     "runtime-version": "6.6",
     "sdk": "org.kde.Sdk",
     "command": "ikoOSKAR",
-    "rename-desktop-file": "ikoOSKAR.desktop",
-    "rename-icon": "ikoOSKAR",
     "finish-args": [
         "--share=ipc",
         "--share=network",

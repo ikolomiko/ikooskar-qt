@@ -147,8 +147,7 @@ install(TARGETS ikoOSKAR
 )
 
 if (UNIX)
-    install(FILES ikoOSKAR.desktop DESTINATION share/applications)
-    install(FILES assets/Icon-WhiteBGx128.png DESTINATION share/icons/hicolor/128x128/apps/ RENAME ikoOSKAR.png)
+    install(DIRECTORY share/ DESTINATION share)
 endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)
