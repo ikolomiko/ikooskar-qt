@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>banner.png</file>
-        <file>Icon-WhiteBGx64.png</file>
         <file>Icon-WhiteBGx128.png</file>
         <file>new-scheme.png</file>
         <file>history.png</file>

@@ -98,7 +98,6 @@ target_compile_options(ikoOSKAR PRIVATE
 set(resources_resource_files
     "assets/Icon-Transparent.png"
     "assets/Icon-WhiteBGx128.png"
-    "assets/Icon-WhiteBGx64.png"
     "assets/arrow-right.png"
     "assets/arrow-left.png"
     "assets/add.png"
