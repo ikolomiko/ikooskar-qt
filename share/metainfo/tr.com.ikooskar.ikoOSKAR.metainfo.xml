@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>tr.com.ikooskar.ikoOSKAR</id>
+  
+  <name>ikoOSKAR</name>
+  <summary>Liseler için Kelebek Karma Programı</summary>
+  
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  
+  <recommends>
+    <display_length compare="ge">1024</display_length>
+  </recommends>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  
+  <description>
+    <p>
+      ikoOSKAR (iko Ortak Sınav Karma Sistemi) ile ortaöğretimde sınıf geçme yönetmeliğine uygun olarak öğrenci sınav düzenleri oluşturun.
+    </p>
+  </description>
+
+  <developer id="ikooskar.com.tr">
+    <name translate="no">İlker AVCI</name>
+  </developer>
+
+  <content_rating type="oars-1.1" />
+
+  <launchable type="desktop-id">tr.com.ikooskar.ikoOSKAR.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://ikooskar.com.tr/screenshots/ss1.png</image>
+      <caption>Ana Sayfa</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://ikooskar.com.tr/screenshots/ss2.png</image>
+      <caption>Öğrenci İşlemleri</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://ikooskar.com.tr/screenshots/ss3.png</image>
+      <caption>Sınav Düzenleri</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://ikooskar.com.tr/screenshots/ss4.png</image>
+      <caption>Yardım ve İletişim</caption>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://ikooskar.com.tr</url>
+  <url type="bugtracker">https://github.com/ikolomiko/ikooskar-qt/issues</url>
+  <url type="vcs-browser">https://github.com/ikolomiko/ikooskar-qt</url>
+
+  <releases>
+    <release version="4.1.0" date="2024-02-21T00:00:00Z">
+      <description>
+      </description>
+    </release>    
+  </releases>
+</component>
