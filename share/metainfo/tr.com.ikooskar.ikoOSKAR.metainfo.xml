@@ -103,6 +103,7 @@
   <url type="homepage">https://ikooskar.com.tr</url>
   <url type="bugtracker">https://github.com/ikolomiko/ikooskar-qt/issues</url>
   <url type="vcs-browser">https://github.com/ikolomiko/ikooskar-qt</url>
+  <url type="contribute">https://github.com/ikolomiko/ikooskar-qt</url>
 
   <releases>
     <release version="4.1.0" date="2024-02-21T00:00:00Z">
