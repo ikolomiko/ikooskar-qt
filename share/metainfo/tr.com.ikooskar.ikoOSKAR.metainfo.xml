@@ -3,7 +3,8 @@
   <id>tr.com.ikooskar.ikoOSKAR</id>
   
   <name>ikoOSKAR</name>
-  <summary>Liseler için Kelebek Karma Programı</summary>
+  <summary>Random Seating Schemes for Exams</summary>
+  <summary xml:lang="tr">Liseler için Kelebek Karma Programı</summary>
   
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
@@ -19,8 +20,44 @@
   
   <description>
     <p>
-      ikoOSKAR (iko Ortak Sınav Karma Sistemi) ile ortaöğretimde sınıf geçme yönetmeliğine uygun olarak öğrenci sınav düzenleri oluşturun.
+      ikoOSKAR (short for iko Ortak Sınav Karma Sistemi) allows you to easily generate and manage randomized student seating schemes for exams.
     </p>
+    <p>This program is especially targeted for Turkish high schools and only available in Turkish language.</p>
+    <p>With ikoOSKAR you can:</p>
+    <p xml:lang="tr">
+      ikoOSKAR (iko Ortak Sınav Karma Sistemi) ile ortaöğretimde sınıf geçme yönetmeliğine uygun olarak öğrenci sınav düzenleri oluşturun!
+    </p>
+    <p xml:lang="tr">ikoOSKAR, Linux'ta çalışan ilk ve tek kelebek karma programıdır.</p>
+    <p xml:lang="tr">ikoOSKAR ile;</p>
+    <ul>
+        <li>Create student placement schemes with minimum same-grade student interaction.</li>
+        <li>Get placement schemes for each classroom / exam hall.</li>
+        <li>Create the list of students' exam places (the classroom / exam hall and the desk number) for each class / section, respectively.</li>
+        <li>Prevent students from cheating in exams.</li>
+        <li>Easily manage the student database.</li>
+        <li>View and manipulate each class / section.</li>
+        <li>Add hundreds of new students to the database at once; just select the spreadsheet file exported from e-Okul or create your own xlsx file.</li>
+        <li>Add, edit or remove individual students.</li>
+        <li>
+          Update all students' grade informations at the end of each academic year, with just one click.
+          This action also assumes that every 12th grade student have graduated and proceeds to delete every 12th grade student from the database.
+        </li>
+        <li>View and edit older schemes, grouped by date.</li>
+
+        <li xml:lang="tr">Aynı sınıf düzeyindeki öğrencilerin mümkün olan en uzak yerlere oturtulduğu sınav düzenleri oluşturun.</li>
+        <li xml:lang="tr">Her derslik / sınav salonu için oturma planları oluşturun.</li>
+        <li xml:lang="tr">Her sınıftaki öğrencilerin derslik ve sıra numarasının yazılı olduğu sınıf karma listeleri oluşturun.</li>
+        <li xml:lang="tr">Sınavlarda öğrencilerin kopya çekmesini önleyin.</li>
+        <li xml:lang="tr">Öğrenci verilerini kolaylıkla düzenleyin.</li>
+        <li xml:lang="tr">Her bir sınıf ve şubeyi ayrı ayrı düzenleyin.</li>
+        <li xml:lang="tr">Yüzlerce öğrenci bilgisini tek seferde ekleyin; tek yapmanız gereken sınıf listelerini e-Okul'dan Excel formatında indirmek ve ikoOSKAR'a yüklemek.</li>
+        <li xml:lang="tr">Öğrenci bilgilerini tekli olarak da ekleyebilir, düzenleyebilir ve silebilirsiniz.</li>
+        <li xml:lang="tr">
+          "Yıl Sonu İşlemleri" seçeneğini kullanarak tek tıkla bütün öğrencilerin sınıf düzeyi bilgilerini güncelleyin. 
+          Bu işlem bütün 12. sınıf öğrencilerini sistemden siler ve diğer bütün öğrencileri bir sonraki sınıfa alır.
+        </li>
+        <li xml:lang="tr">Önceden oluşturduğunuz sınav düzenlerini aylara göre gruplanmış olarak görüntüleyin ve düzenleyin.</li>
+    </ul>
   </description>
 
   <developer id="ikooskar.com.tr">
@@ -33,25 +70,35 @@
   <screenshots>
     <screenshot type="default">
       <image>https://ikooskar.com.tr/screenshots/ss1.png</image>
-      <caption>Ana Sayfa</caption>
+      <caption>Home Page</caption>
+      <caption xml:lang="tr">Ana Sayfa</caption>
     </screenshot>
     <screenshot>
       <image>https://ikooskar.com.tr/screenshots/ss2.png</image>
-      <caption>Öğrenci İşlemleri</caption>
+      <caption>Student Management</caption>
+      <caption xml:lang="tr">Öğrenci İşlemleri</caption>
     </screenshot>
     <screenshot>
       <image>https://ikooskar.com.tr/screenshots/ss3.png</image>
-      <caption>Sınav Düzenleri</caption>
+      <caption>Exam Seating Schemes</caption>
+      <caption xml:lang="tr">Sınav Düzenleri</caption>
     </screenshot>
     <screenshot>
       <image>https://ikooskar.com.tr/screenshots/ss4.png</image>
-      <caption>Yardım ve İletişim</caption>
+      <caption>Help and Contact</caption>
+      <caption xml:lang="tr">Yardım ve İletişim</caption>
     </screenshot>
   </screenshots>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#BDC1F7</color>
+    <color type="primary" scheme_preference="dark">#636CF7</color>
+  </branding>
 
   <url type="homepage">https://ikooskar.com.tr</url>
   <url type="bugtracker">https://github.com/ikolomiko/ikooskar-qt/issues</url>
   <url type="vcs-browser">https://github.com/ikolomiko/ikooskar-qt</url>
+  <url type="contribute">https://github.com/ikolomiko/ikooskar-qt</url>
 
   <releases>
     <release version="4.1.0" date="2024-02-21T00:00:00Z">
