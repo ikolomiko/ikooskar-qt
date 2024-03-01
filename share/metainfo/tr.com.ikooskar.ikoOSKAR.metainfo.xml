@@ -95,6 +95,11 @@
     </screenshot>
   </screenshots>
 
+  <branding>
+    <color type="primary" scheme_preference="light">#BDC1F7</color>
+    <color type="primary" scheme_preference="dark">#636CF7</color>
+  </branding>
+
   <url type="homepage">https://ikooskar.com.tr</url>
   <url type="bugtracker">https://github.com/ikolomiko/ikooskar-qt/issues</url>
   <url type="vcs-browser">https://github.com/ikolomiko/ikooskar-qt</url>
