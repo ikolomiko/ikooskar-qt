@@ -20,7 +20,48 @@
   
   <description>
     <p>
-      ikoOSKAR (iko Ortak Sınav Karma Sistemi) ile ortaöğretimde sınıf geçme yönetmeliğine uygun olarak öğrenci sınav düzenleri oluşturun.
+      ikoOSKAR (<em>iko</em> <em>O</em>rtak <em>S</em>ınav <em>Kar</em>ma Sistemi) allows you to easily generate and manage randomized student seating schemes for exams. 
+      This program is especially targeted for Turkish high schools and only available in Turkish language.
+    </p>
+    <p xml:lang="tr">
+      ikoOSKAR (<em>iko</em> <em>O</em>rtak <em>S</em>ınav <em>Kar</em>ma Sistemi) ile ortaöğretimde sınıf geçme yönetmeliğine uygun olarak öğrenci sınav düzenleri oluşturun!
+      ikoOSKAR, Linux'ta çalışan ilk ve tek kelebek karma programıdır.
+    </p>
+    <p>
+      With ikoOSKAR you can:
+      <ul>
+        <li>Create student placement schemes with minimum same-grade student interaction.</li>
+        <li>Get placement schemes for each classroom / exam hall.</li>
+        <li>Create the list of students' exam places (the classroom / exam hall and the desk number) for each class / section, respectively.</li>
+        <li>Prevent students from cheating in exams.</li>
+        <li>Easily manage the student database.</li>
+        <li>View and manipulate each class / section.</li>
+        <li>Add hundreds of new students to the database at once; just select the spreadsheet file exported from e-Okul or create your own xlsx file.</li>
+        <li>Add, edit or remove individual students.</li>
+        <li>
+          Update all students' grade informations at the end of each academic year, with just one click.
+          This action also assumes that every 12th grade student have graduated and proceeds to delete every 12th grade student from the database.
+        </li>
+        <li>View and edit older schemes, grouped by date.</li>
+      </ul>
+    </p>
+    <p xml:lang="tr">
+      ikoOSKAR ile;
+      <ul>
+        <li>Aynı sınıf düzeyindeki öğrencilerin mümkün olan en uzak yerlere oturtulduğu sınav düzenleri oluşturun.</li>
+        <li>Her derslik / sınav salonu için oturma planları oluşturun.</li>
+        <li>Her sınıftaki öğrencilerin derslik ve sıra numarasının yazılı olduğu sınıf karma listeleri oluşturun.</li>
+        <li>Sınavlarda öğrencilerin kopya çekmesini önleyin.</li>
+        <li>Öğrenci verilerini kolaylıkla düzenleyin.</li>
+        <li>Her bir sınıf ve şubeyi ayrı ayrı düzenleyin.</li>
+        <li>Yüzlerce öğrenci bilgisini tek seferde ekleyin; tek yapmanız gereken sınıf listelerini e-Okul'dan Excel formatında indirmek ve ikoOSKAR'a yüklemek.</li>
+        <li>Öğrenci bilgilerini tekli olarak da ekleyebilir, düzenleyebilir ve silebilirsiniz.</li>
+        <li>
+          "Yıl Sonu İşlemleri" seçeneğini kullanarak tek tıkla bütün öğrencilerin sınıf düzeyi bilgilerini güncelleyin. 
+          "Yıl Sonu İşlemleri", bütün 12. sınıf öğrencilerini sistemden siler ve diğer bütün öğrencileri bir sonraki sınıfa alır.
+        </li>
+        <li>Önceden oluşturduğunuz sınav düzenlerini aylara göre gruplanmış olarak görüntüleyin ve düzenleyin.</li>
+      </ul>
     </p>
   </description>
 
