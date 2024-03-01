@@ -3,7 +3,8 @@
   <id>tr.com.ikooskar.ikoOSKAR</id>
   
   <name>ikoOSKAR</name>
-  <summary>Liseler için Kelebek Karma Programı</summary>
+  <summary>Random Seating Schemes for Exams</summary>
+  <summary xml:lang="tr">Liseler için Kelebek Karma Programı</summary>
   
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
