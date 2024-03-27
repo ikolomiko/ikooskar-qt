@@ -46,6 +46,7 @@ namespace UI {
         void refresh();
         void createButtonMenus();
         void createTabWidget();
+        inline QString currentClassname();
         Ui::DatabasePage* ui;
         ikoOSKAR::BLL::DatabaseHelper* bll;
         inline static DatabasePage* instance;

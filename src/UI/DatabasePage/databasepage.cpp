@@ -38,7 +38,7 @@ namespace UI {
         if (nStudents == 0)
             return new QString(desc);
 
-        QString currentClass = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        QString currentClass = currentClassname();
         int classPopulation = bll->GetStudentsByClassName(currentClass)->count();
         return new QString(desc + "  ♦  " + currentClass + " sınıf mevcudu: " + QString::number(classPopulation));
     }
@@ -116,7 +116,7 @@ namespace UI {
 
     void DatabasePage::actionRemoveClass_clicked()
     {
-        QString currentClass = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        QString currentClass = currentClassname();
         QString text = currentClass + " sınıfındaki bütün öğrenciler veri tabanından silinecektir. "
                                       "Tamam düğmesine tıkladığınız an işlem gerçekleştirilecek ve geri dönüşü olmayacaktır.\n"
                                       "Emin misiniz?";
@@ -242,6 +242,13 @@ namespace UI {
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
             emit descriptionUpdated(*getDescription());
         });
+    }
+
+    QString DatabasePage::currentClassname()
+    {
+        int idx = ui->tabWidget->currentIndex();
+        QString currentClass = ui->tabWidget->tabText(idx).remove("&");
+        return currentClass;
     }
 
     void DatabasePage::refresh()
