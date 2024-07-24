@@ -13,7 +13,7 @@
 ikoOSKAR (**iko** **O**rtak **S**ınav **Kar**ma Sistemi) allows you to easily manage
 your school's student placement schemes for exams. This program is especially
 targeted for high schools. Check out 
-[the official website for ikoOSKAR!](https://ikooskar.com.tr) (still WIP)
+[the official website for ikoOSKAR!](https://ikooskar.com.tr)
 
 With ikoOSKAR you can:
 
