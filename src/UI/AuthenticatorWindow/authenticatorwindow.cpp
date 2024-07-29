@@ -28,8 +28,8 @@ namespace UI {
             "https://ikooskar.com.tr");
         auto email = new Common::ContactWidget(
             QPixmap(":/email.png"),
-            "ikolomiko@gmail.com",
-            "mailto:ikolomiko@gmail.com");
+            "ilkeravci262003@gmail.com",
+            "mailto:ilkeravci262003@gmail.com");
 
         ui->contactCards->layout()->addWidget(website);
         ui->contactCards->layout()->addWidget(email);

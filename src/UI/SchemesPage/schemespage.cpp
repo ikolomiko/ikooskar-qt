@@ -122,7 +122,7 @@ namespace UI {
             ui->btnNewScheme->setEnabled(false);
             ErrorUi("Deneme Haklarınız Tükendi")
                 .displayMessage("Ücretsiz deneme haklarınız tükenmiştir. Programı kullanmaya"
-                                " devam etmek istiyorsanız lütfen ikolomiko@gmail.com e-posta"
+                                " devam etmek istiyorsanız lütfen ilkeravci262003@gmail.com e-posta"
                                 " adresinden iletişime geçerek bir lisans anahtarı satın alınız.");
         }
     }

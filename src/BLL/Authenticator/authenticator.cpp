@@ -24,7 +24,7 @@ namespace BLL {
                     emit success();
                 } else {
                     emit error("Ücretsiz deneme haklarınız tükenmiştir. Eğer ikoOSKAR'dan memnun kaldıysanız "
-                               "ve programı kullanmaya devam etmek istiyorsanız lütfen ikolomiko@gmail.com "
+                               "ve programı kullanmaya devam etmek istiyorsanız lütfen ilkeravci262003@gmail.com "
                                "e-posta adresinden iletişime geçip bir lisans anahtarı satın alınız.");
                 }
             }
@@ -177,7 +177,7 @@ namespace BLL {
                 return true;
             } else {
                 emit error("Ücretsiz deneme haklarınız tükenmiştir. Eğer ikoOSKAR'dan memnun kaldıysanız "
-                           "ve programı kullanmaya devam etmek istiyorsanız lütfen ikolomiko@gmail.com "
+                           "ve programı kullanmaya devam etmek istiyorsanız lütfen ilkeravci262003@gmail.com "
                            "e-posta adresinden iletişime geçip bir lisans anahtarı satın alınız.");
                 return false;
             }
