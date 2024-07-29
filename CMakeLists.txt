@@ -3,6 +3,7 @@ project(ikoOSKAR VERSION 1.0 LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
+set(USE_OPENSSL_MD5 ON CACHE BOOL "Use external OpenSSL MD5 functions for libxlsxwriter dependency")
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
