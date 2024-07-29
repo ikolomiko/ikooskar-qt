@@ -11,11 +11,11 @@ cd build
 if [ "$1" = "cmake" ]; then
   # Use the CMake backend if specified
   x86_64-w64-mingw32.static-cmake ..
-  x86_64-w64-mingw32.static-cmake --build . -j8
+  x86_64-w64-mingw32.static-cmake --build . -j20
 else
   # Use the Ninja backend by default
   x86_64-w64-mingw32.static-cmake .. -G Ninja
-  ninja -j8
+  ninja -j20
 fi
 
 strip -s ikoOSKAR.exe
