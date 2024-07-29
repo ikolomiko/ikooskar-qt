@@ -65,3 +65,7 @@ QLabel#lblHint {
 #btnRmClass:pressed, #btnRmHall:pressed {
     background-color: #FFC0C0;
 }
+
+QPushButton, QToolButton {
+    font-weight: normal;
+}
