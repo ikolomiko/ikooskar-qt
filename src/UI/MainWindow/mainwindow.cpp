@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "BLL/UpgradeAssistant/upgradeassistant.h"
 #include "UI/AboutPage/aboutpage.h"
 #include "UI/Common/spinner.h"
 #include "UI/DatabasePage/databasepage.h"
@@ -32,22 +31,7 @@ namespace UI {
         setWindowTitle(windowTitle() + " DEBUG");
 #endif
 
-        auto assistant = new BLL::UpgradeAssistant();
-        if (assistant->willUpgrade()) {
-            auto* spinner = new Common::Spinner();
-            spinner->setTitle("Güncelleme yapılıyor...");
-            spinner->start();
-            ui->frameHeaderbar->hide();
-            ui->stackedWidget->addWidget(spinner);
-
-            connect(assistant, &BLL::UpgradeAssistant::upgradeFinished, this, &MainWindow::handleFinishedUpgrade);
-            connect(assistant, &BLL::UpgradeAssistant::error, [](const QString& message) {
-                ErrorUi("Güncelleme Hatası").displayMessage(message);
-            });
-            QThreadPool::globalInstance()->start(assistant);
-        } else {
-            initSubpages();
-        }
+        initSubpages();
     }
 
     void MainWindow::initSubpages()
@@ -85,21 +69,6 @@ namespace UI {
     void MainWindow::setDescription(const QString& description)
     {
         ui->lblDescription->setText(description);
-    }
-
-    void MainWindow::handleFinishedUpgrade(int nStudents)
-    {
-        auto* spinner = (Common::Spinner*)ui->stackedWidget->currentWidget();
-        ui->stackedWidget->removeWidget(spinner);
-        spinner->deleteLater();
-        ui->frameHeaderbar->show();
-        initSubpages();
-        if (nStudents < 0) {
-            ErrorUi("Güncelleme Hatası").displayMessage("Bir hata oluştu, ikoOSKAR'ın eski sürümündeki öğrenci bilgileri aktarılamadı.");
-        } else {
-            auto text = QString("Güncelleme başarılı, ikoOSKAR'ın eski sürümündeki %1 adet öğrenci kaydı başarıyla içeri aktarıldı.").arg(nStudents);
-            QMessageBox::information(this, "Güncelleme Başarılı", text);
-        }
     }
 
     void MainWindow::changePage(Subpage index, QIcon icon)

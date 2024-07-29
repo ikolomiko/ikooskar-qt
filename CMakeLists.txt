@@ -24,7 +24,6 @@ set(PROJECT_SOURCES
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
     src/BLL/SchemeExporter/schemeexporter.h src/BLL/SchemeExporter/schemeexporter.cpp
     src/BLL/SchemeGenerator/schemegenerator.h src/BLL/SchemeGenerator/schemegenerator.cpp
-    src/BLL/UpgradeAssistant/upgradeassistant.h src/BLL/UpgradeAssistant/upgradeassistant.cpp
     src/DAL/CloudAuth/cloudauth.h src/DAL/CloudAuth/cloudauth.cpp
     src/DAL/CloudAuth/cloudauthresponse.h
     src/DAL/Database/database.cpp src/DAL/Database/database.h
