@@ -47,7 +47,7 @@ namespace UI {
         arrowRight = QIcon(pixmapArrow);
         arrowDown = QIcon(pixmapArrow.transformed(rotation));
 
-        btnToggle->setStyleSheet("border: none; font-size: 14pt;");
+        btnToggle->setObjectName("btnToggle");
         btnToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnToggle->setIconSize({ 30, 30 });
         btnToggle->setIcon(QIcon(":/option-bullet.png"));
@@ -59,6 +59,7 @@ namespace UI {
         btnToggle->setStyle(QApplication::style());
         connect(btnToggle, &QToolButton::toggled, this, &ExamWidget::toggle);
 
+        btnFolder->setObjectName("btnOpenFolder");
         btnFolder->setText("  Klasörü Aç  ");
         btnFolder->setIcon(QIcon(":/folder.png"));
         btnFolder->setMinimumHeight(50);
