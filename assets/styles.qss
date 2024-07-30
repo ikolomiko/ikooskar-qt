@@ -3,7 +3,7 @@
     font-size: 11pt;
 }
 
-QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm, #btnNewScheme {
+QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm, #btnNewScheme, #btnOpenFolder {
     padding: 6px;
     font-size: 11pt;
 }
@@ -73,4 +73,9 @@ QPushButton, QToolButton {
 
 QStatusBar {
     font-size: 9pt;
+}
+
+QToolButton#btnToggle {
+    border: none;
+    font-size: 14pt;
 }
