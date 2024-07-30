@@ -53,7 +53,12 @@ namespace UI {
 
     void DatabasePage::actionAddSingle_clicked()
     {
-        StudentEditorDialog dialog(StudentEditorDialog::ADD, this);
+        auto classAndSection = bll->ParseClassName(currentClassname());
+        Student* dummyStudent = new Student();
+        dummyStudent->grade = classAndSection.first;
+        dummyStudent->section = classAndSection.second;
+
+        StudentEditorDialog dialog(StudentEditorDialog::ADD, this, dummyStudent);
         if (dialog.exec() != QDialog::Rejected) {
             refresh();
         }
