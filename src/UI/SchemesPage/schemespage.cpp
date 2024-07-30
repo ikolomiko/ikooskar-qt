@@ -20,7 +20,7 @@ namespace UI {
         historyProvider = new BLL::HistoryProvider();
         connect(historyProvider, &BLL::HistoryProvider::historyReady, this, &SchemesPage::setupHistoryUi);
         refreshHistory();
-
+        
         lblEmptyHistory = new QLabel("Daha önce oluşturulmuş sınav düzeni bulunamadı");
         lblEmptyHistory->setAlignment(Qt::AlignCenter);
         lblEmptyHistory->setObjectName("lblDescription");
@@ -45,8 +45,12 @@ namespace UI {
         // Show label if history is empty
         if (history.empty()) {
             ui->historyRoot->layout()->addWidget(lblEmptyHistory);
+            lblEmptyHistory->show();
             return;
         }
+
+        ui->historyRoot->layout()->removeWidget(lblEmptyHistory);
+        lblEmptyHistory->hide();
 
         // History is not empty
         for (auto it = history.end(); it != history.begin(); it--) {
