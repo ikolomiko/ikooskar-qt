@@ -18,6 +18,8 @@ namespace UI {
         case ADD:
             ui->lblHeader->setText("Yeni Öğrenci Ekle");
             setWindowTitle("Yeni Öğrenci Ekle");
+            ui->spnGrade->setValue(student->grade);
+            ui->cmbSection->setCurrentIndex((int)student->section[0].unicode() - 65);
             break;
         case EDIT:
             ui->lblHeader->setText("Öğrenci Bilgilerini Düzenle");
