@@ -1,5 +1,6 @@
 * {
     font-family: 'Noto Sans', sans-serif !important;
+    font-size: 11pt;
 }
 
 QFrame#frmButtons > QPushButton, #btnPrev, #btnNext, #btnConfirm, #btnNewScheme {
@@ -68,4 +69,8 @@ QLabel#lblHint {
 
 QPushButton, QToolButton {
     font-weight: normal;
+}
+
+QStatusBar {
+    font-size: 9pt;
 }
