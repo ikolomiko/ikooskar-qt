@@ -478,9 +478,15 @@ namespace BLL {
     QPair<int, QString> DatabaseHelper::ParseClassName(const QString& className)
     {
         auto classNameTokens = className.split('-');
+
+        // In case of bad input, return 9-A as fallback
+        if (classNameTokens.size() < 2) {
+            return {9, "A"};
+        }
+
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
-        return QPair<int, QString>(grade, section);
+        return {grade, section};
     }
 
     /**
