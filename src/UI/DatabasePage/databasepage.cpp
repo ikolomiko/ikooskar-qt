@@ -22,7 +22,7 @@ namespace UI {
         connect(bll, &BLL::DatabaseHelper::error, this, &DatabasePage::handleError);
 
         createButtonMenus();
-        createTabWidget();
+        createTabWidget();        
     }
 
     DatabasePage::~DatabasePage()
@@ -53,7 +53,12 @@ namespace UI {
 
     void DatabasePage::actionAddSingle_clicked()
     {
-        StudentEditorDialog dialog(StudentEditorDialog::ADD, this);
+        auto classAndSection = bll->ParseClassName(currentClassname());
+        Student* dummyStudent = new Student();
+        dummyStudent->grade = classAndSection.first;
+        dummyStudent->section = classAndSection.second;
+
+        StudentEditorDialog dialog(StudentEditorDialog::ADD, this, dummyStudent);
         if (dialog.exec() != QDialog::Rejected) {
             refresh();
         }
@@ -232,6 +237,8 @@ namespace UI {
             auto students = bll->GetStudentsByClassName(className);
             QWidget* tableWidget = new ClassTable(students);
             tabWidget->insertTab(i, tableWidget, className);
+            tableWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+            connect(tableWidget, &QWidget::customContextMenuRequested, this, &DatabasePage::createStudentContextMenu);
         }
 
         ui->btnDelete->setVisible(!classNames->empty());
@@ -242,6 +249,23 @@ namespace UI {
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
             emit descriptionUpdated(*getDescription());
         });
+    }
+
+    void ikoOSKAR::UI::DatabasePage::createStudentContextMenu(const QPoint& p)
+    {
+        QMenu menuStudent;
+
+        QAction edit("Öğrenci Bilgilerini Düzenle");
+        edit.setIcon(QIcon(":/edit.png"));
+        connect(&edit, &QAction::triggered, this, &DatabasePage::on_btnEdit_clicked);
+        menuStudent.addAction(&edit);
+
+        QAction del("Öğrenciyi Sil");
+        del.setIcon(QIcon(":/remove.png"));
+        connect(&del, &QAction::triggered, this, &DatabasePage::on_btnDelete_clicked);
+        menuStudent.addAction(&del);
+
+        menuStudent.exec(mapToGlobal(p));
     }
 
     QString DatabasePage::currentClassname()
