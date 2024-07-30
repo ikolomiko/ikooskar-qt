@@ -11,7 +11,6 @@ namespace UI {
         {
             ui->setupUi(this);
 
-            ui->label->setStyleSheet("font-size: 11pt;");
             ui->image->setPixmap(image.scaled(32, 32, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
             ui->label->setText("<a href=\"" + href + "\">" + text + "</a>");
             ui->label->setTextFormat(Qt::RichText);
