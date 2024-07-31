@@ -4,9 +4,9 @@ set -e
 
 SECONDS=0
 cd "$(dirname "$0")/.."
-rm -rf build
-mkdir build
-cd build
+rm -rf build-win32
+mkdir build-win32
+cd build-win32
 
 if [ "$1" = "cmake" ]; then
   # Use the CMake backend if specified
