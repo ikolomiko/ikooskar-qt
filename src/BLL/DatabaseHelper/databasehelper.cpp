@@ -645,6 +645,7 @@ namespace BLL {
         QLocale turkish(QLocale::Turkish);
         QString temp(s.trimmed());
         temp.replace(u'I', u'ı');
+        temp.replace(u'İ', u'i');
         return turkish.toLower(temp);
     }
 
