@@ -74,6 +74,7 @@ add_subdirectory("deps/libxlsxwriter" EXCLUDE_FROM_ALL)
 qt_add_executable(ikoOSKAR
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    assets/resources.qrc
 )
 
 target_link_libraries(ikoOSKAR PRIVATE
