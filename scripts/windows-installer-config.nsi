@@ -1,4 +1,4 @@
-Outfile "../build/ikoOSKAR v4 Yükleyici.exe"
+Outfile "../build-win32/ikoOSKAR v4 Yükleyici.exe"
 Icon "../assets/multires.ico"
 InstallDir $PROGRAMFILES\ikoOSKAR
 RequestExecutionLevel admin
@@ -29,7 +29,7 @@ Section
 SetOutPath $INSTDIR
 
 # Install the main executable
-File "../build/ikoOSKAR.exe"
+File "../build-win32/ikoOSKAR.exe"
 
 # Create a desktop shortcut
 CreateShortCut "$DESKTOP\ikoOSKAR.lnk" "$INSTDIR\ikoOSKAR.exe"
