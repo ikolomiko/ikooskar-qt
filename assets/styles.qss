@@ -83,3 +83,7 @@ QToolButton#btnToggle {
     border: none;
     font-size: 14pt;
 }
+
+QScrollBar {
+    width: 14px;
+}
