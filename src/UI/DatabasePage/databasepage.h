@@ -46,7 +46,7 @@ namespace UI {
         void refresh();
         void createButtonMenus();
         void createTabWidget();
-        void createStudentContextMenu(const QPoint& p);
+        void createStudentContextMenu();
         inline QString currentClassname();
         Ui::DatabasePage* ui;
         ikoOSKAR::BLL::DatabaseHelper* bll;
