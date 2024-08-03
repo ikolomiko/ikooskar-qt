@@ -251,7 +251,7 @@ namespace UI {
         });
     }
 
-    void ikoOSKAR::UI::DatabasePage::createStudentContextMenu(const QPoint& p)
+    void ikoOSKAR::UI::DatabasePage::createStudentContextMenu()
     {
         QMenu menuStudent;
 
@@ -265,7 +265,7 @@ namespace UI {
         connect(&del, &QAction::triggered, this, &DatabasePage::on_btnDelete_clicked);
         menuStudent.addAction(&del);
 
-        menuStudent.exec(mapToGlobal(p));
+        menuStudent.exec(QCursor::pos());
     }
 
     QString DatabasePage::currentClassname()
