@@ -55,6 +55,10 @@
      <property name="text">
       <string>Sınıf Karma Listeleri</string>
      </property>
+     <property name="icon">
+      <iconset resource="../../../assets/resources.qrc">
+       <normaloff>:/xlsx.png</normaloff>:/xlsx.png</iconset>
+     </property>
      <property name="iconSize">
       <size>
        <width>200</width>
@@ -62,12 +66,14 @@
       </size>
      </property>
      <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextUnderIcon</enum>
+      <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../assets/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
