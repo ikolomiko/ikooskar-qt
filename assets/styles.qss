@@ -39,6 +39,10 @@ QLabel#lblPageName, QLabel#lblHeader, #btnOpenFile, #btnXlsxFile {
     font-size: 17pt;
 }
 
+QLabel#lblHeader {
+    font-weight: 500;
+}
+
 QLabel#lblHint {
     color: rgb(80,80,80);
 }
