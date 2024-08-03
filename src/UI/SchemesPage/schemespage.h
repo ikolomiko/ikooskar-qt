@@ -5,6 +5,7 @@
 #include "BLL/HistoryProvider/historyprovider.h"
 #include "UI/Common/page.h"
 #include <QLayoutItem>
+#include <QScrollArea>
 #include <QWidget>
 
 namespace ikoOSKAR {
@@ -34,6 +35,7 @@ namespace UI {
         QLayoutItem* verticalSpacer;
         QLabel* lblEmptyHistory;
         BLL::Authenticator* authenticator;
+        QWidget* responsiveWrap(QWidget*);
 
         explicit SchemesPage(QWidget* parent = nullptr);
         void setupHistoryUi(const History& history);

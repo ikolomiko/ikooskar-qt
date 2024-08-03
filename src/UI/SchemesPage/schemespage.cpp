@@ -78,6 +78,21 @@ namespace UI {
         emit descriptionUpdated(*getDescription());
     }
 
+    QWidget* SchemesPage::responsiveWrap(QWidget* content)
+    {
+        content->setMaximumWidth(1000);
+        content->setMinimumWidth(600);
+
+        QWidget* wrapper = new QWidget();
+        wrapper->setContentsMargins(0, 0, 0, 0);
+
+        QHBoxLayout* layout = new QHBoxLayout(wrapper);
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->addWidget(content);
+
+        return wrapper;
+    }
+
     void SchemesPage::refreshHistory()
     {
         // Clear the history root
