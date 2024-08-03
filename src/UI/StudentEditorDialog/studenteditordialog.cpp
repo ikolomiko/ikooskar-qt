@@ -18,7 +18,7 @@ namespace UI {
         case ADD:
             ui->lblHeader->setText("Yeni Öğrenci Ekle");
             setWindowTitle("Yeni Öğrenci Ekle");
-            ui->spnGrade->setValue(student->grade);
+            ui->cmbGrade->setCurrentIndex(student->grade - 9);
             ui->cmbSection->setCurrentIndex((int)student->section[0].unicode() - 65);
             break;
         case EDIT:
@@ -27,7 +27,7 @@ namespace UI {
             ui->spnId->setValue(student->id);
             ui->lnFirstName->setText(student->firstName);
             ui->lnLastName->setText(student->lastName);
-            ui->spnGrade->setValue(student->grade);
+            ui->cmbGrade->setCurrentIndex(student->grade - 9);
             ui->cmbSection->setCurrentIndex((int)student->section[0].unicode() - 65);
             break;
         }
@@ -59,7 +59,7 @@ namespace UI {
         int id = ui->spnId->value();
         QString firstName = ui->lnFirstName->text();
         QString lastName = ui->lnLastName->text();
-        int grade = ui->spnGrade->value();
+        int grade = ui->cmbGrade->currentIndex() + 9;
         QString section = ui->cmbSection->currentText();
 
         bool success = false;

@@ -35,8 +35,12 @@ QHeaderView::section {
     border: 1px solid #6c6c6c;
 }
 
-QLabel#lblPageName, QLabel#lblHeader, #btnOpenFile, #btnXlsxFile {
+QLabel#lblPageName, QLabel#lblHeader, #btnOpenFile {
     font-size: 17pt;
+}
+
+QLabel#lblHeader {
+    font-weight: 500;
 }
 
 QLabel#lblHint {
@@ -78,4 +82,8 @@ QStatusBar {
 QToolButton#btnToggle {
     border: none;
     font-size: 14pt;
+}
+
+QScrollBar {
+    width: 14px;
 }

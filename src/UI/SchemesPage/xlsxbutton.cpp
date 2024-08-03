@@ -13,7 +13,6 @@ namespace UI {
     {
         ui->setupUi(this);
         ui->btnXlsxFile->setText(name);
-        ui->btnXlsxFile->setIcon(QIcon(":/xlsx.png"));
     }
 
     XlsxButton::~XlsxButton()

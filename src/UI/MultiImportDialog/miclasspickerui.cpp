@@ -23,7 +23,7 @@ namespace UI {
 
     void MIClassPickerUi::on_btnNext_clicked()
     {
-        emit selectedGradeAndSection(ui->spnGrade->value(), ui->cmbSection->currentText());
+        emit selectedGradeAndSection(ui->cmbGrade->currentIndex() + 9, ui->cmbSection->currentText());
     }
 
 } // namespace UI

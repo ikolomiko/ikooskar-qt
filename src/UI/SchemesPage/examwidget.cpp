@@ -109,7 +109,7 @@ namespace UI {
 
         if (expanded) {
             setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-            btnToggle->setText("  " + exam.name + "\n  " + exam.date.toString("dd/MM/yyyy"));
+            btnToggle->setText("  " + exam.name + "\n  " + exam.date.toString("dd MMMM yyyy"));
             mainLayout->setContentsMargins(9, 5, 9, 5);
         } else {
             setFrameStyle(0);

@@ -31,7 +31,7 @@ namespace UI {
             ui->frmLeft->layout()->setContentsMargins(0, 0, 0, 0);
             ui->frame->layout()->setContentsMargins(0, 0, 0, 0);
             layout()->setContentsMargins(0, 0, 0, 0);
-            setMaximumHeight(260);
+            setMaximumHeight(180);
         }
     }
 
