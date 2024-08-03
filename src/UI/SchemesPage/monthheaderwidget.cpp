@@ -17,6 +17,7 @@ namespace UI {
 
         layout->addWidget(label);
         layout->addWidget(headerLine);
+        layout->setContentsMargins(0, 11, 0, 11);
 
         setLayout(layout);
     }
