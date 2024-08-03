@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>250</height>
+    <width>170</width>
+    <height>170</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>250</width>
-    <height>250</height>
+    <width>170</width>
+    <height>170</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>250</width>
-    <height>250</height>
+    <width>170</width>
+    <height>170</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -42,14 +42,14 @@
     <widget class="QToolButton" name="btnXlsxFile">
      <property name="minimumSize">
       <size>
-       <width>250</width>
-       <height>250</height>
+       <width>170</width>
+       <height>170</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>250</width>
-       <height>250</height>
+       <width>170</width>
+       <height>170</height>
       </size>
      </property>
      <property name="text">
@@ -61,8 +61,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>200</width>
-       <height>200</height>
+       <width>130</width>
+       <height>130</height>
       </size>
      </property>
      <property name="toolButtonStyle">
