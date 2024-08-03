@@ -60,12 +60,12 @@ namespace UI {
                 continue;
             }
 
-            auto monthHeader = new MonthHeaderWidget(month);
+            auto monthHeader = responsiveWrap(new MonthHeaderWidget(month));
             ui->historyRoot->layout()->addWidget(monthHeader);
             historyWidgets.append(monthHeader);
 
             for (const auto& exam : examList) {
-                auto examWidget = new ExamWidget(exam, 100);
+                auto examWidget = responsiveWrap(new ExamWidget(exam, 100));
                 ui->historyRoot->layout()->addWidget(examWidget);
                 historyWidgets.append(examWidget);
             }
