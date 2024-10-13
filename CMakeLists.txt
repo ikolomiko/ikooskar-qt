@@ -12,6 +12,11 @@ set(CMAKE_AUTOMOC ON)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Network)
 find_package(EXPAT REQUIRED)
+if(WIN32)
+    find_library(LIBICONV NAMES iconv libiconv REQUIRED)
+else()
+    set(LIBICONV "")
+endif()
 
 set(PROJECT_SOURCES
     assets/icon.rc
@@ -85,6 +90,7 @@ target_link_libraries(ikoOSKAR PRIVATE
     Qt6::Network
     xlsxwriter
     ${EXPAT_LIBRARIES}
+    ${LIBICONV}
 )
 
 target_compile_options(ikoOSKAR PRIVATE
