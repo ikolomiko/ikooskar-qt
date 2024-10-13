@@ -477,9 +477,9 @@ namespace BLL {
     {
         auto classNameTokens = className.split('-');
 
-        // In case of bad input, return 9-A as fallback
+        // In case of bad input, return 9-Z as fallback
         if (classNameTokens.size() < 2) {
-            return {9, "A"};
+            return { 9, "Z" };
         }
 
         int grade = classNameTokens.at(0).toInt();
