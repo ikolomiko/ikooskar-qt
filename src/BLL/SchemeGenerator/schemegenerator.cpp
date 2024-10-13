@@ -1,5 +1,6 @@
 #include "schemegenerator.h"
 #include "BLL/DatabaseHelper/databasehelper.h"
+#include "Shared/examstudent.h"
 #include <QDir>
 #include <QSet>
 #include <QSettings>
@@ -41,11 +42,11 @@ namespace BLL {
         int row = deskCoord.row;
         int col = deskCoord.col;
 
-        auto& desk = hall->layout.desks[row][col];
-        if (!desk->exists) {
+        auto& desk = hall->layout.deskRows[row][col];
+        if (!desk.exists) {
             return false;
         }
-        if (!desk->isEmpty && deskMustBeEmpty) {
+        if (!desk.isEmpty && deskMustBeEmpty) {
             return false;
         }
         if (attendingGrades.count() == 1) {
@@ -56,22 +57,22 @@ namespace BLL {
             if (col == 0) {
                 return true;
             }
-            auto& leftDesk = hall->layout.desks[row][col - 1];
-            if (!leftDesk->exists || leftDesk->isEmpty) {
+            auto& leftDesk = hall->layout.deskRows[row][col - 1];
+            if (!leftDesk.exists || leftDesk.isEmpty) {
                 return true;
             }
-            return leftDesk->student->grade != grade;
+            return leftDesk.student->grade != grade;
         };
 
         const auto compareToRight = [&]() {
             if (col == 5) {
                 return true;
             }
-            auto& rightDesk = hall->layout.desks[row][col + 1];
-            if (!rightDesk->exists || rightDesk->isEmpty) {
+            auto& rightDesk = hall->layout.deskRows[row][col + 1];
+            if (!rightDesk.exists || rightDesk.isEmpty) {
                 return true;
             }
-            return rightDesk->student->grade != grade;
+            return rightDesk.student->grade != grade;
         };
 
         return compareToLeft() && compareToRight();
@@ -80,9 +81,9 @@ namespace BLL {
     void SchemeGenerator::placeStudent(const DeskCoordinates& coord, ExamStudent* s)
     {
         auto& [hall, row, col] = coord;
-        auto& desk = hall->layout.desks[row][col];
-        desk->student = s;
-        desk->isEmpty = false;
+        auto& desk = hall->layout.deskRows[row][col];
+        desk.student = { *s };
+        desk.isEmpty = false;
         s->hallName = hall->name;
         s->deskIndex = deskIndex(row, col);
     }
@@ -309,8 +310,8 @@ namespace BLL {
                     auto student = studentsByGrade[grade]->last();
                     bool placed = false;
 
-                    for (int row = 0; row < hall->layout.rowCount; row++) {
-                        for (int col = 0; col < 6; col++) {
+                    for (size_t row = 0; row < hall->layout.deskRows.size(); row++) {
+                        for (size_t col = 0; col < 6; col++) {
                             auto deskVariant = hall->pattern->variantAt(row, col);
                             int deskGrade = variantToGrade[deskVariant];
                             if (deskGrade != grade) {
@@ -336,8 +337,8 @@ namespace BLL {
 
         // First round of student placement: the direct approach
         for (const auto& hall : std::as_const(*examHalls)) {
-            for (int row = 0; row < hall->layout.rowCount; row++) {
-                for (int col = 0; col < 6; col++) {
+            for (size_t row = 0; row < hall->layout.deskRows.size(); row++) {
+                for (size_t col = 0; col < 6; col++) {
                     auto variant = hall->pattern->variantAt(row, col);
                     int grade = variantToGrade[variant];
 
@@ -362,8 +363,8 @@ namespace BLL {
         for (const auto& student : remainingStudents) {
             bool placed = false;
             for (const auto& hall : std::as_const(*examHalls)) {
-                for (int row = 0; row < hall->layout.rowCount; row++) {
-                    for (int col = 0; col < 6; col++) {
+                for (size_t row = 0; row < hall->layout.deskRows.size(); row++) {
+                    for (size_t col = 0; col < 6; col++) {
                         int grade = student->grade;
 
                         if (isDeskSuitable(grade, { hall, row, col })) {
@@ -396,10 +397,10 @@ namespace BLL {
         // This round might be very resource intensive.
         QList<DeskCoordinates> emptyDesks;
         for (const auto& hall : std::as_const(*examHalls)) {
-            for (int row = 0; row < hall->layout.rowCount; row++) {
-                for (int col = 0; col < 6; col++) {
-                    auto& desk = hall->layout.desks[row][col];
-                    if (desk->exists && desk->isEmpty) {
+            for (size_t row = 0; row < hall->layout.deskRows.size(); row++) {
+                for (size_t col = 0; col < 6; col++) {
+                    auto& desk = hall->layout.deskRows[row][col];
+                    if (desk.exists && desk.isEmpty) {
                         emptyDesks.append({ hall, row, col });
                     }
                 }

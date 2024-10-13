@@ -10,15 +10,12 @@ namespace Shared {
 
     Hall::Layout::Layout(int capacity)
     {
-        rowCount = std::ceil((float)capacity / 6);
-        desks = new Desk**[rowCount];
+        int rowCount = std::ceil((float)capacity / 6);
 
         // Fill rowCount * 6 desks
-        for (int row = 0; row < rowCount; row++) {
-            desks[row] = new Desk*[6];
-            for (int col = 0; col < 6; col++) {
-                desks[row][col] = new Desk();
-            }
+        for (int i = 0; i < rowCount; i++) {
+            DeskRow row;
+            deskRows.push_back(row);
         }
 
         // Set the non-existent flag for the non-existent desks from the last row
@@ -27,7 +24,7 @@ namespace Shared {
             return;
 
         for (; col < 6; col++) {
-            desks[rowCount - 1][col]->exists = false;
+            deskRows[rowCount - 1][col].exists = false;
         }
     }
 
@@ -45,10 +42,10 @@ namespace Shared {
 
     void Hall::Layout::clear()
     {
-        for (int row = 0; row < rowCount; row++) {
-            for (int col = 0; col < 6; col++) {
-                desks[row][col]->isEmpty = true;
-                desks[row][col]->student = nullptr;
+        for (auto row : deskRows) {
+            for (auto desk : row) {
+                desk.isEmpty = true;
+                desk.student = {};
             }
         }
     }
@@ -57,24 +54,16 @@ namespace Shared {
     {
         Layout result;
 
-        if (const QJsonValue v = json["rowCount"]; v.isDouble()) {
-            result.rowCount = v.toInt();
-        } else {
-            result.rowCount = 0;
-            result.desks = nullptr;
-            return result;
-        }
-
-        result.desks = new Desk**[result.rowCount];
         if (const QJsonValue v = json["desks"]; v.isArray()) {
             QJsonArray jDesks = v.toArray();
-            for (int row = 0; row < jDesks.size(); row++) {
-                result.desks[row] = new Desk*[6];
-                QJsonArray jRow = jDesks.at(row).toArray();
-                for (int col = 0; col < 6; col++) {
-                    bool deskExists = jRow.at(col).toBool();
-                    result.desks[row][col] = new Desk(deskExists);
+            for (int rowIdx = 0; rowIdx < jDesks.size(); rowIdx++) {
+                DeskRow row;
+                QJsonArray jRow = jDesks.at(rowIdx).toArray();
+                for (int colIdx = 0; colIdx < 6; colIdx++) {
+                    bool deskExists = jRow.at(colIdx).toBool();
+                    row[colIdx].exists = deskExists;
                 }
+                result.deskRows.push_back(row);
             }
         }
 
@@ -84,15 +73,14 @@ namespace Shared {
     QJsonObject Hall::Layout::toJson() const
     {
         QJsonObject result;
-        result["rowCount"] = rowCount;
 
         // Convert the 2D desks pointer matrix into a json array of arrays
         // The values in the json array are booleans, indicating whether the desk exists
         QJsonArray jDesks;
-        for (int row = 0; row < rowCount; row++) {
+        for (auto row : deskRows) {
             QJsonArray jRow;
-            for (int col = 0; col < 6; col++) {
-                jRow.append(desks[row][col]->exists);
+            for (auto desk : row) {
+                jRow.append(desk.exists);
             }
             jDesks.append(jRow);
         }
@@ -124,10 +112,10 @@ namespace Shared {
         }
 
         int count = 0;
-        for (int row = 0; row < layout.rowCount; row++) {
-            for (int col = 0; col < 6; col++) {
-                const auto& desk = layout.desks[row][col];
-                if (desk->exists && pattern->variantAt(row, col) == v) {
+        for (size_t rowIdx = 0; rowIdx < layout.deskRows.size(); rowIdx++) {
+            for (size_t colIdx = 0; colIdx < 6; colIdx++) {
+                const auto& desk = layout.deskRows[rowIdx][colIdx];
+                if (desk.exists && pattern->variantAt(rowIdx, colIdx) == v) {
                     count++;
                 }
             }
@@ -139,12 +127,11 @@ namespace Shared {
     int Hall::countStudents(int grade, const QString& section)
     {
         int count = 0;
-        for (int row = 0; row < layout.rowCount; row++) {
-            for (int col = 0; col < 6; col++) {
-                const auto& desk = layout.desks[row][col];
-                if (desk->exists && !desk->isEmpty) {
-                    const auto& student = desk->student;
-                    if (student->grade == grade && student->section == section) {
+        for (auto row : layout.deskRows) {
+            for (auto desk : row) {
+                if (desk.exists && !desk.isEmpty && desk.student.has_value()) {
+                    const auto& student = desk.student.value();
+                    if (student.grade == grade && student.section == section) {
                         count++;
                     }
                 }

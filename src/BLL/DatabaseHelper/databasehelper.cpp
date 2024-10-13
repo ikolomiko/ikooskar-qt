@@ -484,7 +484,7 @@ namespace BLL {
 
         int grade = classNameTokens.at(0).toInt();
         QString section = classNameTokens.at(1);
-        return {grade, section};
+        return { grade, section };
     }
 
     /**
@@ -494,112 +494,67 @@ namespace BLL {
      */
     void DatabaseHelper::AddDesk(Hall& h, int n)
     {
-        Hall::Layout layout = h.layout;
-        int lastRowIdx = layout.rowCount - 1;
-        auto lastRow = layout.desks[lastRowIdx];
-        int emptyIdx = 5;
-        for (; emptyIdx > 0; emptyIdx--) {
-            if (lastRow[emptyIdx]->exists) {
-                emptyIdx += 1;
+        int lastRowIdx = h.layout.deskRows.size() - 1;
+        auto lastRow = h.layout.deskRows[lastRowIdx];
+        int colIdx = 5;
+        for (; colIdx > 0; colIdx--) {
+            if (lastRow[colIdx].exists) {
                 break;
             }
         }
 
         h.capacity += n;
-        int emptyDesks = 6 - emptyIdx;
-        int rowsToAdd = (n > emptyDesks) ? std::ceil((float)(n - emptyDesks) / 6) : 0;
 
-        if (rowsToAdd == 0) {
-            // Add n desks to the last row
-            for (int i = 0; i < n; i++) {
-                layout.desks[lastRowIdx][emptyIdx + i]->exists = true;
-            }
-        } else {
-            layout.rowCount += rowsToAdd;
-            Desk*** desks = new Desk**[layout.rowCount];
-
-            // Copy the rows from the old layout
-            for (int row = 0; row <= lastRowIdx; row++) {
-                desks[row] = layout.desks[row];
-            }
-
-            // Fill the empty desks at the end of the (old) last row
-            for (int col = emptyIdx; col < 6; col++) {
-                desks[lastRowIdx][col]->exists = true;
-            }
-
-            // Add new rows
-            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
-                desks[row] = new Desk*[6];
-            }
-
-            // Fill the new rows
-            for (int row = lastRowIdx + 1; row < layout.rowCount; row++) {
-                for (int col = 0; col < 6; col++) {
-                    desks[row][col] = new Desk();
+        while (n > 0) {
+            if (colIdx == 5) {
+                DeskRow row;
+                for (auto& desk : row) {
+                    desk.exists = false;
                 }
+                h.layout.deskRows.push_back(row);
+                lastRowIdx += 1;
             }
-
-            // Remove the unneeded desks from the new last row
-            int col = h.capacity % 6;
-            for (; col < 6; col++) {
-                desks[layout.rowCount - 1][col]->exists = false;
-            }
-            layout.desks = desks;
+            colIdx = (colIdx + 1) % 6;
+            h.layout.deskRows[lastRowIdx][colIdx].exists = true;
+            n--;
         }
-        h.layout = layout;
 
         Update(h, h.name);
     }
 
-    void DatabaseHelper::RemoveDesk(Hall& hall, int desksToRemove)
+    void DatabaseHelper::RemoveDesk(Hall& h, int desksToRemove)
     {
-        if (desksToRemove > hall.capacity) {
+        if (desksToRemove > h.capacity) {
             // Illegal operation
             return;
         }
 
-        Hall::Layout layout = hall.layout;
-        int lastRowIdx = layout.rowCount - 1;
-        int desksRemoved = 0;
-        for (int rowIdx = lastRowIdx; rowIdx >= 0; rowIdx--) {
-            for (int colIdx = 5; colIdx >= 0; colIdx--) {
-                auto desk = layout.desks[rowIdx][colIdx];
-                if (desk->exists) {
-                    desk->exists = false;
-                    desksRemoved++;
-                }
-
-                if (desksRemoved >= desksToRemove) {
-                    break;
-                }
-            }
-
-            if (desksRemoved >= desksToRemove) {
+        int lastRowIdx = h.layout.deskRows.size() - 1;
+        auto lastRow = h.layout.deskRows[lastRowIdx];
+        int colIdx = 5;
+        for (; colIdx > 0; colIdx--) {
+            if (lastRow[colIdx].exists) {
                 break;
             }
         }
 
-        for (int rowIdx = lastRowIdx; rowIdx >= 0; rowIdx--) {
-            bool deskExistsInRow = false;
-            for (int colIdx = 5; colIdx >= 0; colIdx--) {
-                auto desk = layout.desks[rowIdx][colIdx];
-                if (desk->exists) {
-                    deskExistsInRow = true;
-                    break;
+        h.capacity -= desksToRemove;
+
+        while (desksToRemove > 0) {
+            Desk& desk = h.layout.deskRows[lastRowIdx][colIdx];
+            if (desk.exists) {
+                desk.exists = false;
+                desksToRemove--;
+
+                if (colIdx == 0) {
+                    h.layout.deskRows.pop_back();
+                    lastRowIdx -= 1;
                 }
             }
-
-            if (deskExistsInRow) {
-                break;
-            } else {
-                layout.rowCount--;
-            }
+            colIdx = (colIdx + 6 - 1) % 6;
         }
-        hall.capacity -= desksRemoved;
 
-        hall.layout = layout;
-        Update(hall, hall.name);
+        Update(h, h.name);
     }
 
     void DatabaseHelper::ResizeClassroom(int grade, const QString& section)
@@ -618,6 +573,11 @@ namespace BLL {
                 AddDesk(*hall, classPopulation - hall->capacity);
             } else if (hall->capacity > classPopulation) {
                 RemoveDesk(*hall, hall->capacity - classPopulation);
+            }
+
+            // Delete the hall if it is empty
+            if (hall->capacity == 0) {
+                Delete(hall->name);
             }
         }
     }
