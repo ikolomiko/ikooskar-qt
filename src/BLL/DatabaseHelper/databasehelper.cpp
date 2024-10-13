@@ -266,9 +266,7 @@ namespace BLL {
 
         if (!HallNameExists(hallName)) {
             // There's no exam hall with the given name, thus cannot delete it
-            errorMsg = hallName + " adlı derslik sistemde kayıtlı değil. "
-                                  "Bu nedenle derslik silinemedi!";
-            emit error(errorMsg);
+            return;
         } else if (dal->Delete(hallName, errorMsg)) {
             // An exam hall with the given name exists and its deletion is successful
             hallCache->remove(hallName);
