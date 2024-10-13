@@ -99,6 +99,7 @@ namespace UI {
     void NSClassPickerUi::updateSelectedClasses()
     {
         auto selectedClasses = attendingModel->stringList();
+        selectedClasses.removeDuplicates();
 
         QSettings settings;
         settings.beginWriteArray("selected_classnames");
