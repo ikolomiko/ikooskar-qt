@@ -1,25 +1,26 @@
 #ifndef IKOOSKAR_SHARED_DESK_H
 #define IKOOSKAR_SHARED_DESK_H
 #include "examstudent.h"
+#include <optional>
 
 namespace ikoOSKAR {
 namespace Shared {
 
     class Desk {
     public:
-        ExamStudent* student;
+        std::optional<ExamStudent> student;
         bool exists;
         bool isEmpty;
 
         Desk()
-            : student(nullptr)
+            : student({})
             , exists(true)
             , isEmpty(true)
         {
         }
 
         Desk(bool exists)
-            : student(nullptr)
+            : student({})
             , exists(exists)
             , isEmpty(true)
         {

@@ -8,10 +8,10 @@ namespace Shared {
     class DeskCoordinates {
     public:
         Hall* hall;
-        int row;
-        int col;
+        size_t row;
+        size_t col;
 
-        DeskCoordinates(Hall* hall, int row, int col)
+        DeskCoordinates(Hall* hall, size_t row, size_t col)
             : hall(hall)
             , row(row)
             , col(col)

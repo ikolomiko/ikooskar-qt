@@ -4,6 +4,11 @@
 #include "desk.h"
 #include <QJsonObject>
 #include <QString>
+#include <array>
+#include <vector>
+
+using DeskRow = std::array<ikoOSKAR::Shared::Desk, 6>;
+using DeskLayout = std::vector<DeskRow>;
 
 namespace ikoOSKAR {
 namespace Shared {
@@ -16,8 +21,7 @@ namespace Shared {
             QJsonObject toJson() const;
 
         public:
-            int rowCount;
-            Desk*** desks;
+            DeskLayout deskRows;
 
             Layout();
             Layout(int capacity);

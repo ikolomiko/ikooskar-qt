@@ -100,6 +100,7 @@ namespace UI {
     void NSHallPickerUi::updateSelectedHalls()
     {
         auto selectedHalls = includedModel->stringList();
+        selectedHalls.removeDuplicates();
 
         QSettings settings;
         settings.beginWriteArray("selected_hallnames");

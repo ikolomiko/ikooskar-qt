@@ -51,10 +51,10 @@ namespace BLL {
         format_set_font_size(bold, 14);
         lxw_format* regular = nullptr;
 
-        auto student = coord.hall->layout.desks[coord.row][coord.col]->student;
+        auto student = coord.hall->layout.deskRows[coord.row][coord.col].student.value();
         int xRow = 3 + 2 * coord.row;
         int xCol = 2 * coord.col;
-        int deskIndex = student->deskIndex;
+        int deskIndex = student.deskIndex;
         if (deskIndex % 2 == 1) {
             // The desk is on the left,
             // make the right border dotted
@@ -69,11 +69,11 @@ namespace BLL {
         char* upperText = bUpperText.data();
         // clang-format off
         auto bLowerText = QString("\n%1 - %2/%3\n%4 %5").arg(
-            QString::number(student->id),
-            QString::number(student->grade),
-            student->section,
-            student->firstName,
-            student->lastName
+            QString::number(student.id),
+            QString::number(student.grade),
+            student.section,
+            student.firstName,
+            student.lastName
         ).toUtf8();
         char* lowerText = bLowerText.data();
         // clang-format on
@@ -108,15 +108,15 @@ namespace BLL {
 
     bool SchemeExporter::createDesk(lxw_workbook* workbook, lxw_worksheet* sheet, DeskCoordinates& coord)
     {
-        auto& desk = coord.hall->layout.desks[coord.row][coord.col];
-        if (!desk->exists) {
+        auto& desk = coord.hall->layout.deskRows[coord.row][coord.col];
+        if (!desk.exists) {
             int xRow = 3 + 2 * coord.row;
             int xCol = 2 * coord.col;
             noDesk(workbook, sheet, xRow, xCol);
             return false;
         }
 
-        if (desk->isEmpty) {
+        if (desk.isEmpty) {
             emptyDesk(workbook, sheet, coord);
         } else {
             regularDesk(workbook, sheet, coord);
@@ -313,7 +313,7 @@ namespace BLL {
             format_set_align(alignTopCenter, LXW_ALIGN_VERTICAL_TOP);
             format_set_align(alignTopCenter, LXW_ALIGN_CENTER);
 
-            for (int hrow = 0; hrow < hall.layout.rowCount; hrow++) {
+            for (size_t hrow = 0; hrow < hall.layout.deskRows.size(); hrow++) {
                 worksheet_set_row(sheet, xrow, 100, alignTopCenter);
                 worksheet_set_row(sheet, xrow + 1, 10, nullptr);
 

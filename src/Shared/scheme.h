@@ -40,7 +40,7 @@ namespace Shared {
 
         static QString rootPath()
         {
-            return ikoOSKAR::App::PATH_DOCS_ROOT + "/Sınav Düzenleri/";
+            return ikoOSKAR::App::pathDocsRoot + "/Sınav Düzenleri/";
         }
     };
 

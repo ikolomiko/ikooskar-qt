@@ -22,7 +22,7 @@ namespace UI {
         connect(bll, &BLL::DatabaseHelper::error, this, &DatabasePage::handleError);
 
         createButtonMenus();
-        createTabWidget();        
+        createTabWidget();
     }
 
     DatabasePage::~DatabasePage()
@@ -154,15 +154,7 @@ namespace UI {
         menuAdd->addAction(addSingle);
         menuAdd->addAction(addMulti);
 
-        //ui->btnAdd->setMenu(menuAdd);
-        connect(ui->btnAdd, &QPushButton::pressed, this, [=](){
-            ui->btnAdd->setDown(true);
-            QPoint popupPos = ui->frmButtons->mapToGlobal(ui->btnAdd->geometry().bottomLeft());
-            menuAdd->exec(popupPos);
-        });
-        connect(menuAdd, &QMenu::aboutToHide, this, [&]() {
-            ui->btnAdd->setDown(false);
-        });
+        ui->btnAdd->setMenu(menuAdd);
 
         QMenu* menuMore = new QMenu();
         QAction* eotyAction = new QAction("Yıl sonu işlemlerini yap");
@@ -175,16 +167,7 @@ namespace UI {
 
         menuMore->addAction(eotyAction);
         menuMore->addAction(removeClassAction);
-        //ui->btnMore->setMenu(menuMore);
-
-        connect(ui->btnMore, &QPushButton::pressed, this, [=](){
-            ui->btnMore->setDown(true);
-            QPoint popupPos = ui->frmButtons->mapToGlobal(ui->btnMore->geometry().bottomLeft());
-            menuMore->exec(popupPos);
-        });
-        connect(menuMore, &QMenu::aboutToHide, this, [&]() {
-            ui->btnMore->setDown(false);
-        });
+        ui->btnMore->setMenu(menuMore);
     }
 
     DatabasePage::ClassTable::ClassTable(QList<Student*>* students)

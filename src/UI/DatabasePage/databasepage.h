@@ -37,7 +37,7 @@ namespace UI {
 
     private slots:
         void handleError(const QString& errorMessage);
-        
+
         void on_btnDelete_clicked();
 
         void on_btnEdit_clicked();

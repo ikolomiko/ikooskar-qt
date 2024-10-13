@@ -4,19 +4,21 @@
 #include "UI/MainWindow/mainwindow.h"
 
 #include <QFile>
+#include <QFontDatabase>
+#include <QPalette>
 #include <QProcess>
+#include <QStyleFactory>
 #include <QTranslator>
 #include <QtConcurrent/QtConcurrentRun>
-#include <QFontDatabase>
-#include <QStyleFactory>
-#include <QPalette>
 
 namespace ikoOSKAR {
 
 App::App(int argc, char* argv[])
     : QApplication(argc, argv)
 {
-    setApplicationDisplayName("ikoOSKAR - iko Ortak Sınav Karma Sistemi");
+    setApplicationDisplayName("ikoOSKAR");
+    ikoOSKAR::App::longDisplayName = "ikoOSKAR - iko Ortak Sınav Karma Sistemi";
+    ikoOSKAR::App::pathDocsRoot = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
     auto translator = new QTranslator();
     if (translator->load(":/qtbase_tr.qm")) {
@@ -33,7 +35,7 @@ App::App(int argc, char* argv[])
     setPalette(fusionLight());
 
     splash = new QSplashScreen(QPixmap(":/splash.png"));
-    QString splashText = QString("%1 v%2").arg(applicationDisplayName(), applicationVersion());
+    QString splashText = QString("%1 v%2").arg(longDisplayName, applicationVersion());
     splash->showMessage(splashText, Qt::AlignBottom | Qt::AlignLeft);
     splash->show();
 
