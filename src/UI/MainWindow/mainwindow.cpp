@@ -41,14 +41,14 @@ namespace UI {
 
         for (int i = 0; i < 4; i++) {
             const auto& btn = buttons[i];
-            connect(btn, &QPushButton::clicked, this, [=]() {
+            connect(btn, &QPushButton::clicked, this, [btn, i, this]() {
                 changePage((Subpage)i, btn->icon());
             });
         }
 
         for (int i = 0; i < 4; i++) {
             ui->stackedWidget->addWidget(pages[i]);
-            connect(pages[i], &Common::Page::descriptionUpdated, this, [=](const QString& description) {
+            connect(pages[i], &Common::Page::descriptionUpdated, this, [this, i](const QString& description) {
                 if (i == ui->stackedWidget->currentIndex()) {
                     setDescription(description);
                 }

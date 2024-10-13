@@ -20,7 +20,7 @@ namespace UI {
         historyProvider = new BLL::HistoryProvider();
         connect(historyProvider, &BLL::HistoryProvider::historyReady, this, &SchemesPage::setupHistoryUi);
         refreshHistory();
-        
+
         lblEmptyHistory = new QLabel("Daha önce oluşturulmuş sınav düzeni bulunamadı");
         lblEmptyHistory->setAlignment(Qt::AlignCenter);
         lblEmptyHistory->setObjectName("lblDescription");
