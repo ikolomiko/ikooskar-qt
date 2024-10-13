@@ -21,7 +21,8 @@ private:
 
 public:
     App(int argc, char* argv[]);
-    const static inline QString PATH_DOCS_ROOT = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ikoOSKAR";
+    inline static QString pathDocsRoot;
+    inline static QString longDisplayName;
 };
 
 } // namespace ikoOSKAR

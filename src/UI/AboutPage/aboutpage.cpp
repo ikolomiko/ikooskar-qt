@@ -1,8 +1,8 @@
 #include "aboutpage.h"
 #include "UI/Common/contactwidget.h"
+#include "app.h"
 #include "ui_aboutpage.h"
 #include <QSettings>
-#include "app.h"
 
 namespace ikoOSKAR {
 namespace UI {
@@ -17,7 +17,7 @@ namespace UI {
 
         ui->lblIcon->setPixmap(QPixmap(":/Icon-WhiteBGx128.png").scaled(128, 128, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
 
-        ui->lblName->setText(ikoOSKAR::App::applicationDisplayName());
+        ui->lblName->setText(ikoOSKAR::App::longDisplayName);
         ui->lblVersion->setText("v" + ikoOSKAR::App::applicationVersion());
 
         auto website = new Common::ContactWidget(
