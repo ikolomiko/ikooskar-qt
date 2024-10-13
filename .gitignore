@@ -80,3 +80,6 @@ build-win32
 
 # Documentation files
 docs/
+
+# Clangd cache folder
+.cache/
