@@ -102,7 +102,7 @@ namespace DAL {
                 line.append(cellValue);
             }
             const auto& trimmed = trimStringList(line);
-            if (line.size() > 0) {
+            if (trimmed.size() > 0) {
                 lines->append(trimmed);
             }
         }
