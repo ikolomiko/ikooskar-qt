@@ -1,4 +1,5 @@
 #include "database.h"
+#include "app.h"
 
 #include <QFile>
 #include <QStandardPaths>
@@ -194,7 +195,7 @@ namespace DAL {
 
     QString Database::GetDatabasePath(bool withFileName)
     {
-        QString dirName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        QString dirName = ikoOSKAR::App::pathDocsRoot;
         if (!withFileName)
             return dirName;
 
