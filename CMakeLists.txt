@@ -24,6 +24,7 @@ set(PROJECT_SOURCES
     src/BLL/Authenticator/authenticator.h src/BLL/Authenticator/authenticator.cpp
     src/BLL/Authenticator/licensestatus.h src/BLL/Authenticator/licensestatus.cpp
     src/BLL/DatabaseHelper/databasehelper.cpp src/BLL/DatabaseHelper/databasehelper.h
+    src/BLL/DataMigration/datamigration.cpp src/BLL/DataMigration/datamigration.h
     src/BLL/HistoryProvider/historyprovider.h src/BLL/HistoryProvider/historyprovider.cpp
     src/BLL/MultiImportHelper/multiimporthelper.h src/BLL/MultiImportHelper/multiimporthelper.cpp
     src/BLL/StudentEditor/studenteditor.cpp src/BLL/StudentEditor/studenteditor.h
