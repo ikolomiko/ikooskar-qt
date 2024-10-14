@@ -5,6 +5,7 @@
 #include "UI/Common/page.h"
 #include <QTableWidget>
 #include <QWidget>
+#include <array>
 
 namespace ikoOSKAR {
 namespace UI {
@@ -43,14 +44,17 @@ namespace UI {
         void on_btnEdit_clicked();
 
     private:
+        Ui::DatabasePage* ui;
+        ikoOSKAR::BLL::DatabaseHelper* bll;
+        inline static DatabasePage* instance;
+        std::array<QAction*, 4> btnMoreActions;
+        QMenu* menuMore;
+
         void refresh();
         void createButtonMenus();
         void createTabWidget();
         void createStudentContextMenu();
         inline QString currentClassname();
-        Ui::DatabasePage* ui;
-        ikoOSKAR::BLL::DatabaseHelper* bll;
-        inline static DatabasePage* instance;
         explicit DatabasePage(QWidget* parent = nullptr);
         void importUserData();
         void exportUserData();

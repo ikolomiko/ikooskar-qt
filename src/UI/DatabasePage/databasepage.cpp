@@ -158,7 +158,7 @@ namespace UI {
 
         ui->btnAdd->setMenu(menuAdd);
 
-        QMenu* menuMore = new QMenu();
+        menuMore = new QMenu();
         QAction* eotyAction = new QAction("Yıl sonu işlemlerini yap");
         eotyAction->setIcon(icon);
         connect(eotyAction, &QAction::triggered, this, &DatabasePage::actionEoty_clicked);
@@ -174,6 +174,11 @@ namespace UI {
         QAction* exportAction = new QAction("Uygulama verilerini dışarı aktar");
         exportAction->setIcon(icon);
         connect(exportAction, &QAction::triggered, this, &DatabasePage::exportUserData);
+
+        btnMoreActions[0] = eotyAction;
+        btnMoreActions[1] = removeClassAction;
+        btnMoreActions[2] = importAction;
+        btnMoreActions[3] = exportAction;
 
         menuMore->addAction(eotyAction);
         menuMore->addAction(removeClassAction);
@@ -246,8 +251,6 @@ namespace UI {
             QMessageBox::warning(this, "Hata", "Veriler dışarı aktarılırken bir hata oluştu!");
             return;
         }
-
-
 
         response = QMessageBox::information(this,
             "Dışarı Aktar",
@@ -335,7 +338,16 @@ namespace UI {
 
         ui->btnDelete->setVisible(!classNames->empty());
         ui->btnEdit->setVisible(!classNames->empty());
-        ui->btnMore->setVisible(!classNames->empty());
+
+        menuMore->clear();
+        if (!classNames->empty()) {
+            menuMore->addAction(btnMoreActions[0]);
+            menuMore->addAction(btnMoreActions[1]);
+        }
+        menuMore->addAction(btnMoreActions[2]);
+        if (!classNames->empty()) {
+            menuMore->addAction(btnMoreActions[3]);
+        }
 
         // Enable the signal back
         connect(tabWidget, &QTabWidget::currentChanged, this, [&]() {
