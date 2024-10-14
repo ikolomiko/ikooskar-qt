@@ -102,6 +102,7 @@ void App::handleAuthSuccess(const QString& message)
     authenticator->disconnect();
 
     auto mainWindow = new UI::MainWindow();
+    connect(mainWindow, &UI::MainWindow::restartApp, this, &App::handleRestart);
     mainWindow->show();
     splash->finish(mainWindow);
 }
