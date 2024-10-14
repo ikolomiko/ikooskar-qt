@@ -52,6 +52,11 @@ namespace UI {
         ikoOSKAR::BLL::DatabaseHelper* bll;
         inline static DatabasePage* instance;
         explicit DatabasePage(QWidget* parent = nullptr);
+        void importUserData();
+        void exportUserData();
+
+    signals:
+        void restartApp();
     };
 } // namespace UI
 } // namespace ikoOSKAR
