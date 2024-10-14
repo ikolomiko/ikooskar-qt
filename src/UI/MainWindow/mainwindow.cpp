@@ -38,6 +38,9 @@ namespace UI {
     {
         QPushButton* buttons[4] = { ui->btnHome, ui->btnDatabase, ui->btnSchemes, ui->btnHelp };
         Common::Page* pages[4] = { WelcomePage::getInstance(), DatabasePage::getInstance(), SchemesPage::getInstance(), AboutPage::getInstance() };
+        connect(DatabasePage::getInstance(), &DatabasePage::restartApp, [this]() {
+            emit restartApp();
+        });
 
         for (int i = 0; i < 4; i++) {
             const auto& btn = buttons[i];

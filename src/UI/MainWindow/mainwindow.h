@@ -30,6 +30,9 @@ namespace UI {
         void initSubpages();
         void changePage(Subpage index, QIcon icon);
         void refreshDemoStatus();
+
+    signals:
+        void restartApp();
     };
 
 } // namespace UI

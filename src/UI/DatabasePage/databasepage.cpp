@@ -1,10 +1,12 @@
 #include "databasepage.h"
+#include "BLL/DataMigration/datamigration.h"
 #include "UI/MultiImportDialog/multiimportdialog.h"
 #include "UI/StudentEditorDialog/studenteditordialog.h"
 #include "qheaderview.h"
 #include "ui_databasepage.h"
 
 #include "UI/ErrorUi/errorui.h"
+#include <QFileDialog>
 #include <QLabel>
 #include <QMenu>
 #include <QTableWidget>
@@ -165,9 +167,116 @@ namespace UI {
         removeClassAction->setIcon(icon);
         connect(removeClassAction, &QAction::triggered, this, &DatabasePage::actionRemoveClass_clicked);
 
+        QAction* importAction = new QAction("Uygulama verilerini içe aktar");
+        importAction->setIcon(icon);
+        connect(importAction, &QAction::triggered, this, &DatabasePage::importUserData);
+
+        QAction* exportAction = new QAction("Uygulama verilerini dışarı aktar");
+        exportAction->setIcon(icon);
+        connect(exportAction, &QAction::triggered, this, &DatabasePage::exportUserData);
+
         menuMore->addAction(eotyAction);
         menuMore->addAction(removeClassAction);
+        menuMore->addAction(importAction);
+        menuMore->addAction(exportAction);
         ui->btnMore->setMenu(menuMore);
+    }
+
+    void DatabasePage::importUserData()
+    {
+        BLL::DataMigration migration;
+
+        auto response = QMessageBox::information(this,
+            "İçeri Aktar",
+            "Bu özellik, farklı bilgisayarlar arasında geçiş yaparken ikoOSKAR verilerini"
+            " taşımayı kolaylaştırmak içindir. Eski bilgisayardan \"Uygulama verilerini dışarı aktar\""
+            " seçeneğini seçerek bir zip dosyası oluşturduysanız o dosyayı şimdi içeri aktarabilirsiniz."
+            " Tamam butonuna tıkladıktan sonra içeri aktarılacak zip dosyasını seçiniz.",
+            QMessageBox::Ok | QMessageBox::Cancel);
+
+        if (response != QMessageBox::Ok) {
+            return;
+        }
+
+        QFileDialog dialog(this);
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setNameFilters({ "ikoOSKAR-veriler.zip" });
+        dialog.setViewMode(QFileDialog::Detail);
+
+        QString zipPath;
+        if (dialog.exec() == QDialog::Accepted) {
+            zipPath = dialog.selectedFiles().at(0);
+        } else {
+            QMessageBox::warning(this, "Hata", "Geçerli bir dosya seçilmedi");
+            return;
+        }
+
+        if (!migration.isZipFileValid(zipPath)) {
+            QMessageBox::warning(this, "Hata", "Bu dosya geçerli bir ikoOSKAR veri yedeği dosyası değil!");
+            return;
+        }
+
+        if (!migration.importZip(zipPath)) {
+            QMessageBox::warning(this, "Hata", "Veriler içe aktarılırken bir hata oluştu");
+            return;
+        }
+
+        QMessageBox::information(this, "Başarılı", "Veriler başarıyla içe aktarıldı. Değişikliklerin etki etmesi için uygulama yeniden başlatılacak.");
+        emit restartApp();
+    }
+
+    void DatabasePage::exportUserData()
+    {
+        BLL::DataMigration migration;
+
+        auto response = QMessageBox::information(this,
+            "Dışarı Aktar",
+            "Bu özellik, farklı bilgisayarlar arasında geçiş yaparken ikoOSKAR verilerini"
+            " taşımayı kolaylaştırmak içindir. Birazdan oluşturacağınız zip dosyasını yeni bilgisayara kopyaladıktan sonra,"
+            " yeni bilgisayarda \"Uygulama verilerini içeri aktar\" seçeneğini seçerek ikoOSKAR verilerini taşıyabilirsiniz."
+            " Devam etmek için Tamam butonuna tıklayınız.",
+            QMessageBox::Ok | QMessageBox::Cancel);
+
+        if (response != QMessageBox::Ok) {
+            return;
+        }
+
+        std::optional<QString> result = migration.exportZip();
+        if (!result) {
+            QMessageBox::warning(this, "Hata", "Veriler dışarı aktarılırken bir hata oluştu!");
+            return;
+        }
+
+
+
+        response = QMessageBox::information(this,
+            "Dışarı Aktar",
+            "ikoOSKAR uygulama verilerinin bulunduğu yedek dosyası başarıyla oluşturuldu!"
+            " Tamam butonuna tıkladıktan sonra dosyayı kaydetmek istediğiniz konumu seçiniz.");
+
+        if (response != QMessageBox::Ok) {
+            return;
+        }
+
+        QString filePath = QFileDialog::getSaveFileName(this,
+            "Dışarı Aktar",
+            "ikoOSKAR-veriler.zip",
+            "zip dosyası (*.zip)");
+
+        if (filePath.isEmpty()) {
+            return;
+        }
+
+        bool success = migration.copyZipFileInto(filePath);
+        if (!success) {
+            QMessageBox::warning(this, "Hata", "İmkansız bir hata oluştu, dosya kopyalanamadı");
+            return;
+        }
+
+        QMessageBox::information(this,
+            "Dışarı Aktar",
+            "ikoOSKAR verileri başarıyla zip dosyasına aktarıldı. Veri aktarımına devam etmek için"
+            " bu dosyayı yeni bilgisayara aktarın ve ikoOSKAR'ı açıp \"Uygulama verilerini içe aktar\" seçeneğini tıklayın.");
     }
 
     DatabasePage::ClassTable::ClassTable(QList<Student*>* students)
