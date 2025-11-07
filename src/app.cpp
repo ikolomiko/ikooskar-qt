@@ -28,7 +28,7 @@ App::App(int argc, char* argv[])
     QFontDatabase::addApplicationFont(":/NotoSans.ttf");
 
     QFile styles(":/styles.qss");
-    styles.open(QFile::ReadOnly);
+    (void)styles.open(QFile::ReadOnly);
     setStyleSheet(styles.readAll());
     styles.close();
 
