@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
     QCoreApplication::setOrganizationName("ikoSoft");
     QCoreApplication::setApplicationName("ikoOSKAR");
-    QCoreApplication::setApplicationVersion("4.2.0");
+    QCoreApplication::setApplicationVersion("4.2.1");
 
     ikoOSKAR::App app(argc, argv);
     return app.exec();

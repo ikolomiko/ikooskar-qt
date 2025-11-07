@@ -101,6 +101,11 @@
   <url type="contribute">https://github.com/ikolomiko/ikooskar-qt</url>
 
   <releases>
+    <release version="4.2.1" date="2025-11-08T00:00:00Z">
+      <description>
+          v4.2.1 - 2025/11/06
+      </description>
+    </release> 
     <release version="4.2.0" date="2024-10-14T00:00:00Z">
       <description>
           v4.2.0 - 2024/10/14
